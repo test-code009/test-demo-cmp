@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, Phone, ArrowRight, Send } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import BackButton from '../components/BackButton';
 
 const InstagramIcon = () => (
@@ -9,7 +10,6 @@ const InstagramIcon = () => (
     <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
   </svg>
 );
-import { useScrollReveal } from '../hooks/useScrollReveal';
 
 const ContactHeroBg = () => (
   <div className="absolute inset-0 overflow-hidden">
