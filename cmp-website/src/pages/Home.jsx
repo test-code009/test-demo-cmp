@@ -62,6 +62,19 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pb-10"
           style={{ paddingTop: 'clamp(140px, 20vh, 200px)' }}>
           <div className="max-w-2xl">
+
+            {/* Logo — top-left of hero, above text */}
+            <div className="mb-5 fade-up-element">
+              <img
+                src="/logo.png"
+                alt="Classic Motion Performance"
+                style={{
+                  height: 'clamp(80px, 10vw, 130px)',
+                  filter: 'drop-shadow(0 0 20px rgba(217,31,38,0.4))',
+                }}
+              />
+            </div>
+
             <div className="section-eyebrow mb-3 fade-up-element">
               PREMIUM PERFORMANCE UPGRADES
             </div>

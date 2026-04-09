@@ -106,16 +106,6 @@ export default function Navbar() {
             </div>
           </button>
 
-          {/* ── Logo — absolute center ─── */}
-          <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none">
-            <img
-              src="/logo.png"
-              alt="Classic Motion Performance"
-              className="opacity-95"
-              style={{ height: '48px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))' }}
-            />
-          </div>
-
           {/* ── Right side — search + CTA ─── */}
           <div className="flex items-center gap-3 ml-auto">
             {/* Expanding search */}
