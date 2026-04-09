@@ -1,5 +1,13 @@
 import { Link } from 'react-router-dom';
-import { Mail, Phone, Instagram, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, ArrowUpRight } from 'lucide-react';
+
+const InstagramIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <circle cx="12" cy="12" r="4"/>
+    <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+  </svg>
+);
 
 const navLinks = [
   { label: 'Sākums', path: '/' },
@@ -79,7 +87,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-soft-grey text-sm hover:text-text-white transition-colors duration-200"
               >
-                <Instagram size={14} className="text-primary-red flex-shrink-0" />
+                <span className="text-primary-red flex-shrink-0"><InstagramIcon /></span>
                 @classicmotionperformance
               </a>
             </div>
