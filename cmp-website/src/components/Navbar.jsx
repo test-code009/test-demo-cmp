@@ -87,7 +87,7 @@ export default function Navbar() {
           borderColor: scrolled ? 'rgba(255,255,255,0.06)' : 'transparent',
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center h-16">
+        <div className="max-w-7xl mx-auto px-6 flex items-center h-16 relative">
 
           {/* ── Hamburger — always left ───── */}
           <button
@@ -105,6 +105,16 @@ export default function Navbar() {
                 style={{ transform: menuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
             </div>
           </button>
+
+          {/* ── Logo — absolute center ─── */}
+          <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none">
+            <img
+              src="/logo.png"
+              alt="Classic Motion Performance"
+              className="opacity-95"
+              style={{ height: '48px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))' }}
+            />
+          </div>
 
           {/* ── Right side — search + CTA ─── */}
           <div className="flex items-center gap-3 ml-auto">

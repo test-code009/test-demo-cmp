@@ -59,36 +59,20 @@ export default function Home() {
           style={{ background: 'linear-gradient(180deg, transparent, #D91F26 30%, #D91F26 70%, transparent)', marginLeft: '5%' }}
         />
 
-        {/* Logo — top center */}
-        <div className="absolute top-0 left-0 right-0 z-20 flex justify-center pointer-events-none"
-          style={{ paddingTop: 'clamp(44px, 7vh, 72px)' }}>
-          <img
-            src="/logo.png"
-            alt="Classic Motion Performance"
-            className="opacity-95"
-            style={{
-              width: 'clamp(140px, 14vw, 220px)',
-              filter: 'drop-shadow(0 0 28px rgba(217,31,38,0.45))',
-            }}
-          />
-        </div>
-
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pb-10"
-          style={{ paddingTop: 'clamp(200px, 28vh, 280px)' }}>
+          style={{ paddingTop: 'clamp(140px, 20vh, 200px)' }}>
           <div className="max-w-2xl">
             <div className="section-eyebrow mb-3 fade-up-element">
               PREMIUM PERFORMANCE UPGRADES
             </div>
 
             <h1
-              className="section-title text-4xl sm:text-5xl lg:text-6xl xl:text-7xl mb-4 fade-up-element"
-              style={{ transitionDelay: '0.1s', lineHeight: 1.05 }}
+              className="section-title text-3xl sm:text-4xl lg:text-5xl mb-4 fade-up-element"
+              style={{ transitionDelay: '0.1s', lineHeight: 1.1 }}
             >
-              Classic
+              Classic Motion
               <br />
-              <span className="text-gradient-red">Motion</span>
-              <br />
-              Performance
+              <span className="text-gradient-red">Performance</span>
             </h1>
 
             <p
