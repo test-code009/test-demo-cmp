@@ -160,74 +160,92 @@ export default function Navbar() {
         )}
       </header>
 
-      {/* ── Full-screen overlay menu ─────────────────────────────────── */}
+      {/* ── Backdrop dimmer ──────────────────────────────────────────── */}
       <div
         className={`fixed inset-0 z-40 transition-all duration-500 ${
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
-        style={{ background: 'rgba(6,6,6,0.97)', backdropFilter: 'blur(24px)' }}
+        style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+        onClick={() => setMenuOpen(false)}
+      />
+
+      {/* ── Side drawer — 1/4 width, slides from left ────────────────── */}
+      <div
+        className="fixed top-0 left-0 bottom-0 z-50 flex flex-col"
+        style={{
+          width: 'clamp(260px, 25vw, 380px)',
+          background: '#0a0a0a',
+          borderRight: '1px solid rgba(255,255,255,0.07)',
+          transform: menuOpen ? 'translateX(0)' : 'translateX(-100%)',
+          transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+          boxShadow: menuOpen ? '8px 0 60px rgba(0,0,0,0.7)' : 'none',
+        }}
       >
-        {/* Close */}
-        <button
-          className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full text-soft-grey hover:text-text-white transition-colors"
-          style={{ border: '1px solid rgba(255,255,255,0.1)' }}
-          onClick={() => setMenuOpen(false)}
-          aria-label="Close menu"
-        >
-          <X size={20} />
-        </button>
+        {/* Drawer header */}
+        <div className="flex items-center justify-between px-7 pt-6 pb-5"
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+          <p className="section-eyebrow">Menu</p>
+          <button
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-soft-grey hover:text-text-white transition-colors"
+            style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(217,31,38,0.1)' }}
+            onClick={() => setMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            <X size={15} className="text-primary-red" />
+          </button>
+        </div>
 
-        <div className="flex flex-col justify-center h-full px-10 md:px-20 max-w-3xl">
-          <p className="section-eyebrow mb-10">Navigation</p>
-
+        {/* Nav links */}
+        <nav className="flex flex-col flex-1 px-7 py-6 gap-1 overflow-y-auto">
           {navLinks.map((link, i) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`group flex items-center justify-between py-5 transition-all duration-500 ${
-                location.pathname === link.path ? 'text-text-white' : 'text-soft-grey/50 hover:text-text-white'
+              className={`flex items-center justify-between py-4 transition-all duration-300 ${
+                location.pathname === link.path ? 'text-text-white' : 'text-soft-grey/60 hover:text-text-white'
               }`}
               style={{
                 borderBottom: '1px solid rgba(255,255,255,0.05)',
-                transitionDelay: menuOpen ? `${i * 70}ms` : '0ms',
-                transform: menuOpen ? 'translateX(0)' : 'translateX(-24px)',
+                transitionDelay: menuOpen ? `${i * 55}ms` : '0ms',
+                transform: menuOpen ? 'translateX(0)' : 'translateX(-16px)',
                 opacity: menuOpen ? 1 : 0,
               }}
             >
-              <span className="font-display font-bold text-4xl md:text-5xl">{link.label}</span>
+              <span className="font-display font-bold text-2xl">{link.label}</span>
               {location.pathname === link.path && (
-                <span className="w-2 h-2 rounded-full bg-primary-red" />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary-red flex-shrink-0" />
               )}
             </Link>
           ))}
 
           <Link
             to="/kontakti"
-            className="btn-primary mt-12 w-fit"
+            className="btn-primary mt-8 justify-center text-sm"
             style={{
-              transitionDelay: menuOpen ? '320ms' : '0ms',
-              transform: menuOpen ? 'translateY(0)' : 'translateY(12px)',
+              transitionDelay: menuOpen ? '260ms' : '0ms',
+              transform: menuOpen ? 'translateY(0)' : 'translateY(10px)',
               opacity: menuOpen ? 1 : 0,
               transition: 'opacity 0.4s ease, transform 0.4s ease',
             }}
           >
             Sazināties
           </Link>
+        </nav>
 
-          <div className="mt-10 pt-6 flex flex-col gap-3"
-            style={{ borderTop: '1px solid rgba(255,255,255,0.05)', opacity: menuOpen ? 1 : 0, transition: 'opacity 0.4s ease 0.35s' }}>
-            <a href="mailto:info@classicmotionperformance.com"
-              className="flex items-center gap-2 text-soft-grey/50 hover:text-soft-grey text-xs transition-colors">
-              <Mail size={12} className="text-primary-red" />
-              info@classicmotionperformance.com
-            </a>
-            <a href="https://instagram.com/classicmotionperformance"
-              target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 text-soft-grey/50 hover:text-soft-grey text-xs transition-colors">
-              <span className="text-primary-red"><InstagramIcon /></span>
-              @classicmotionperformance
-            </a>
-          </div>
+        {/* Contact info at bottom */}
+        <div className="px-7 py-6 flex flex-col gap-3"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.05)', opacity: menuOpen ? 1 : 0, transition: 'opacity 0.4s ease 0.3s' }}>
+          <a href="mailto:info@classicmotionperformance.com"
+            className="flex items-center gap-2 text-soft-grey/50 hover:text-soft-grey text-xs transition-colors truncate">
+            <Mail size={11} className="text-primary-red flex-shrink-0" />
+            info@classicmotionperformance.com
+          </a>
+          <a href="https://instagram.com/classicmotionperformance"
+            target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-2 text-soft-grey/50 hover:text-soft-grey text-xs transition-colors">
+            <span className="text-primary-red flex-shrink-0"><InstagramIcon /></span>
+            @classicmotionperformance
+          </a>
         </div>
       </div>
     </>
