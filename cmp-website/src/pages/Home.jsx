@@ -60,12 +60,12 @@ export default function Home() {
         />
 
         {/* Logo — top center */}
-        <div className="absolute top-0 left-0 right-0 z-20 flex justify-center pt-20 md:pt-24 pointer-events-none">
+        <div className="absolute top-0 left-0 right-0 z-20 flex justify-center pt-10 md:pt-12 pointer-events-none">
           <img
             src="/logo.png"
             alt="Classic Motion Performance"
-            className="w-36 md:w-44 opacity-90 drop-shadow-2xl"
-            style={{ filter: 'drop-shadow(0 0 24px rgba(217,31,38,0.35))' }}
+            className="w-52 md:w-64 lg:w-72 opacity-95 drop-shadow-2xl"
+            style={{ filter: 'drop-shadow(0 0 32px rgba(217,31,38,0.45))' }}
           />
         </div>
 
