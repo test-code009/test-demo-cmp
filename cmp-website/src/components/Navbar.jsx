@@ -77,7 +77,7 @@ export default function Navbar() {
         }}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center gap-4"
-          style={{ height: location.pathname === '/' ? '220px' : '64px' }}>
+          style={{ height: location.pathname === '/' ? '300px' : '64px' }}>
 
           {/* ── Logo — left, home page only ───── */}
           {location.pathname === '/' && (
@@ -85,7 +85,7 @@ export default function Navbar() {
               <img
                 src="/logo.png"
                 alt="Classic Motion Performance"
-                style={{ height: '200px', filter: 'drop-shadow(0 0 12px rgba(217,31,38,0.35))' }}
+                style={{ height: '280px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))' }}
               />
             </Link>
           )}
