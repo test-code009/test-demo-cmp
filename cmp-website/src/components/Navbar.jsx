@@ -94,7 +94,7 @@ export default function Navbar() {
             <img
               src="/logo.png"
               alt="Classic Motion Performance"
-              style={{ height: '42px', filter: 'drop-shadow(0 0 12px rgba(217,31,38,0.35))' }}
+              style={{ height: '200px', filter: 'drop-shadow(0 0 12px rgba(217,31,38,0.35))' }}
             />
           </Link>
 
