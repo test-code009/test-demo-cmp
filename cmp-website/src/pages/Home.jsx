@@ -1,6 +1,31 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Check, Zap, Shield, Award, Users } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { getProducts, urlFor } from '../lib/sanity';
+
+const homeFallbackProducts = [
+  {
+    _id: 'suspension-brake',
+    slug: null,
+    category: 'Suspension & Brake',
+    title: 'Suspension + Brake Assembly',
+    price: '€ 1,249',
+    shortDescription: 'Fully integrated suspension and brake assembly engineered for the Golf Mk2.',
+    mainImage: null,
+    localImage: '/product-suspension-brake.jpeg',
+  },
+  {
+    _id: 'subframe',
+    slug: null,
+    category: 'Chassis',
+    title: 'Front Subframe',
+    price: '€ 849',
+    shortDescription: 'Fully restored and reinforced front subframe with performance polyurethane bushings.',
+    mainImage: null,
+    localImage: '/product-subframe.jpeg',
+  },
+];
 
 const HeroBackground = () => (
   <div className="absolute inset-0 overflow-hidden">
@@ -46,6 +71,15 @@ const EngineVisualBg = () => (
 
 export default function Home() {
   useScrollReveal();
+  const [newProducts, setNewProducts] = useState(homeFallbackProducts);
+
+  useEffect(() => {
+    getProducts()
+      .then(data => {
+        if (data && data.length) setNewProducts(data.slice(0, 3));
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <main>
@@ -492,88 +526,58 @@ export default function Home() {
             </a>
           </div>
 
-          {/* 3 Product Cards */}
+          {/* Dynamic Product Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Card 1 */}
-            <div className="group relative flex flex-col fade-up-element" style={{ transitionDelay: '0.1s', background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', overflow: 'hidden' }}>
-              <div className="relative h-52 flex items-center justify-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #0d0606 0%, #1a0808 100%)' }}>
-                <div className="absolute top-0 right-0 w-48 h-48 opacity-20" style={{ background: 'radial-gradient(circle, rgba(217,31,38,0.6) 0%, transparent 70%)', transform: 'translate(30%, -30%)' }} />
-                {/* Disc icon */}
-                <div className="relative w-24 h-24">
-                  <div className="absolute inset-0 rounded-full" style={{ border: '3px solid rgba(217,31,38,0.5)', boxShadow: '0 0 24px rgba(217,31,38,0.2)' }} />
-                  <div className="absolute inset-3 rounded-full" style={{ border: '2px solid rgba(255,255,255,0.1)' }} />
-                  <div className="absolute inset-[38%] rounded-full bg-soft-grey/20" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(217,31,38,0.8)' }} />
+            {newProducts.map((product, i) => {
+              const imageUrl = product.mainImage
+                ? urlFor(product.mainImage).width(600).height(416).fit('crop').url()
+                : product.localImage || null;
+              return (
+                <Link
+                  key={product._id}
+                  to={product.slug ? `/produkti/${product.slug}` : '/produkti'}
+                  className="group relative flex flex-col fade-up-element"
+                  style={{ transitionDelay: `${0.1 + i * 0.1}s`, background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s, box-shadow 0.2s' }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = 'rgba(217,31,38,0.35)';
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.5)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  <div className="relative h-52 overflow-hidden" style={{ background: '#0d0d0d' }}>
+                    {imageUrl ? (
+                      <img src={imageUrl} alt={product.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-full" style={{ border: '2px solid rgba(255,255,255,0.08)' }} />
+                      </div>
+                    )}
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(17,17,17,0.5) 0%, transparent 60%)' }} />
+                    <span className="absolute top-3 left-3 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" style={{ background: 'rgba(217,31,38,0.15)', border: '1px solid rgba(217,31,38,0.35)', color: '#FF3B30' }}>New</span>
                   </div>
-                </div>
-                <span className="absolute top-3 left-3 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" style={{ background: 'rgba(217,31,38,0.15)', border: '1px solid rgba(217,31,38,0.35)', color: '#FF3B30' }}>New</span>
-              </div>
-              <div className="flex flex-col flex-1 p-5 gap-3">
-                <p className="text-soft-grey/50 text-xs uppercase tracking-widest">Brake System</p>
-                <h3 className="text-text-white font-display font-bold text-lg leading-snug">G60 Big Brake Conversion Kit</h3>
-                <p className="text-soft-grey/60 text-sm leading-relaxed flex-1">Full caliper, rotor and line upgrade engineered for maximum stopping force on the Mk2 platform.</p>
-                <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span className="text-text-white font-bold text-lg">€ 489</span>
-                  <a href="/produkti" className="btn-primary text-xs py-2 px-4">View Details</a>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="group relative flex flex-col fade-up-element" style={{ transitionDelay: '0.2s', background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', overflow: 'hidden' }}>
-              <div className="relative h-52 flex items-center justify-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #060a0d 0%, #081318 100%)' }}>
-                <div className="absolute top-0 left-0 w-48 h-48 opacity-15" style={{ background: 'radial-gradient(circle, rgba(80,140,255,0.5) 0%, transparent 70%)', transform: 'translate(-30%, -30%)' }} />
-                {/* Coilover icon */}
-                <div className="relative flex flex-col items-center gap-1">
-                  <div className="w-4 h-4 rounded" style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)' }} />
-                  {[...Array(6)].map((_, i) => (
-                    <div key={i} className="w-10 h-2 rounded-sm" style={{ background: i % 2 === 0 ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }} />
-                  ))}
-                  <div className="w-4 h-4 rounded" style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)' }} />
-                </div>
-                <span className="absolute top-3 left-3 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.15)', color: '#A7A7A7' }}>New</span>
-              </div>
-              <div className="flex flex-col flex-1 p-5 gap-3">
-                <p className="text-soft-grey/50 text-xs uppercase tracking-widest">Suspension</p>
-                <h3 className="text-text-white font-display font-bold text-lg leading-snug">Mk2 Coilover Suspension Kit</h3>
-                <p className="text-soft-grey/60 text-sm leading-relaxed flex-1">Height-adjustable coilovers with rebound damping, tuned specifically for Golf Mk2 geometry.</p>
-                <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span className="text-text-white font-bold text-lg">€ 620</span>
-                  <a href="/produkti" className="btn-primary text-xs py-2 px-4">View Details</a>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="group relative flex flex-col fade-up-element" style={{ transitionDelay: '0.3s', background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', overflow: 'hidden' }}>
-              <div className="relative h-52 flex items-center justify-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #060d08 0%, #081a0a 100%)' }}>
-                <div className="absolute bottom-0 right-0 w-48 h-48 opacity-15" style={{ background: 'radial-gradient(circle, rgba(80,200,100,0.4) 0%, transparent 70%)', transform: 'translate(30%, 30%)' }} />
-                {/* Braided line icon */}
-                <div className="relative flex flex-col items-center justify-center gap-2">
-                  <div className="flex gap-3 items-center">
-                    <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.5)' }} />
-                    <div className="h-px w-20" style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0.3), rgba(217,31,38,0.6), rgba(255,255,255,0.3))' }} />
-                    <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.5)' }} />
+                  <div className="flex flex-col flex-1 p-5 gap-2">
+                    {product.category && <p className="text-soft-grey/50 text-xs uppercase tracking-widest">{product.category}</p>}
+                    <h3 className="text-text-white font-display font-bold text-base leading-snug">{product.title}</h3>
+                    {product.shortDescription && <p className="text-soft-grey/60 text-sm leading-relaxed flex-1 line-clamp-2">{product.shortDescription}</p>}
+                    <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                      {product.price ? (
+                        <span className="text-primary-red font-bold text-lg">{product.price}</span>
+                      ) : (
+                        <span className="text-soft-grey/40 text-sm">Enquire</span>
+                      )}
+                      <span className="flex items-center gap-1 text-soft-grey/50 text-xs uppercase tracking-widest group-hover:text-primary-red transition-colors">
+                        View <ArrowRight size={11} />
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex gap-3 items-center" style={{ marginLeft: '12px' }}>
-                    <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.3)' }} />
-                    <div className="h-px w-16" style={{ background: 'linear-gradient(90deg, rgba(255,255,255,0.2), rgba(217,31,38,0.4), rgba(255,255,255,0.2))' }} />
-                    <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.3)' }} />
-                  </div>
-                </div>
-                <span className="absolute top-3 left-3 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.15)', color: '#A7A7A7' }}>New</span>
-              </div>
-              <div className="flex flex-col flex-1 p-5 gap-3">
-                <p className="text-soft-grey/50 text-xs uppercase tracking-widest">Brake Lines</p>
-                <h3 className="text-text-white font-display font-bold text-lg leading-snug">Stainless Braided Brake Lines</h3>
-                <p className="text-soft-grey/60 text-sm leading-relaxed flex-1">Direct-fit braided steel lines for the Mk2. Firmer pedal feel, zero expansion under pressure.</p>
-                <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span className="text-text-white font-bold text-lg">€ 89</span>
-                  <a href="/produkti" className="btn-primary text-xs py-2 px-4">View Details</a>
-                </div>
-              </div>
-            </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

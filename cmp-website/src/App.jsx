@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Products from './pages/Products';
+import ProductDetail from './pages/ProductDetail';
 import About from './pages/About';
 import Contact from './pages/Contact';
 
@@ -23,6 +24,7 @@ function Layout() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/produkti" element={<Products />} />
+          <Route path="/produkti/:slug" element={<ProductDetail />} />
           <Route path="/par-mums" element={<About />} />
           <Route path="/kontakti" element={<Contact />} />
         </Routes>
