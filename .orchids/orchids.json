@@ -1,6 +1,6 @@
 {
   "startupCommands": [
-    "cd /home/user/app && npm install; npm run dev -- --host 0.0.0.0 --port 5173"
+    "cd /home/user/app && npm install && npm run build && npm run preview -- --host 0.0.0.0 --port 5173"
   ],
   "projectId": "cfb9b923-bedf-4a45-8f49-e446a4bf8aa0",
   "templateId": "any"
