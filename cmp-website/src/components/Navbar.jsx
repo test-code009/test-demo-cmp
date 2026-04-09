@@ -76,22 +76,22 @@ export default function Navbar() {
           marginTop: 'clamp(0px, 4vw, 36px)',
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center gap-4"
+        <div className="flex items-center gap-4 px-0"
           style={{ height: location.pathname === '/' ? '300px' : '64px' }}>
 
-          {/* ── Logo — left, home page only ───── */}
+          {/* ── Logo — hard left edge, home page only ───── */}
           {location.pathname === '/' && (
-            <Link to="/" className="flex-shrink-0 flex items-center">
+            <Link to="/" className="flex-shrink-0 flex items-center" style={{ marginLeft: '0', paddingLeft: '0' }}>
               <img
                 src="/logo.png"
                 alt="Classic Motion Performance"
-                style={{ height: '280px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))' }}
+                style={{ height: '280px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))', display: 'block' }}
               />
             </Link>
           )}
 
           {/* ── Search + CTA — top-right ─── */}
-          <div className="flex items-center gap-3 ml-auto self-start pt-4">
+          <div className="flex items-center gap-3 ml-auto self-start pt-4 pr-6">
             {/* Always-visible search bar */}
             <div className="relative flex items-center">
               <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" />
