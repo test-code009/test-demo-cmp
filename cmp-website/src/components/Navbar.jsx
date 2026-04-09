@@ -87,10 +87,10 @@ export default function Navbar() {
           borderColor: scrolled ? 'rgba(255,255,255,0.06)' : 'transparent',
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center h-16 gap-4">
+        <div className="max-w-7xl mx-auto px-6 flex items-center gap-4" style={{ height: '220px' }}>
 
           {/* ── Logo — left ───── */}
-          <Link to="/" className="flex-shrink-0">
+          <Link to="/" className="flex-shrink-0 flex items-center">
             <img
               src="/logo.png"
               alt="Classic Motion Performance"
@@ -98,8 +98,8 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* ── Search + CTA — center/right ─── */}
-          <div className="flex items-center gap-3 ml-auto">
+          {/* ── Search + CTA — top-right ─── */}
+          <div className="flex items-center gap-3 ml-auto self-start pt-4">
             <div className="relative flex items-center">
               <div
                 className="flex items-center overflow-hidden transition-all duration-300 rounded-full"

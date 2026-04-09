@@ -60,7 +60,7 @@ export default function Home() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pb-10"
-          style={{ paddingTop: 'clamp(140px, 20vh, 200px)' }}>
+          style={{ paddingTop: 'clamp(280px, 32vh, 320px)' }}>
           <div className="max-w-2xl">
 
             <div className="section-eyebrow mb-3 fade-up-element">
