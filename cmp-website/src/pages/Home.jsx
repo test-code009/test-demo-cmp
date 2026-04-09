@@ -4,23 +4,22 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 
 const HeroBackground = () => (
   <div className="absolute inset-0 overflow-hidden">
-    {/* Real hero image */}
     <img
-      src="/hero.jpg"
+      src="/hero.png"
       alt="Classic Motion Performance — VW Golf Mk2"
       className="absolute inset-0 w-full h-full object-cover object-center"
       style={{ animation: 'slowZoom 14s ease-in-out infinite alternate' }}
     />
-    {/* Dark base overlay so image isn't too bright */}
-    <div className="absolute inset-0" style={{ background: 'rgba(6,6,6,0.45)' }} />
-    {/* Left-side text readability gradient */}
-    <div className="absolute inset-y-0 left-0 w-3/4" style={{ background: 'linear-gradient(to right, rgba(6,6,6,0.85) 0%, rgba(6,6,6,0.55) 45%, transparent 100%)' }} />
-    {/* Bottom fade into page */}
+    {/* Dark base overlay */}
+    <div className="absolute inset-0" style={{ background: 'rgba(6,6,6,0.40)' }} />
+    {/* Left gradient for text readability */}
+    <div className="absolute inset-y-0 left-0 w-3/4" style={{ background: 'linear-gradient(to right, rgba(6,6,6,0.88) 0%, rgba(6,6,6,0.50) 45%, transparent 100%)' }} />
+    {/* Bottom fade */}
     <div className="absolute bottom-0 left-0 right-0 h-56" style={{ background: 'linear-gradient(to top, #060606 0%, transparent 100%)' }} />
-    {/* Subtle red atmospheric glow top-left */}
+    {/* Subtle red glow bottom-right matching car lights */}
     <div
-      className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-20 pointer-events-none"
-      style={{ background: 'radial-gradient(circle, rgba(217,31,38,0.4) 0%, transparent 70%)', transform: 'translate(-20%, -20%)' }}
+      className="absolute bottom-0 right-0 w-[600px] h-[400px] opacity-25 pointer-events-none"
+      style={{ background: 'radial-gradient(ellipse, rgba(217,31,38,0.35) 0%, transparent 70%)', transform: 'translate(10%, 20%)' }}
     />
   </div>
 );
@@ -60,7 +59,17 @@ export default function Home() {
           style={{ background: 'linear-gradient(180deg, transparent, #D91F26 30%, #D91F26 70%, transparent)', marginLeft: '5%' }}
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-36 md:pt-40 pb-20">
+        {/* Logo — top center */}
+        <div className="absolute top-0 left-0 right-0 z-20 flex justify-center pt-20 md:pt-24 pointer-events-none">
+          <img
+            src="/logo.png"
+            alt="Classic Motion Performance"
+            className="w-36 md:w-44 opacity-90 drop-shadow-2xl"
+            style={{ filter: 'drop-shadow(0 0 24px rgba(217,31,38,0.35))' }}
+          />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-56 md:pt-60 pb-20">
           <div className="max-w-2xl">
             <div className="section-eyebrow mb-5 fade-up-element">
               PREMIUM PERFORMANCE UPGRADES
