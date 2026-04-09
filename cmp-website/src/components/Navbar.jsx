@@ -100,7 +100,16 @@ export default function Navbar() {
           '@media (max-width: 767px)': { top: 0 },
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+        <div className="max-w-7xl mx-auto px-6 flex items-center h-16 gap-4">
+
+          {/* Mobile hamburger — LEFT */}
+          <button
+            className="md:hidden text-text-white p-2 rounded-lg transition-colors hover:bg-white/5 flex-shrink-0"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            <Menu size={22} />
+          </button>
 
           {/* Desktop Nav — centered */}
           <nav className="hidden md:flex items-center gap-8 flex-1 justify-center">
@@ -155,21 +164,14 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile — search icon + hamburger */}
-          <div className="md:hidden flex items-center gap-2 ml-auto">
+          {/* Mobile — search icon only (right side) */}
+          <div className="md:hidden flex items-center ml-auto">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
               className="text-soft-grey hover:text-primary-red p-2 transition-colors"
               aria-label="Search"
             >
               <Search size={18} />
-            </button>
-            <button
-              className="text-text-white p-2 rounded-lg transition-colors hover:bg-white/5"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
-            >
-              <Menu size={22} />
             </button>
           </div>
         </div>
