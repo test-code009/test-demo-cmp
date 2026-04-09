@@ -76,16 +76,19 @@ export default function Navbar() {
           marginTop: 'clamp(0px, 4vw, 36px)',
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center gap-4" style={{ height: '220px' }}>
+        <div className="max-w-7xl mx-auto px-6 flex items-center gap-4"
+          style={{ height: location.pathname === '/' ? '220px' : '64px' }}>
 
-          {/* ── Logo — left ───── */}
-          <Link to="/" className="flex-shrink-0 flex items-center">
-            <img
-              src="/logo.png"
-              alt="Classic Motion Performance"
-              style={{ height: '200px', filter: 'drop-shadow(0 0 12px rgba(217,31,38,0.35))' }}
-            />
-          </Link>
+          {/* ── Logo — left, home page only ───── */}
+          {location.pathname === '/' && (
+            <Link to="/" className="flex-shrink-0 flex items-center">
+              <img
+                src="/logo.png"
+                alt="Classic Motion Performance"
+                style={{ height: '200px', filter: 'drop-shadow(0 0 12px rgba(217,31,38,0.35))' }}
+              />
+            </Link>
+          )}
 
           {/* ── Search + CTA — top-right ─── */}
           <div className="flex items-center gap-3 ml-auto self-start pt-4">
