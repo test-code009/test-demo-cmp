@@ -18,16 +18,9 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -43,7 +36,7 @@ export default function Navbar() {
     <>
       {/* ── Top info bar (desktop only) ───────────────────────────── */}
       <div
-        className="fixed top-0 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8"
+        className="absolute top-0 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8"
         style={{
           height: '36px',
           background: 'rgba(10,10,10,0.92)',
@@ -77,13 +70,10 @@ export default function Navbar() {
 
       {/* ── Main navbar ──────────────────────────────────────────────── */}
       <header
-        className={`fixed left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? 'bg-charcoal/90 backdrop-blur-xl border-b shadow-2xl' : 'bg-transparent'
-        }`}
+        className="absolute left-0 right-0 z-50 bg-transparent"
         style={{
           top: 0,
           marginTop: 'clamp(0px, 4vw, 36px)',
-          borderColor: scrolled ? 'rgba(255,255,255,0.06)' : 'transparent',
         }}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center gap-4" style={{ height: '220px' }}>
