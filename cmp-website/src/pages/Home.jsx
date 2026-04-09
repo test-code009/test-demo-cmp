@@ -50,7 +50,7 @@ export default function Home() {
   return (
     <main>
       {/* ─── Section 1: Hero ──────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section className="relative flex items-center overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
         <HeroBackground />
 
         {/* Red vertical accent line */}
@@ -60,24 +60,29 @@ export default function Home() {
         />
 
         {/* Logo — top center */}
-        <div className="absolute top-0 left-0 right-0 z-20 flex justify-center pt-10 md:pt-12 pointer-events-none">
+        <div className="absolute top-0 left-0 right-0 z-20 flex justify-center pointer-events-none"
+          style={{ paddingTop: 'clamp(44px, 7vh, 72px)' }}>
           <img
             src="/logo.png"
             alt="Classic Motion Performance"
-            className="w-52 md:w-64 lg:w-72 opacity-95 drop-shadow-2xl"
-            style={{ filter: 'drop-shadow(0 0 32px rgba(217,31,38,0.45))' }}
+            className="opacity-95"
+            style={{
+              width: 'clamp(140px, 14vw, 220px)',
+              filter: 'drop-shadow(0 0 28px rgba(217,31,38,0.45))',
+            }}
           />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-56 md:pt-60 pb-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pb-10"
+          style={{ paddingTop: 'clamp(200px, 28vh, 280px)' }}>
           <div className="max-w-2xl">
-            <div className="section-eyebrow mb-5 fade-up-element">
+            <div className="section-eyebrow mb-3 fade-up-element">
               PREMIUM PERFORMANCE UPGRADES
             </div>
 
             <h1
-              className="section-title text-5xl sm:text-6xl lg:text-7xl xl:text-8xl mb-6 fade-up-element"
-              style={{ transitionDelay: '0.1s' }}
+              className="section-title text-4xl sm:text-5xl lg:text-6xl xl:text-7xl mb-4 fade-up-element"
+              style={{ transitionDelay: '0.1s', lineHeight: 1.05 }}
             >
               Classic
               <br />
@@ -87,28 +92,28 @@ export default function Home() {
             </h1>
 
             <p
-              className="text-soft-grey text-lg leading-relaxed max-w-lg mb-10 fade-up-element"
+              className="text-soft-grey text-base leading-relaxed max-w-lg mb-7 fade-up-element"
               style={{ transitionDelay: '0.2s' }}
             >
               Precision brake and suspension solutions for Mk2 builds and enthusiasts who demand more.
             </p>
 
             <div
-              className="flex flex-wrap gap-4 fade-up-element"
+              className="flex flex-wrap gap-3 fade-up-element"
               style={{ transitionDelay: '0.3s' }}
             >
-              <Link to="/produkti" className="btn-primary text-sm">
+              <Link to="/produkti" className="btn-primary text-sm py-3 px-6">
                 Explore Products
-                <ArrowRight size={16} />
+                <ArrowRight size={15} />
               </Link>
-              <Link to="/kontakti" className="btn-secondary text-sm">
+              <Link to="/kontakti" className="btn-secondary text-sm py-3 px-6">
                 Get in Touch
               </Link>
             </div>
 
             {/* Specs strip */}
             <div
-              className="flex flex-wrap gap-8 mt-14 pt-8 fade-up-element"
+              className="flex flex-wrap gap-8 mt-8 pt-6 fade-up-element"
               style={{ transitionDelay: '0.4s', borderTop: '1px solid rgba(255,255,255,0.06)' }}
             >
               {[
