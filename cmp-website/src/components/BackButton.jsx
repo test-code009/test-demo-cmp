@@ -17,10 +17,10 @@ export default function BackButton() {
       onClick={handleBack}
       className="group flex items-center gap-2 transition-all duration-200"
       style={{
-        position: 'absolute',
-        top: '56px',
+        position: 'fixed',
+        top: '52px',
         left: '24px',
-        zIndex: 20,
+        zIndex: 60,
         background: 'rgba(255,255,255,0.06)',
         border: '1px solid rgba(255,255,255,0.1)',
         borderRadius: '10px',
