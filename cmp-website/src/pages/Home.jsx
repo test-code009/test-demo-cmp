@@ -49,76 +49,82 @@ export default function Home() {
 
   return (
     <main>
-      {/* ─── Section 1: Hero ──────────────────────────────────────── */}
+      {/* ─── Section 1: Hero image — clean, no text overlay ─────────── */}
       <section className="relative overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
         <HeroBackground />
+      </section>
 
-        {/* Red vertical accent line */}
-        <div
-          className="absolute left-0 top-0 bottom-0 w-px opacity-60"
-          style={{ background: 'linear-gradient(180deg, transparent, #D91F26 30%, #D91F26 70%, transparent)', marginLeft: '5%' }}
-        />
+      {/* ─── Hero text block — below image ───────────────────────────── */}
+      <section className="relative bg-charcoal" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        {/* Red left accent */}
+        <div className="absolute left-0 top-0 bottom-0 w-[3px]"
+          style={{ background: 'linear-gradient(180deg, #D91F26, rgba(217,31,38,0.2))' }} />
 
-        {/* Text block — pinned to bottom-left, max 40% width so car stays visible */}
-        <div className="absolute bottom-0 left-0 z-10 px-8 md:px-12 pb-12 md:pb-16" style={{ maxWidth: '480px' }}>
-          <div className="section-eyebrow mb-3 fade-up-element">
-            PREMIUM PERFORMANCE UPGRADES
-          </div>
-
-          <h1
-            className="section-title text-3xl sm:text-4xl lg:text-[2.6rem] mb-3 fade-up-element"
-            style={{ transitionDelay: '0.1s', lineHeight: 1.1 }}
-          >
-            Classic Motion
-            <br />
-            <span className="text-gradient-red">Performance</span>
-          </h1>
-
-          <p
-            className="text-soft-grey text-sm leading-relaxed mb-6 fade-up-element"
-            style={{ transitionDelay: '0.2s' }}
-          >
-            Precision brake and suspension solutions for Mk2 builds and enthusiasts who demand more.
-          </p>
-
-          <div
-            className="flex flex-wrap gap-3 fade-up-element"
-            style={{ transitionDelay: '0.3s' }}
-          >
-            <Link to="/produkti" className="btn-primary text-sm py-2.5 px-5">
-              Explore Products
-              <ArrowRight size={14} />
-            </Link>
-            <Link to="/kontakti" className="btn-secondary text-sm py-2.5 px-5">
-              Get in Touch
-            </Link>
-          </div>
-        </div>
-
-        {/* Specs strip — bottom-right */}
-        <div className="absolute bottom-12 right-8 md:right-12 z-10 hidden md:flex flex-col gap-4 fade-up-element"
-          style={{ transitionDelay: '0.4s' }}>
-          {[
-            { label: 'Brake Upgrades', value: 'G60 Systems' },
-            { label: 'Suspension', value: 'Precision Kits' },
-            { label: 'Fitment', value: 'Mk2 Specific' },
-          ].map((s) => (
-            <div key={s.label} className="text-right">
-              <p className="text-soft-grey/50 text-[10px] uppercase tracking-widest mb-0.5">{s.label}</p>
-              <p className="text-text-white font-display font-semibold text-xs">{s.value}</p>
+        <div className="max-w-7xl mx-auto px-8 md:px-12 py-12 md:py-14">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
+            {/* Left — headline */}
+            <div>
+              <div className="section-eyebrow mb-4 fade-up-element">
+                PREMIUM PERFORMANCE UPGRADES
+              </div>
+              <h1
+                className="section-title text-4xl sm:text-5xl lg:text-6xl fade-up-element"
+                style={{ transitionDelay: '0.08s', lineHeight: 1.05 }}
+              >
+                Classic Motion
+                <br />
+                <span className="text-gradient-red">Performance</span>
+              </h1>
             </div>
-          ))}
-        </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-30 z-10">
-          <span className="text-soft-grey text-[10px] uppercase tracking-[0.2em]">Scroll</span>
-          <ChevronDown size={14} className="text-primary-red animate-bounce" />
+            {/* Right — text, buttons, specs */}
+            <div className="fade-up-element" style={{ transitionDelay: '0.15s' }}>
+              <p className="text-soft-grey text-base leading-relaxed mb-7">
+                Precision brake and suspension solutions for Mk2 builds and enthusiasts who demand more.
+              </p>
+              <div className="flex flex-wrap gap-3 mb-10">
+                <Link to="/produkti" className="btn-primary text-sm py-2.5 px-6">
+                  Explore Products
+                  <ArrowRight size={14} />
+                </Link>
+                <Link to="/kontakti" className="btn-secondary text-sm py-2.5 px-6">
+                  Get in Touch
+                </Link>
+              </div>
+              <div className="flex flex-wrap gap-8 pt-6"
+                style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                {[
+                  { label: 'Brake Upgrades', value: 'G60 Systems' },
+                  { label: 'Suspension', value: 'Precision Kits' },
+                  { label: 'Fitment', value: 'Mk2 Specific' },
+                ].map((s) => (
+                  <div key={s.label}>
+                    <p className="text-soft-grey/50 text-[10px] uppercase tracking-widest mb-1">{s.label}</p>
+                    <p className="text-text-white font-display font-semibold text-sm">{s.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Scroll down arrow */}
+          <div className="flex justify-center mt-10 fade-up-element" style={{ transitionDelay: '0.25s' }}>
+            <button
+              onClick={() => document.getElementById('brand-section')?.scrollIntoView({ behavior: 'smooth' })}
+              className="flex flex-col items-center gap-2 group opacity-50 hover:opacity-100 transition-opacity duration-300"
+            >
+              <span className="text-soft-grey text-[10px] uppercase tracking-[0.25em]">Scroll</span>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-primary-red/10"
+                style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
+                <ChevronDown size={16} className="text-primary-red group-hover:translate-y-0.5 transition-transform duration-300" />
+              </div>
+            </button>
+          </div>
         </div>
       </section>
 
       {/* ─── Section 2: Brand Statement ─────────────────────────────── */}
-      <section className="relative py-28 bg-charcoal overflow-hidden">
+      <section id="brand-section" className="relative py-28 bg-base-black overflow-hidden">
         <div
           className="absolute top-0 left-0 right-0 h-px opacity-30"
           style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }}
