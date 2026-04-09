@@ -52,6 +52,30 @@ export default function Home() {
       {/* ─── Section 1: Hero image — clean, no text overlay ─────────── */}
       <section className="relative overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
         <HeroBackground />
+
+        {/* Floating keyword ticker bar — bottom of hero */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden"
+          style={{
+            background: 'rgba(6,6,6,0.72)',
+            backdropFilter: 'blur(12px)',
+            borderTop: '1px solid rgba(217,31,38,0.2)',
+            borderBottom: '1px solid rgba(255,255,255,0.04)',
+          }}>
+          <div className="flex items-center py-3" style={{ animation: 'marquee 22s linear infinite' }}>
+            {[...Array(3)].map((_, rep) => (
+              <div key={rep} className="flex items-center gap-0 flex-shrink-0">
+                {['Stop Harder', 'Drive Sharper', 'Built for Mk2', 'Engineered Performance', 'Clean & Purposeful', 'Upgrade Everything'].map((kw, i) => (
+                  <span key={i} className="flex items-center gap-5 px-6">
+                    <span className="text-text-white/80 text-xs font-semibold uppercase tracking-[0.18em] whitespace-nowrap">
+                      {kw}
+                    </span>
+                    <span className="w-1 h-1 rounded-full bg-primary-red flex-shrink-0" />
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ─── Hero text block — below image ───────────────────────────── */}
