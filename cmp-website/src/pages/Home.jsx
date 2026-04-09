@@ -1,47 +1,27 @@
-import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Check, Zap, Shield, Award, Users } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
-// ─── Hero images (gradient placeholders since no external images were supplied) ───
 const HeroBackground = () => (
   <div className="absolute inset-0 overflow-hidden">
-    {/* Cinematic dark gradient to simulate studio photography */}
-    <div
-      className="absolute inset-0"
-      style={{
-        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 30%, #0f0808 60%, #060606 100%)',
-      }}
+    {/* Real hero image */}
+    <img
+      src="/hero.jpg"
+      alt="Classic Motion Performance — VW Golf Mk2"
+      className="absolute inset-0 w-full h-full object-cover object-center"
+      style={{ animation: 'slowZoom 14s ease-in-out infinite alternate' }}
     />
-    {/* Atmospheric red glow — upper left */}
+    {/* Dark base overlay so image isn't too bright */}
+    <div className="absolute inset-0" style={{ background: 'rgba(6,6,6,0.45)' }} />
+    {/* Left-side text readability gradient */}
+    <div className="absolute inset-y-0 left-0 w-3/4" style={{ background: 'linear-gradient(to right, rgba(6,6,6,0.85) 0%, rgba(6,6,6,0.55) 45%, transparent 100%)' }} />
+    {/* Bottom fade into page */}
+    <div className="absolute bottom-0 left-0 right-0 h-56" style={{ background: 'linear-gradient(to top, #060606 0%, transparent 100%)' }} />
+    {/* Subtle red atmospheric glow top-left */}
     <div
-      className="absolute top-0 left-0 w-[700px] h-[700px] rounded-full opacity-20"
-      style={{ background: 'radial-gradient(circle, rgba(217,31,38,0.5) 0%, transparent 70%)', transform: 'translate(-30%, -20%)' }}
+      className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-20 pointer-events-none"
+      style={{ background: 'radial-gradient(circle, rgba(217,31,38,0.4) 0%, transparent 70%)', transform: 'translate(-20%, -20%)' }}
     />
-    {/* Subtle spotlight center-right */}
-    <div
-      className="absolute top-1/4 right-0 w-[600px] h-[800px] opacity-10"
-      style={{ background: 'radial-gradient(ellipse, rgba(255,180,180,0.15) 0%, transparent 70%)', transform: 'translateX(20%)' }}
-    />
-    {/* Cinematic scan line overlay */}
-    <div
-      className="absolute inset-0 opacity-[0.03]"
-      style={{
-        backgroundImage: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 1px, transparent 1px, transparent 4px)',
-      }}
-    />
-    {/* Golf silhouette area — dark shape */}
-    <div
-      className="absolute right-0 bottom-0 w-[65%] h-[75%] opacity-40"
-      style={{
-        background: 'linear-gradient(135deg, transparent 0%, rgba(10,5,5,0.8) 100%)',
-        clipPath: 'polygon(20% 100%, 100% 100%, 100% 20%, 60% 0%, 0% 30%)',
-      }}
-    />
-    {/* Bottom gradient fade */}
-    <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-base-black to-transparent" />
-    {/* Left gradient for text readability */}
-    <div className="absolute inset-y-0 left-0 w-2/3 bg-gradient-to-r from-base-black/80 via-base-black/30 to-transparent" />
   </div>
 );
 
