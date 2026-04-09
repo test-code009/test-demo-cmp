@@ -19,7 +19,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
@@ -31,19 +31,18 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    setMobileOpen(false);
+    setMenuOpen(false);
     setSearchOpen(false);
   }, [location]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [mobileOpen]);
+  }, [menuOpen]);
 
   return (
     <>
-      {/* ── Top info bar ─────────────────────────────────────────── */}
+      {/* ── Top info bar (desktop only) ───────────────────────────── */}
       <div
         className="fixed top-0 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8"
         style={{
@@ -53,31 +52,22 @@ export default function Navbar() {
           backdropFilter: 'blur(12px)',
         }}
       >
-        {/* Left — contact info */}
         <div className="flex items-center gap-6">
-          <a
-            href="mailto:info@classicmotionperformance.com"
-            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-text-white transition-colors duration-200 text-xs"
-          >
+          <a href="mailto:info@classicmotionperformance.com"
+            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-text-white transition-colors duration-200 text-xs">
             <Mail size={11} className="text-primary-red" />
             info@classicmotionperformance.com
           </a>
-          <a
-            href="tel:+371XXXXXXXX"
-            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-text-white transition-colors duration-200 text-xs"
-          >
+          <a href="tel:+371XXXXXXXX"
+            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-text-white transition-colors duration-200 text-xs">
             <Phone size={11} className="text-primary-red" />
             +371 XXXXXXXX
           </a>
         </div>
-        {/* Right — social */}
         <div className="flex items-center gap-4">
-          <a
-            href="https://instagram.com/classicmotionperformance"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-primary-red transition-colors duration-200 text-xs"
-          >
+          <a href="https://instagram.com/classicmotionperformance"
+            target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-primary-red transition-colors duration-200 text-xs">
             <InstagramIcon />
             @classicmotionperformance
           </a>
@@ -86,62 +76,46 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ── Main navbar ──────────────────────────────────────────── */}
+      {/* ── Main navbar ──────────────────────────────────────────────── */}
       <header
         className={`fixed left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? 'bg-charcoal/90 backdrop-blur-xl border-b shadow-2xl'
-            : 'bg-transparent'
+          scrolled ? 'bg-charcoal/90 backdrop-blur-xl border-b shadow-2xl' : 'bg-transparent'
         }`}
         style={{
-          top: '36px',
+          top: 0,
+          marginTop: 'clamp(0px, 4vw, 36px)',
           borderColor: scrolled ? 'rgba(255,255,255,0.06)' : 'transparent',
-          // Hide top bar on mobile — header starts at 0
-          '@media (max-width: 767px)': { top: 0 },
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center h-16 gap-4">
+        <div className="max-w-7xl mx-auto px-6 flex items-center h-16">
 
-          {/* Mobile hamburger — LEFT */}
+          {/* ── Hamburger — always left ───── */}
           <button
-            className="md:hidden text-text-white p-2 rounded-lg transition-colors hover:bg-white/5 flex-shrink-0"
-            onClick={() => setMobileOpen(!mobileOpen)}
+            className="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 flex-shrink-0"
+            style={{ border: '1px solid rgba(255,255,255,0.08)', background: menuOpen ? 'rgba(217,31,38,0.12)' : 'rgba(255,255,255,0.04)' }}
+            onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
-            <Menu size={22} />
+            <div className="flex flex-col gap-[5px] w-5">
+              <span className="block h-px w-full bg-text-white transition-all duration-300"
+                style={{ transform: menuOpen ? 'translateY(6px) rotate(45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
+              <span className="block h-px bg-text-white transition-all duration-300"
+                style={{ width: menuOpen ? '100%' : '70%', opacity: menuOpen ? 0 : 1, background: '#F5F5F5' }} />
+              <span className="block h-px w-full bg-text-white transition-all duration-300"
+                style={{ transform: menuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
+            </div>
           </button>
 
-          {/* Desktop Nav — centered */}
-          <nav className="hidden md:flex items-center gap-8 flex-1 justify-center">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`text-sm font-medium transition-all duration-300 relative group ${
-                  location.pathname === link.path
-                    ? 'text-text-white'
-                    : 'text-soft-grey hover:text-text-white'
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-1 left-0 h-px bg-primary-red transition-all duration-300 ${
-                    location.pathname === link.path ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`}
-                />
-              </Link>
-            ))}
-          </nav>
-
-          {/* Right side — search + CTA */}
-          <div className="hidden md:flex items-center gap-3 ml-auto">
-            {/* Search bar */}
+          {/* ── Right side — search + CTA ─── */}
+          <div className="flex items-center gap-3 ml-auto">
+            {/* Expanding search */}
             <div className="relative flex items-center">
               <div
-                className={`flex items-center overflow-hidden transition-all duration-400 rounded-full ${
-                  searchOpen ? 'w-52' : 'w-0'
-                }`}
-                style={{ border: searchOpen ? '1px solid rgba(217,31,38,0.35)' : 'none' }}
+                className="flex items-center overflow-hidden transition-all duration-300 rounded-full"
+                style={{
+                  width: searchOpen ? '200px' : '0px',
+                  border: searchOpen ? '1px solid rgba(217,31,38,0.35)' : '1px solid transparent',
+                }}
               >
                 <input
                   type="text"
@@ -153,48 +127,29 @@ export default function Navbar() {
               </div>
               <button
                 onClick={() => { setSearchOpen(!searchOpen); if (searchOpen) setSearchQuery(''); }}
-                className="w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200 text-soft-grey hover:text-primary-red"
+                className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200 text-soft-grey hover:text-primary-red"
+                style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
                 aria-label="Search"
               >
-                {searchOpen ? <X size={15} /> : <Search size={15} />}
+                {searchOpen ? <X size={14} /> : <Search size={14} />}
               </button>
             </div>
-            <Link to="/kontakti" className="btn-primary text-sm py-2 px-5">
+
+            <Link to="/kontakti" className="btn-primary text-sm py-2 px-5 hidden sm:inline-flex">
               Sazināties
             </Link>
           </div>
-
-          {/* Mobile — search icon only (right side) */}
-          <div className="md:hidden flex items-center ml-auto">
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="text-soft-grey hover:text-primary-red p-2 transition-colors"
-              aria-label="Search"
-            >
-              <Search size={18} />
-            </button>
-          </div>
         </div>
 
-        {/* Mobile search bar */}
+        {/* Mobile search bar drop */}
         {searchOpen && (
-          <div
-            className="md:hidden px-5 pb-3"
-            style={{ background: 'rgba(17,17,17,0.97)' }}
-          >
-            <div
-              className="flex items-center gap-3 rounded-xl px-4 py-2.5"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(217,31,38,0.3)' }}
-            >
+          <div className="sm:hidden px-5 pb-3" style={{ background: 'rgba(17,17,17,0.97)' }}>
+            <div className="flex items-center gap-3 rounded-xl px-4 py-2.5"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(217,31,38,0.3)' }}>
               <Search size={14} className="text-primary-red flex-shrink-0" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products..."
-                autoFocus
-                className="flex-1 bg-transparent text-text-white text-sm outline-none placeholder-soft-grey/40"
-              />
+              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search products..." autoFocus
+                className="flex-1 bg-transparent text-text-white text-sm outline-none placeholder-soft-grey/40" />
               {searchQuery && (
                 <button onClick={() => setSearchQuery('')} className="text-soft-grey/50 hover:text-text-white">
                   <X size={13} />
@@ -205,72 +160,70 @@ export default function Navbar() {
         )}
       </header>
 
-      {/* ── Full-screen mobile menu overlay ──────────────────────── */}
+      {/* ── Full-screen overlay menu ─────────────────────────────────── */}
       <div
-        className={`fixed inset-0 z-40 md:hidden transition-all duration-500 ${
-          mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 z-40 transition-all duration-500 ${
+          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         style={{ background: 'rgba(6,6,6,0.97)', backdropFilter: 'blur(24px)' }}
       >
-        {/* Close button */}
+        {/* Close */}
         <button
-          className="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full text-soft-grey hover:text-text-white transition-colors"
+          className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full text-soft-grey hover:text-text-white transition-colors"
           style={{ border: '1px solid rgba(255,255,255,0.1)' }}
-          onClick={() => setMobileOpen(false)}
+          onClick={() => setMenuOpen(false)}
           aria-label="Close menu"
         >
           <X size={20} />
         </button>
 
-        {/* Menu content */}
-        <div className="flex flex-col justify-center h-full px-10 gap-1">
-          {/* Eyebrow */}
-          <p className="section-eyebrow mb-8">Navigation</p>
+        <div className="flex flex-col justify-center h-full px-10 md:px-20 max-w-3xl">
+          <p className="section-eyebrow mb-10">Navigation</p>
 
           {navLinks.map((link, i) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`group flex items-center justify-between py-5 transition-all duration-300 ${
-                location.pathname === link.path ? 'text-text-white' : 'text-soft-grey/60 hover:text-text-white'
+              className={`group flex items-center justify-between py-5 transition-all duration-500 ${
+                location.pathname === link.path ? 'text-text-white' : 'text-soft-grey/50 hover:text-text-white'
               }`}
               style={{
                 borderBottom: '1px solid rgba(255,255,255,0.05)',
-                transitionDelay: mobileOpen ? `${i * 60}ms` : '0ms',
-                transform: mobileOpen ? 'translateX(0)' : 'translateX(-20px)',
-                opacity: mobileOpen ? 1 : 0,
+                transitionDelay: menuOpen ? `${i * 70}ms` : '0ms',
+                transform: menuOpen ? 'translateX(0)' : 'translateX(-24px)',
+                opacity: menuOpen ? 1 : 0,
               }}
             >
-              <span className="font-display font-semibold text-3xl">{link.label}</span>
+              <span className="font-display font-bold text-4xl md:text-5xl">{link.label}</span>
               {location.pathname === link.path && (
                 <span className="w-2 h-2 rounded-full bg-primary-red" />
               )}
             </Link>
           ))}
 
-          {/* CTA */}
           <Link
             to="/kontakti"
-            className="btn-primary mt-10 justify-center"
+            className="btn-primary mt-12 w-fit"
             style={{
-              transitionDelay: mobileOpen ? '280ms' : '0ms',
-              transform: mobileOpen ? 'translateY(0)' : 'translateY(10px)',
-              opacity: mobileOpen ? 1 : 0,
+              transitionDelay: menuOpen ? '320ms' : '0ms',
+              transform: menuOpen ? 'translateY(0)' : 'translateY(12px)',
+              opacity: menuOpen ? 1 : 0,
+              transition: 'opacity 0.4s ease, transform 0.4s ease',
             }}
           >
             Sazināties
           </Link>
 
-          {/* Contact info strip at bottom */}
-          <div className="mt-10 pt-6 flex flex-col gap-3" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <div className="mt-10 pt-6 flex flex-col gap-3"
+            style={{ borderTop: '1px solid rgba(255,255,255,0.05)', opacity: menuOpen ? 1 : 0, transition: 'opacity 0.4s ease 0.35s' }}>
             <a href="mailto:info@classicmotionperformance.com"
-              className="flex items-center gap-2 text-soft-grey/50 text-xs">
+              className="flex items-center gap-2 text-soft-grey/50 hover:text-soft-grey text-xs transition-colors">
               <Mail size={12} className="text-primary-red" />
               info@classicmotionperformance.com
             </a>
             <a href="https://instagram.com/classicmotionperformance"
               target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 text-soft-grey/50 text-xs">
+              className="flex items-center gap-2 text-soft-grey/50 hover:text-soft-grey text-xs transition-colors">
               <span className="text-primary-red"><InstagramIcon /></span>
               @classicmotionperformance
             </a>
