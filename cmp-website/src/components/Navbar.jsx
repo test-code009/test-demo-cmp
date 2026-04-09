@@ -20,7 +20,6 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
 
@@ -32,7 +31,7 @@ export default function Navbar() {
 
   useEffect(() => {
     setMenuOpen(false);
-    setSearchOpen(false);
+    setSearchQuery('');
   }, [location]);
 
   useEffect(() => {
@@ -100,30 +99,42 @@ export default function Navbar() {
 
           {/* ── Search + CTA — top-right ─── */}
           <div className="flex items-center gap-3 ml-auto self-start pt-4">
+            {/* Always-visible search bar */}
             <div className="relative flex items-center">
-              <div
-                className="flex items-center overflow-hidden transition-all duration-300 rounded-full"
+              <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search..."
+                className="text-text-white text-sm pl-8 pr-8 py-2 outline-none transition-all duration-300 rounded-full w-36 sm:w-44"
                 style={{
-                  width: searchOpen ? '200px' : '0px',
-                  border: searchOpen ? '1px solid rgba(217,31,38,0.35)' : '1px solid transparent',
+                  background: 'rgba(255,255,255,0.12)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  backdropFilter: 'blur(8px)',
+                  color: '#F5F5F5',
                 }}
-              >
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search..."
-                  className="w-full bg-transparent text-text-white text-sm px-4 py-1.5 outline-none placeholder-soft-grey/40"
-                />
-              </div>
-              <button
-                onClick={() => { setSearchOpen(!searchOpen); if (searchOpen) setSearchQuery(''); }}
-                className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200 text-soft-grey hover:text-primary-red"
-                style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}
-                aria-label="Search"
-              >
-                {searchOpen ? <X size={14} /> : <Search size={14} />}
-              </button>
+                onFocus={(e) => {
+                  e.target.style.background = 'rgba(255,255,255,0.18)';
+                  e.target.style.borderColor = 'rgba(217,31,38,0.5)';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(217,31,38,0.08)';
+                  e.target.style.width = '200px';
+                }}
+                onBlur={(e) => {
+                  e.target.style.background = 'rgba(255,255,255,0.12)';
+                  e.target.style.borderColor = 'rgba(255,255,255,0.15)';
+                  e.target.style.boxShadow = 'none';
+                  if (!searchQuery) e.target.style.width = '';
+                }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2.5 text-soft-grey/50 hover:text-text-white transition-colors"
+                >
+                  <X size={12} />
+                </button>
+              )}
             </div>
 
             <Link to="/kontakti" className="btn-primary text-sm py-2 px-5 hidden sm:inline-flex">
@@ -149,23 +160,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile search bar drop */}
-        {searchOpen && (
-          <div className="sm:hidden px-5 pb-3" style={{ background: 'rgba(17,17,17,0.97)' }}>
-            <div className="flex items-center gap-3 rounded-xl px-4 py-2.5"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(217,31,38,0.3)' }}>
-              <Search size={14} className="text-primary-red flex-shrink-0" />
-              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products..." autoFocus
-                className="flex-1 bg-transparent text-text-white text-sm outline-none placeholder-soft-grey/40" />
-              {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="text-soft-grey/50 hover:text-text-white">
-                  <X size={13} />
-                </button>
-              )}
-            </div>
-          </div>
-        )}
       </header>
 
       {/* ── Backdrop dimmer ──────────────────────────────────────────── */}

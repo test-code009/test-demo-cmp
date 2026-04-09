@@ -50,7 +50,7 @@ export default function Home() {
   return (
     <main>
       {/* ─── Section 1: Hero ──────────────────────────────────────── */}
-      <section className="relative flex items-center overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
+      <section className="relative overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
         <HeroBackground />
 
         {/* Red vertical accent line */}
@@ -59,66 +59,61 @@ export default function Home() {
           style={{ background: 'linear-gradient(180deg, transparent, #D91F26 30%, #D91F26 70%, transparent)', marginLeft: '5%' }}
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pb-10"
-          style={{ paddingTop: 'clamp(280px, 32vh, 320px)' }}>
-          <div className="max-w-2xl">
+        {/* Text block — pinned to bottom-left, max 40% width so car stays visible */}
+        <div className="absolute bottom-0 left-0 z-10 px-8 md:px-12 pb-12 md:pb-16" style={{ maxWidth: '480px' }}>
+          <div className="section-eyebrow mb-3 fade-up-element">
+            PREMIUM PERFORMANCE UPGRADES
+          </div>
 
-            <div className="section-eyebrow mb-3 fade-up-element">
-              PREMIUM PERFORMANCE UPGRADES
-            </div>
+          <h1
+            className="section-title text-3xl sm:text-4xl lg:text-[2.6rem] mb-3 fade-up-element"
+            style={{ transitionDelay: '0.1s', lineHeight: 1.1 }}
+          >
+            Classic Motion
+            <br />
+            <span className="text-gradient-red">Performance</span>
+          </h1>
 
-            <h1
-              className="section-title text-3xl sm:text-4xl lg:text-5xl mb-4 fade-up-element"
-              style={{ transitionDelay: '0.1s', lineHeight: 1.1 }}
-            >
-              Classic Motion
-              <br />
-              <span className="text-gradient-red">Performance</span>
-            </h1>
+          <p
+            className="text-soft-grey text-sm leading-relaxed mb-6 fade-up-element"
+            style={{ transitionDelay: '0.2s' }}
+          >
+            Precision brake and suspension solutions for Mk2 builds and enthusiasts who demand more.
+          </p>
 
-            <p
-              className="text-soft-grey text-base leading-relaxed max-w-lg mb-7 fade-up-element"
-              style={{ transitionDelay: '0.2s' }}
-            >
-              Precision brake and suspension solutions for Mk2 builds and enthusiasts who demand more.
-            </p>
-
-            <div
-              className="flex flex-wrap gap-3 fade-up-element"
-              style={{ transitionDelay: '0.3s' }}
-            >
-              <Link to="/produkti" className="btn-primary text-sm py-3 px-6">
-                Explore Products
-                <ArrowRight size={15} />
-              </Link>
-              <Link to="/kontakti" className="btn-secondary text-sm py-3 px-6">
-                Get in Touch
-              </Link>
-            </div>
-
-            {/* Specs strip */}
-            <div
-              className="flex flex-wrap gap-8 mt-8 pt-6 fade-up-element"
-              style={{ transitionDelay: '0.4s', borderTop: '1px solid rgba(255,255,255,0.06)' }}
-            >
-              {[
-                { label: 'Brake Upgrades', value: 'G60 Systems' },
-                { label: 'Suspension', value: 'Precision Kits' },
-                { label: 'Fitment', value: 'Mk2 Specific' },
-              ].map((s) => (
-                <div key={s.label}>
-                  <p className="text-soft-grey text-xs uppercase tracking-widest mb-1">{s.label}</p>
-                  <p className="text-text-white font-display font-semibold text-sm">{s.value}</p>
-                </div>
-              ))}
-            </div>
+          <div
+            className="flex flex-wrap gap-3 fade-up-element"
+            style={{ transitionDelay: '0.3s' }}
+          >
+            <Link to="/produkti" className="btn-primary text-sm py-2.5 px-5">
+              Explore Products
+              <ArrowRight size={14} />
+            </Link>
+            <Link to="/kontakti" className="btn-secondary text-sm py-2.5 px-5">
+              Get in Touch
+            </Link>
           </div>
         </div>
 
+        {/* Specs strip — bottom-right */}
+        <div className="absolute bottom-12 right-8 md:right-12 z-10 hidden md:flex flex-col gap-4 fade-up-element"
+          style={{ transitionDelay: '0.4s' }}>
+          {[
+            { label: 'Brake Upgrades', value: 'G60 Systems' },
+            { label: 'Suspension', value: 'Precision Kits' },
+            { label: 'Fitment', value: 'Mk2 Specific' },
+          ].map((s) => (
+            <div key={s.label} className="text-right">
+              <p className="text-soft-grey/50 text-[10px] uppercase tracking-widest mb-0.5">{s.label}</p>
+              <p className="text-text-white font-display font-semibold text-xs">{s.value}</p>
+            </div>
+          ))}
+        </div>
+
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-          <span className="text-soft-grey text-xs uppercase tracking-[0.2em]">Scroll</span>
-          <ChevronDown size={16} className="text-primary-red animate-bounce" />
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-30 z-10">
+          <span className="text-soft-grey text-[10px] uppercase tracking-[0.2em]">Scroll</span>
+          <ChevronDown size={14} className="text-primary-red animate-bounce" />
         </div>
       </section>
 
