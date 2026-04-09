@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Check, ChevronRight } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import BackButton from '../components/BackButton';
 
 const ProductHeroBg = () => (
   <div className="absolute inset-0 overflow-hidden">
@@ -146,6 +147,7 @@ export default function Products() {
       {/* Hero */}
       <section className="relative min-h-[55vh] flex items-end overflow-hidden">
         <ProductHeroBg />
+        <BackButton />
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-44 md:pt-48 w-full">
           <p className="section-eyebrow mb-4 fade-up-element">Our Range</p>
           <h1 className="section-title text-5xl sm:text-6xl lg:text-7xl mb-5 fade-up-element" style={{ transitionDelay: '0.1s' }}>
