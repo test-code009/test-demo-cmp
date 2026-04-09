@@ -60,7 +60,7 @@ export default function Home() {
           style={{ background: 'linear-gradient(180deg, transparent, #D91F26 30%, #D91F26 70%, transparent)', marginLeft: '5%' }}
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-28 pb-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-36 md:pt-40 pb-20">
           <div className="max-w-2xl">
             <div className="section-eyebrow mb-5 fade-up-element">
               PREMIUM PERFORMANCE UPGRADES
