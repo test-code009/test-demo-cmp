@@ -111,10 +111,15 @@ export default function Products() {
   useEffect(() => {
     Promise.all([getProducts(), getCategories()])
       .then(([prods, cats]) => {
+        console.log('[Sanity] products:', prods);
+        console.log('[Sanity] categories:', cats);
         setProducts(prods && prods.length ? prods : fallbackProducts);
         setCategories(cats ? cats.filter(Boolean) : []);
       })
-      .catch(() => setProducts(fallbackProducts))
+      .catch((err) => {
+        console.error('[Sanity] fetch error:', err);
+        setProducts(fallbackProducts);
+      })
       .finally(() => setLoading(false));
   }, []);
 
