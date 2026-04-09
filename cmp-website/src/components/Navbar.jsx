@@ -87,28 +87,19 @@ export default function Navbar() {
           borderColor: scrolled ? 'rgba(255,255,255,0.06)' : 'transparent',
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center h-16 relative">
+        <div className="max-w-7xl mx-auto px-6 flex items-center h-16 gap-4">
 
-          {/* ── Hamburger — always left ───── */}
-          <button
-            className="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 flex-shrink-0"
-            style={{ border: '1px solid rgba(255,255,255,0.08)', background: menuOpen ? 'rgba(217,31,38,0.12)' : 'rgba(255,255,255,0.04)' }}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-          >
-            <div className="flex flex-col gap-[5px] w-5">
-              <span className="block h-px w-full bg-text-white transition-all duration-300"
-                style={{ transform: menuOpen ? 'translateY(6px) rotate(45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
-              <span className="block h-px bg-text-white transition-all duration-300"
-                style={{ width: menuOpen ? '100%' : '70%', opacity: menuOpen ? 0 : 1, background: '#F5F5F5' }} />
-              <span className="block h-px w-full bg-text-white transition-all duration-300"
-                style={{ transform: menuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
-            </div>
-          </button>
+          {/* ── Logo — left ───── */}
+          <Link to="/" className="flex-shrink-0">
+            <img
+              src="/logo.png"
+              alt="Classic Motion Performance"
+              style={{ height: '42px', filter: 'drop-shadow(0 0 12px rgba(217,31,38,0.35))' }}
+            />
+          </Link>
 
-          {/* ── Right side — search + CTA ─── */}
+          {/* ── Search + CTA — center/right ─── */}
           <div className="flex items-center gap-3 ml-auto">
-            {/* Expanding search */}
             <div className="relative flex items-center">
               <div
                 className="flex items-center overflow-hidden transition-all duration-300 rounded-full"
@@ -138,6 +129,23 @@ export default function Navbar() {
             <Link to="/kontakti" className="btn-primary text-sm py-2 px-5 hidden sm:inline-flex">
               Sazināties
             </Link>
+
+            {/* ── Hamburger — right ───── */}
+            <button
+              className="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 flex-shrink-0"
+              style={{ border: '1px solid rgba(255,255,255,0.08)', background: menuOpen ? 'rgba(217,31,38,0.12)' : 'rgba(255,255,255,0.04)' }}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+            >
+              <div className="flex flex-col gap-[5px] w-5">
+                <span className="block h-px w-full transition-all duration-300"
+                  style={{ transform: menuOpen ? 'translateY(6px) rotate(45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
+                <span className="block h-px transition-all duration-300"
+                  style={{ width: menuOpen ? '100%' : '70%', opacity: menuOpen ? 0 : 1, background: '#F5F5F5' }} />
+                <span className="block h-px w-full transition-all duration-300"
+                  style={{ transform: menuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
+              </div>
+            </button>
           </div>
         </div>
 
