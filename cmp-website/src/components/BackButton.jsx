@@ -4,9 +4,17 @@ import { ArrowLeft } from 'lucide-react';
 export default function BackButton() {
   const navigate = useNavigate();
 
+  function handleBack() {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
+  }
+
   return (
     <button
-      onClick={() => navigate(-1)}
+      onClick={handleBack}
       className="group flex items-center gap-2 transition-all duration-200"
       style={{
         position: 'absolute',
