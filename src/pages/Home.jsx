@@ -47,7 +47,7 @@ function ProductCard({ product, delay = 0 }) {
   let imageUrl = product.localImage || null;
   try {
     if (product.mainImage?.asset) {
-      imageUrl = urlFor(product.mainImage).width(900).height(600).fit('crop').quality(90).url();
+      imageUrl = urlFor(product.mainImage).width(900).height(700).fit('crop').quality(92).url();
     }
   } catch (e) { /* ignore */ }
 
@@ -60,17 +60,18 @@ function ProductCard({ product, delay = 0 }) {
   return (
     <Link
       to={product.slug ? `/produkti/${product.slug}` : '/produkti'}
-      className="group fade-up-element block rounded-2xl overflow-hidden"
+      className="group fade-up-element block rounded-2xl overflow-hidden relative"
       style={{
         transitionDelay: `${delay}s`,
-        background: 'rgba(255,255,255,0.03)',
         border: '1px solid rgba(255,255,255,0.07)',
-        transition: 'border-color 0.25s, transform 0.25s, box-shadow 0.25s',
+        transition: 'border-color 0.3s, transform 0.3s, box-shadow 0.3s',
+        aspectRatio: '3/4',
+        background: '#0a0a0a',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.4)';
-        e.currentTarget.style.transform = 'translateY(-4px)';
-        e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.6)';
+        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.45)';
+        e.currentTarget.style.transform = 'translateY(-5px)';
+        e.currentTarget.style.boxShadow = '0 28px 70px rgba(0,0,0,0.7), 0 0 0 1px rgba(217,31,38,0.1)';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
@@ -78,28 +79,57 @@ function ProductCard({ product, delay = 0 }) {
         e.currentTarget.style.boxShadow = 'none';
       }}
     >
-      <div className="relative overflow-hidden" style={{ aspectRatio: '4/3', background: '#0a0a0a' }}>
-        {imageUrl ? (
-          <img src={imageUrl} alt={product.title}
-            className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-[1.05]" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1">
-              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
-          </div>
-        )}
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, rgba(6,6,6,0.5) 0%, transparent 55%)' }} />
+      {/* Full-bleed image */}
+      {imageUrl ? (
+        <img src={imageUrl} alt={product.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]" />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center"
+          style={{ background: 'linear-gradient(135deg, #111, #0a0a0a)' }}>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+      )}
+
+      {/* Gradient overlay — always visible at bottom */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'linear-gradient(to top, rgba(4,4,4,0.95) 0%, rgba(4,4,4,0.4) 40%, transparent 70%)' }} />
+
+      {/* Hover: extra dark overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: 'linear-gradient(to top, rgba(4,4,4,0.98) 0%, rgba(4,4,4,0.5) 50%, transparent 75%)' }} />
+
+      {/* Category pill — top left */}
+      {product.category && (
+        <div className="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-widest"
+          style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(8px)' }}>
+          {product.category}
+        </div>
+      )}
+
+      {/* Arrow icon — top right, appears on hover */}
+      <div className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-y-1 group-hover:translate-y-0"
+        style={{ background: '#D91F26', border: '1px solid rgba(255,255,255,0.15)' }}>
+        <ArrowRight size={14} className="text-white" />
       </div>
-      <div className="px-5 py-4 flex items-center justify-between gap-4">
-        <h3 className="text-text-white font-display font-bold text-base leading-snug flex-1">{product.title}</h3>
-        {price ? (
-          <span className="text-primary-red font-display font-bold text-lg flex-shrink-0">{price}</span>
-        ) : (
-          <span className="text-soft-grey/40 text-xs uppercase tracking-widest flex-shrink-0">Cena pēc piepras.</span>
-        )}
+
+      {/* Bottom text */}
+      <div className="absolute bottom-0 left-0 right-0 px-5 py-5">
+        <h3 className="text-text-white font-display font-bold text-lg leading-tight mb-2">
+          {product.title}
+        </h3>
+        <div className="flex items-center justify-between">
+          {price ? (
+            <span className="text-primary-red font-display font-bold text-xl">{price}</span>
+          ) : (
+            <span className="text-soft-grey/50 text-xs uppercase tracking-widest">Cena pēc piepras.</span>
+          )}
+          <span className="text-soft-grey/40 text-xs uppercase tracking-widest group-hover:text-soft-grey/70 transition-colors">
+            View →
+          </span>
+        </div>
       </div>
     </Link>
   );
@@ -221,12 +251,16 @@ export default function Home() {
               </h2>
             </div>
             <Link to="/produkti"
-              className="hidden sm:flex items-center gap-2 text-soft-grey/50 hover:text-primary-red transition-colors text-sm font-medium fade-up-element"
+              className="hidden sm:flex items-center gap-2 text-soft-grey/50 hover:text-primary-red transition-colors text-sm font-medium fade-up-element group"
               style={{ transitionDelay: '0.2s' }}>
-              View all <ArrowRight size={13} />
+              View all
+              <div className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
+                style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+                <ArrowRight size={11} />
+              </div>
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {newProducts.map((product, i) => (
               <ProductCard key={product._id} product={product} delay={0.1 + i * 0.08} />
             ))}
@@ -286,7 +320,7 @@ export default function Home() {
                   View all <ArrowRight size={13} />
                 </Link>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {featuredProducts.map((product, i) => (
                   <ProductCard key={product._id} product={product} delay={0.1 + i * 0.08} />
                 ))}
