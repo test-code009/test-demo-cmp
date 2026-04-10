@@ -87,7 +87,7 @@ function ProductCard({ product }) {
           {product.title}
         </h3>
         {price ? (
-          <span className="text-primary-red font-display font-bold text-lg flex-shrink-0">{price}</span>
+          <span className="text-primary-red font-display font-bold text-lg flex-shrink-0">{price} €</span>
         ) : (
           <span className="text-soft-grey/50 text-xs uppercase tracking-widest flex-shrink-0">Cena pēc piepras.</span>
         )}
