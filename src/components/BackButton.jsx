@@ -1,8 +1,20 @@
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
 export default function BackButton() {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setMenuOpen(document.body.dataset.menuOpen === 'true');
+    });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['data-menu-open'] });
+    return () => observer.disconnect();
+  }, []);
+
+  if (menuOpen) return null;
 
   function handleBack() {
     if (window.history.length > 1) {

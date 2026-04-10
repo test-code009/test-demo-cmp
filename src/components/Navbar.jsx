@@ -29,7 +29,8 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    document.body.dataset.menuOpen = menuOpen ? 'true' : 'false';
+    return () => { document.body.style.overflow = ''; document.body.dataset.menuOpen = 'false'; };
   }, [menuOpen]);
 
   return (
