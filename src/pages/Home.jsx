@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { getLatestProducts, getFeaturedProducts, urlFor } from '../lib/sanity';
@@ -140,7 +140,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main style={{ background: '#060606' }}>
+    <main style={{ background: '#0d0d0d' }}>
 
       {/* ─── Hero ─────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
@@ -168,12 +168,11 @@ export default function Home() {
       </section>
 
       {/* ─── Intro block ──────────────────────────────────────────────── */}
-      <section className="relative" style={{ background: '#0a0a0a' }}>
-        {/* Left red accent */}
+      <section className="relative" style={{ background: '#131313' }}>
         <div className="absolute left-0 top-0 bottom-0 w-[3px]"
           style={{ background: 'linear-gradient(180deg, #D91F26 0%, rgba(217,31,38,0.1) 100%)' }} />
 
-        <div className="max-w-7xl mx-auto px-8 md:px-12 py-16 md:py-20">
+        <div className="max-w-7xl mx-auto px-8 md:px-12 py-12 md:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
             <div>
               <p className="section-eyebrow mb-4 fade-up-element">PREMIUM PERFORMANCE UPGRADES</p>
@@ -209,38 +208,31 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          <div className="flex justify-center mt-12 fade-up-element" style={{ transitionDelay: '0.25s' }}>
-            <button
-              onClick={() => document.getElementById('new-in-store')?.scrollIntoView({ behavior: 'smooth' })}
-              className="flex flex-col items-center gap-2 group opacity-40 hover:opacity-90 transition-opacity duration-300"
-            >
-              <span className="text-soft-grey text-[10px] uppercase tracking-[0.25em]">Scroll</span>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center group-hover:bg-primary-red/10 transition-all duration-300"
-                style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
-                <ChevronDown size={15} className="text-primary-red group-hover:translate-y-0.5 transition-transform duration-300" />
-              </div>
-            </button>
-          </div>
         </div>
-
-        {/* Fade into next section */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, #060606, transparent)' }} />
       </section>
 
       {/* ─── New in Store ─────────────────────────────────────────────── */}
-      <section id="new-in-store" className="relative py-24" style={{ background: '#060606' }}>
+      <section id="new-in-store" className="relative py-16" style={{ background: '#0d0d0d' }}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-end justify-between mb-12">
-            <div>
-              <p className="section-eyebrow mb-3 fade-up-element">Fresh Arrivals</p>
-              <h2 className="section-title text-3xl sm:text-4xl fade-up-element" style={{ transitionDelay: '0.1s' }}>
+          {/* Section heading — right aligned with red line extending off screen */}
+          <div className="flex flex-col items-end mb-10 overflow-hidden fade-up-element">
+            <p className="section-eyebrow mb-2 text-right">Fresh Arrivals</p>
+            <div className="flex items-center gap-0 w-full justify-end">
+              <h2 className="section-title text-4xl sm:text-5xl font-display font-bold whitespace-nowrap">
                 New in Store
               </h2>
             </div>
+            {/* Red underline extending past right edge */}
+            <div className="relative mt-3 flex items-center justify-end" style={{ width: 'calc(100% + 6rem)' }}>
+              <div style={{
+                height: '3px',
+                width: '100%',
+                background: 'linear-gradient(to left, transparent 0%, #D91F26 30%, #D91F26 70%, rgba(217,31,38,0.3) 100%)',
+                borderRadius: '2px',
+              }} />
+            </div>
             <Link to="/produkti"
-              className="hidden sm:flex items-center gap-2 text-soft-grey/50 hover:text-primary-red transition-colors text-sm font-medium fade-up-element group"
+              className="mt-4 flex items-center gap-2 text-soft-grey/50 hover:text-primary-red transition-colors text-sm font-medium group"
               style={{ transitionDelay: '0.2s' }}>
               View all
               <div className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
@@ -257,14 +249,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Divider glow ─────────────────────────────────────────────── */}
-      <div className="h-px mx-auto" style={{ background: 'linear-gradient(90deg, transparent, rgba(217,31,38,0.25), transparent)', maxWidth: '900px' }} />
+      {/* ─── Divider ──────────────────────────────────────────────────── */}
+      <div className="h-px" style={{ background: 'rgba(255,255,255,0.05)' }} />
 
       {/* ─── Brand Statement ──────────────────────────────────────────── */}
-      <section className="relative py-24" style={{ background: '#060606' }}>
+      <section className="relative py-16" style={{ background: '#111111' }}>
         {/* Subtle red radial bg */}
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(217,31,38,0.04) 0%, transparent 65%)' }} />
+          style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(217,31,38,0.06) 0%, transparent 65%)' }} />
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -291,8 +283,8 @@ export default function Home() {
       {/* ─── Most Popular (only if featured products exist) ───────────── */}
       {featuredProducts.length > 0 && (
         <>
-          <div className="h-px mx-auto" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)', maxWidth: '900px' }} />
-          <section className="relative py-24" style={{ background: '#060606' }}>
+          <div className="h-px" style={{ background: 'rgba(255,255,255,0.05)' }} />
+          <section className="relative py-16" style={{ background: '#0d0d0d' }}>
             <div className="absolute inset-0 pointer-events-none"
               style={{ background: 'radial-gradient(ellipse at 20% 50%, rgba(217,31,38,0.04) 0%, transparent 65%)' }} />
             <div className="max-w-7xl mx-auto px-6">
@@ -320,8 +312,8 @@ export default function Home() {
       )}
 
       {/* ─── CTA Banner ───────────────────────────────────────────────── */}
-      <section className="relative py-28 overflow-hidden"
-        style={{ background: 'linear-gradient(180deg, #060606 0%, #0d0404 50%, #060606 100%)' }}>
+      <section className="relative py-24 overflow-hidden"
+        style={{ background: 'linear-gradient(180deg, #111111 0%, #160404 50%, #0d0d0d 100%)' }}>
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse at center, rgba(217,31,38,0.12) 0%, transparent 60%)' }} />
         <div className="absolute top-0 left-0 right-0 h-px"
