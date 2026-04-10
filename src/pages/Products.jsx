@@ -106,13 +106,14 @@ function ProductCard({ product }) {
 }
 
 export default function Products() {
-  useScrollReveal();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('all');
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
+
+  useScrollReveal([products, loading]);
 
   useEffect(() => {
     Promise.all([getProducts(), getCategories()])

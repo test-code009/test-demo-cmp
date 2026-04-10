@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export function useScrollReveal() {
+export function useScrollReveal(deps = []) {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -10,12 +10,13 @@ export function useScrollReveal() {
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
     );
 
-    const elements = document.querySelectorAll('.fade-up-element');
+    const elements = document.querySelectorAll('.fade-up-element:not(.visible)');
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, []); // stable — only run once on mount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 }
