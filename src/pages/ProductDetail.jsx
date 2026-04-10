@@ -7,7 +7,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 
 function OrderForm({ productTitle }) {
   const [form, setForm] = useState({ name: '', phone: '' });
-  const [status, setStatus] = useState(null); // null | 'sending' | 'sent' | 'error'
+  const [status, setStatus] = useState(null);
 
   const handleChange = (e) => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
@@ -15,7 +15,6 @@ function OrderForm({ productTitle }) {
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim()) return;
     setStatus('sending');
-    // Send to mailto as fallback (no backend needed)
     try {
       const subject = encodeURIComponent(`Pasūtījums: ${productTitle}`);
       const body = encodeURIComponent(`Vārds: ${form.name}\nTālrunis: ${form.phone}\nProdukts: ${productTitle}`);
@@ -49,11 +48,7 @@ function OrderForm({ productTitle }) {
           placeholder="Jānis Bērziņš"
           required
           className="w-full px-4 py-3 rounded-xl text-text-white text-sm outline-none transition-all duration-200"
-          style={{
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            color: '#F5F5F5',
-          }}
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }}
           onFocus={e => { e.target.style.borderColor = 'rgba(217,31,38,0.5)'; e.target.style.background = 'rgba(255,255,255,0.07)'; }}
           onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.background = 'rgba(255,255,255,0.05)'; }}
         />
@@ -69,11 +64,7 @@ function OrderForm({ productTitle }) {
           placeholder="+371 2X XXX XXX"
           required
           className="w-full px-4 py-3 rounded-xl text-text-white text-sm outline-none transition-all duration-200"
-          style={{
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            color: '#F5F5F5',
-          }}
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }}
           onFocus={e => { e.target.style.borderColor = 'rgba(217,31,38,0.5)'; e.target.style.background = 'rgba(255,255,255,0.07)'; }}
           onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.background = 'rgba(255,255,255,0.05)'; }}
         />
@@ -128,80 +119,76 @@ export default function ProductDetail() {
   let imageUrl = null;
   try {
     if (product.mainImage?.asset) {
-      imageUrl = urlFor(product.mainImage).width(1400).height(900).fit('crop').quality(90).url();
+      imageUrl = urlFor(product.mainImage).width(1200).height(900).fit('crop').quality(90).url();
     }
   } catch (e) { /* silent */ }
 
+  const price = product.price
+    ? (typeof product.price === 'number'
+        ? `${product.price} €`
+        : product.price.toString().includes('€') ? product.price : `${product.price} €`)
+    : null;
+
   return (
-    <main className="bg-base-black min-h-screen">
+    <main className="bg-base-black min-h-screen pt-28 pb-24">
       <BackButton />
 
-      {/* ── Hero image ─────────────────────────────────────────────── */}
-      <div className="relative w-full overflow-hidden" style={{ height: '65vh', minHeight: '420px' }}>
-        {imageUrl ? (
-          <img src={imageUrl} alt={product.imageAlt || product.title}
-            className="absolute inset-0 w-full h-full object-cover" />
-        ) : (
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #0d0606, #0a0a0a)' }} />
-        )}
-        <div className="absolute inset-0"
-          style={{ background: 'linear-gradient(to top, #060606 0%, rgba(6,6,6,0.3) 60%, transparent 100%)' }} />
-        <div className="absolute inset-0"
-          style={{ background: 'linear-gradient(to right, rgba(6,6,6,0.6) 0%, transparent 50%)' }} />
-      </div>
+      <div className="max-w-7xl mx-auto px-6">
 
-      {/* ── Main content ───────────────────────────────────────────── */}
-      <div className="max-w-7xl mx-auto px-6 -mt-28 relative z-10 pb-28">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+        {/* ── Top: image left + form right ───────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
 
-          {/* Left: product info */}
-          <div className="lg:col-span-3 flex flex-col gap-8">
-            <div className="fade-up-element">
+          {/* LEFT — image in transparent frame */}
+          <div className="fade-up-element rounded-2xl overflow-hidden relative"
+            style={{
+              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'rgba(255,255,255,0.03)',
+              backdropFilter: 'blur(6px)',
+              aspectRatio: '4/3',
+            }}>
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={product.imageAlt || product.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, #111, #0a0a0a)' }}>
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+            )}
+            {/* subtle inner glow at bottom */}
+            <div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
+              style={{ background: 'linear-gradient(to top, rgba(6,6,6,0.6), transparent)' }} />
+          </div>
+
+          {/* RIGHT — order form */}
+          <div className="fade-up-element flex flex-col justify-start">
+            {/* Product title + price at top of right column */}
+            <div className="mb-6">
               {product.category && (
-                <p className="section-eyebrow mb-3">{product.category}</p>
+                <p className="section-eyebrow mb-2">{product.category}</p>
               )}
-              <h1 className="section-title text-4xl sm:text-5xl lg:text-6xl mb-4">{product.title}</h1>
-              {product.price && (
-                <p className="text-primary-red font-display font-bold text-3xl">{product.price}</p>
+              <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl mb-3 leading-tight">
+                {product.title}
+              </h1>
+              {price && (
+                <p className="text-primary-red font-display font-bold text-2xl">{price}</p>
               )}
             </div>
 
-            {(product.shortDescription || product.description) && (
-              <div className="fade-up-element rounded-2xl p-7"
-                style={{ background: '#111111', border: '1px solid rgba(255,255,255,0.07)' }}>
-                <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-4">Par produktu</p>
-                <p className="text-soft-grey text-base leading-relaxed">
-                  {product.description || product.shortDescription}
-                </p>
-              </div>
-            )}
-
-            {product.specs && product.specs.length > 0 && (
-              <div className="fade-up-element rounded-2xl p-7"
-                style={{ background: '#111111', border: '1px solid rgba(255,255,255,0.07)' }}>
-                <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-5">Komplektācija</p>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {product.specs.map((spec, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-soft-grey/80">
-                      <Check size={13} className="text-primary-red flex-shrink-0 mt-0.5" />
-                      {spec}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <Link to="/produkti"
-              className="fade-up-element flex items-center gap-2 text-soft-grey/35 hover:text-soft-grey text-sm transition-colors w-fit">
-              <ArrowLeft size={14} /> Visi produkti
-            </Link>
-          </div>
-
-          {/* Right: order form */}
-          <div className="lg:col-span-2">
-            <div className="fade-up-element rounded-2xl p-7 sticky top-24"
-              style={{ background: '#111111', border: '1px solid rgba(255,255,255,0.07)' }}>
-              <p className="text-text-white font-display font-bold text-xl mb-1">Pasūtīt</p>
+            {/* Order form card */}
+            <div className="rounded-2xl p-7"
+              style={{
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                backdropFilter: 'blur(6px)',
+              }}>
+              <p className="text-text-white font-display font-bold text-xl mb-1">Sazināties</p>
               <p className="text-soft-grey/45 text-sm mb-6">
                 Aizpildi formu un mēs ar tevi sazināsimies.
               </p>
@@ -210,6 +197,45 @@ export default function ProductDetail() {
           </div>
 
         </div>
+
+        {/* ── Bottom: description + specs ────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+          {(product.shortDescription || product.description) && (
+            <div className="fade-up-element rounded-2xl p-7"
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-4">Par produktu</p>
+              <p className="text-soft-grey text-base leading-relaxed">
+                {product.description || product.shortDescription}
+              </p>
+            </div>
+          )}
+
+          {product.specs && product.specs.length > 0 && (
+            <div className="fade-up-element rounded-2xl p-7"
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-5">Komplektācija</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {product.specs.map((spec, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-soft-grey/80">
+                    <Check size={13} className="text-primary-red flex-shrink-0 mt-0.5" />
+                    {spec}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+        </div>
+
+        {/* ── Back link ─────────────────────────────────────────── */}
+        <div className="mt-12">
+          <Link to="/produkti"
+            className="fade-up-element inline-flex items-center gap-2 text-soft-grey/35 hover:text-soft-grey text-sm transition-colors">
+            <ArrowLeft size={14} /> Visi produkti
+          </Link>
+        </div>
+
       </div>
     </main>
   );
