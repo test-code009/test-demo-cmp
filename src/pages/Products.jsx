@@ -89,7 +89,7 @@ function ProductCard({ product }) {
         {price ? (
           <span className="text-primary-red font-display font-bold text-lg flex-shrink-0">{price}</span>
         ) : (
-          <span className="text-soft-grey/35 text-sm flex-shrink-0">—</span>
+          <span className="text-soft-grey/50 text-xs uppercase tracking-widest flex-shrink-0">Cena pēc piepras.</span>
         )}
       </div>
     </Link>
@@ -181,17 +181,6 @@ export default function Products() {
                 {cat}
               </button>
             ))}
-            <button
-              onClick={() => { setShowFeaturedOnly(f => !f); setActiveCategory('all'); }}
-              className="text-xs uppercase tracking-widest px-4 py-2 rounded-full transition-all duration-200 ml-auto"
-              style={{
-                background: showFeaturedOnly ? 'rgba(217,31,38,0.15)' : 'rgba(255,255,255,0.05)',
-                border: showFeaturedOnly ? '1px solid rgba(217,31,38,0.35)' : '1px solid rgba(255,255,255,0.1)',
-                color: showFeaturedOnly ? '#FF3B30' : '#A7A7A7',
-              }}
-            >
-              Featured Only
-            </button>
           </div>
         </div>
       )}
