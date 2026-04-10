@@ -231,6 +231,35 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── Brand Statement ─────────────────────────────────────────── */}
+      <section className="relative py-28 bg-base-black overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-px opacity-30"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }} />
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="red-line-accent fade-up-element" />
+              <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl mb-8 fade-up-element" style={{ transitionDelay: '0.1s' }}>
+                Built for Drivers Who Care About Every Detail
+              </h2>
+            </div>
+            <div className="fade-up-element" style={{ transitionDelay: '0.2s' }}>
+              <p className="text-soft-grey text-base leading-relaxed mb-6">
+                Classic Motion Performance delivers refined upgrade solutions for enthusiasts who want sharper braking, better road feel, and a more purposeful build. Every detail is chosen to combine performance, reliability, and visual impact.
+              </p>
+              <p className="text-soft-grey/70 text-sm leading-relaxed">
+                Focused exclusively on Volkswagen Golf Mk2 — not a general catalogue. Purpose-built solutions for builds that deserve precision.
+              </p>
+              <div className="mt-8">
+                <Link to="/par-mums" className="btn-secondary text-sm">
+                  Our Story <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── CTA Banner ───────────────────────────────────────────────── */}
       <section
         className="relative py-28 overflow-hidden"
