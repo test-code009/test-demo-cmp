@@ -81,7 +81,7 @@ export default function Navbar() {
         className="left-0 right-0 z-50 bg-transparent"
         style={{
           position: isHome ? 'absolute' : 'fixed',
-          top: isHome ? 0 : 0,
+          top: isHome ? 0 : '36px',
           marginTop: isHome ? 'clamp(0px, 4vw, 36px)' : '0',
           background: isHome ? 'transparent' : 'rgba(6,6,6,0.92)',
           backdropFilter: isHome ? 'none' : 'blur(16px)',
