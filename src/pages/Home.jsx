@@ -63,23 +63,24 @@ function ProductCard({ product, delay = 0 }) {
       className="group fade-up-element flex flex-col rounded-2xl overflow-hidden"
       style={{
         transitionDelay: `${delay}s`,
-        border: '1px solid rgba(255,255,255,0.08)',
+        border: '1px solid rgba(255,255,255,0.14)',
         transition: 'border-color 0.3s, transform 0.3s, box-shadow 0.3s',
-        background: '#0f0f0f',
+        background: '#1a1a1a',
+        boxShadow: '0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.4)';
-        e.currentTarget.style.transform = 'translateY(-4px)';
-        e.currentTarget.style.boxShadow = '0 24px 64px rgba(0,0,0,0.6)';
+        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.55)';
+        e.currentTarget.style.transform = 'translateY(-5px)';
+        e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(217,31,38,0.15), 0 1px 0 rgba(255,255,255,0.06) inset';
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)';
         e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset';
       }}
     >
       {/* Image — full picture, no crop */}
-      <div className="overflow-hidden" style={{ background: '#080808' }}>
+      <div className="overflow-hidden" style={{ background: '#111111' }}>
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -99,7 +100,7 @@ function ProductCard({ product, delay = 0 }) {
 
       {/* Bottom info panel */}
       <div className="flex items-center justify-between gap-4 px-5 py-4"
-        style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: '#0f0f0f' }}>
+        style={{ borderTop: '1px solid rgba(255,255,255,0.08)', background: '#1a1a1a' }}>
         <div className="flex-1 min-w-0">
           {product.category && (
             <p className="text-soft-grey/40 text-[10px] uppercase tracking-widest mb-1">{product.category}</p>
