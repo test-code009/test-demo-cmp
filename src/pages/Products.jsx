@@ -46,23 +46,24 @@ function ProductCard({ product }) {
       to={product.slug ? `/produkti/${product.slug}` : '/kontakti'}
       className="group flex flex-col rounded-2xl overflow-hidden h-full"
       style={{
-        background: '#111111',
-        border: '1px solid rgba(255,255,255,0.07)',
+        background: '#1a1a1a',
+        border: '1px solid rgba(255,255,255,0.14)',
         transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease',
+        boxShadow: '0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset',
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translateY(-5px)';
-        e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.7)';
-        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.4)';
+        e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(217,31,38,0.15), 0 1px 0 rgba(255,255,255,0.06) inset';
+        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.55)';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
+        e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset';
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)';
       }}
     >
       {/* Image */}
-      <div className="relative overflow-hidden" style={{ aspectRatio: '4/3', background: '#0a0a0a' }}>
+      <div className="relative overflow-hidden" style={{ aspectRatio: '4/3', background: '#111111' }}>
         {imageUrl ? (
           <img src={imageUrl} alt={altText}
             className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
@@ -81,7 +82,8 @@ function ProductCard({ product }) {
       </div>
 
       {/* Name + Price */}
-      <div className="px-5 py-4 flex items-center justify-between gap-4">
+      <div className="px-5 py-4 flex items-center justify-between gap-4"
+        style={{ borderTop: '1px solid rgba(255,255,255,0.07)', background: '#1a1a1a' }}>
         <h3 className="text-text-white font-display font-bold text-base leading-snug flex-1">
           {product.title}
         </h3>
