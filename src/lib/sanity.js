@@ -76,6 +76,22 @@ export async function getLatestProducts(limit = 3) {
   return await client.fetch(query, { limit });
 }
 
+export async function getFeaturedProducts() {
+  return await client.fetch(
+    `*[_type == "product" && featured == true] | order(_createdAt desc) {
+      _id,
+      title,
+      "slug": slug.current,
+      mainImage,
+      "imageAlt": mainImage.alt,
+      shortDescription,
+      category,
+      price,
+      featured
+    }`
+  );
+}
+
 export async function getCategories() {
   return await client.fetch(
     `array::unique(*[_type == "product"].category)`

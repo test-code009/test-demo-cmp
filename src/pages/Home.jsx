@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { getLatestProducts, urlFor } from '../lib/sanity';
+import { getLatestProducts, getFeaturedProducts, urlFor } from '../lib/sanity';
 
 const homeFallbackProducts = [
   {
