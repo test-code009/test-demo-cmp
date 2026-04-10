@@ -107,17 +107,20 @@ export default function Products() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
     Promise.all([getProducts(), getCategories()])
       .then(([prods, cats]) => {
-        console.log('[Sanity] products:', prods);
-        console.log('[Sanity] categories:', cats);
+        console.log('[Sanity] products received:', prods?.length, prods);
+        console.log('[Sanity] categories received:', cats);
         setProducts(prods && prods.length ? prods : fallbackProducts);
         setCategories(cats ? cats.filter(Boolean) : []);
+        setFetchError(null);
       })
       .catch((err) => {
-        console.error('[Sanity] fetch error:', err);
+        console.error('[Sanity] fetch error:', err?.message || err);
+        setFetchError(err?.message || 'Unknown error');
         setProducts(fallbackProducts);
       })
       .finally(() => setLoading(false));
@@ -199,6 +202,11 @@ export default function Products() {
       {/* ── Product Grid ─────────────────────────────────────────────── */}
       <section className="py-20 bg-base-black">
         <div className="max-w-7xl mx-auto px-6">
+          {fetchError && (
+            <div className="mb-6 px-4 py-3 rounded-xl text-xs font-mono" style={{ background: 'rgba(217,31,38,0.08)', border: '1px solid rgba(217,31,38,0.2)', color: '#FF3B30' }}>
+              Sanity fetch error: {fetchError}
+            </div>
+          )}
           {loading ? (
             <div className="flex items-center justify-center py-32">
               <div className="flex flex-col items-center gap-4">
