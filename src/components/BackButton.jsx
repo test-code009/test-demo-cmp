@@ -30,8 +30,8 @@ export default function BackButton() {
       className="group flex items-center gap-2 transition-all duration-200"
       style={{
         position: 'fixed',
-        top: '52px',
-        left: '24px',
+        top: '12px',
+        left: '16px',
         zIndex: 60,
         background: 'rgba(255,255,255,0.06)',
         border: '1px solid rgba(255,255,255,0.1)',
