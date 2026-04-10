@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Check, Zap, Shield, Award, Users } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { getProducts, urlFor } from '../lib/sanity';
+import { getLatestProducts, urlFor } from '../lib/sanity';
 
 const homeFallbackProducts = [
   {
@@ -74,9 +74,9 @@ export default function Home() {
   const [newProducts, setNewProducts] = useState(homeFallbackProducts);
 
   useEffect(() => {
-    getProducts()
+    getLatestProducts(3)
       .then(data => {
-        if (data && data.length) setNewProducts(data.slice(0, 3));
+        if (data && data.length) setNewProducts(data);
       })
       .catch(() => {});
   }, []);
@@ -526,25 +526,37 @@ export default function Home() {
             </a>
           </div>
 
-          {/* Dynamic Product Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Latest Product Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
             {newProducts.map((product, i) => {
               let imageUrl = product.localImage || null;
               try {
                 if (product.mainImage?.asset) {
-                  imageUrl = urlFor(product.mainImage).width(600).height(416).fit('crop').url();
+                  imageUrl = urlFor(product.mainImage).width(900).height(600).fit('crop').quality(90).url();
                 }
               } catch (e) { /* ignore */ }
+
+              const price = product.price
+                ? (typeof product.price === 'number'
+                    ? `${product.price} €`
+                    : product.price.toString().includes('€') ? product.price : `${product.price} €`)
+                : null;
+
               return (
                 <Link
                   key={product._id}
                   to={product.slug ? `/produkti/${product.slug}` : '/produkti'}
-                  className="group relative flex flex-col fade-up-element"
-                  style={{ transitionDelay: `${0.1 + i * 0.1}s`, background: '#111111', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', overflow: 'hidden', transition: 'border-color 0.2s, transform 0.2s, box-shadow 0.2s' }}
+                  className="group fade-up-element block rounded-2xl overflow-hidden"
+                  style={{
+                    transitionDelay: `${0.1 + i * 0.1}s`,
+                    background: '#111111',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                    transition: 'border-color 0.2s, transform 0.2s, box-shadow 0.2s',
+                  }}
                   onMouseEnter={e => {
                     e.currentTarget.style.borderColor = 'rgba(217,31,38,0.35)';
                     e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.5)';
+                    e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.5)';
                   }}
                   onMouseLeave={e => {
                     e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
@@ -552,31 +564,33 @@ export default function Home() {
                     e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
-                  <div className="relative h-52 overflow-hidden" style={{ background: '#0d0d0d' }}>
+                  {/* Image */}
+                  <div className="relative overflow-hidden" style={{ aspectRatio: '4/3', background: '#0d0d0d' }}>
                     {imageUrl ? (
-                      <img src={imageUrl} alt={product.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <img
+                        src={imageUrl}
+                        alt={product.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                      />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <div className="w-16 h-16 rounded-full" style={{ border: '2px solid rgba(255,255,255,0.08)' }} />
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1">
+                          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                          <polyline points="21 15 16 10 5 21"/>
+                        </svg>
                       </div>
                     )}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(17,17,17,0.5) 0%, transparent 60%)' }} />
-                    <span className="absolute top-3 left-3 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" style={{ background: 'rgba(217,31,38,0.15)', border: '1px solid rgba(217,31,38,0.35)', color: '#FF3B30' }}>New</span>
                   </div>
-                  <div className="flex flex-col flex-1 p-5 gap-2">
-                    {product.category && <p className="text-soft-grey/50 text-xs uppercase tracking-widest">{product.category}</p>}
-                    <h3 className="text-text-white font-display font-bold text-base leading-snug">{product.title}</h3>
-                    {product.shortDescription && <p className="text-soft-grey/60 text-sm leading-relaxed flex-1 line-clamp-2">{product.shortDescription}</p>}
-                    <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                      {product.price ? (
-                        <span className="text-primary-red font-bold text-lg">{product.price}</span>
-                      ) : (
-                        <span className="text-soft-grey/40 text-sm">Enquire</span>
-                      )}
-                      <span className="flex items-center gap-1 text-soft-grey/50 text-xs uppercase tracking-widest group-hover:text-primary-red transition-colors">
-                        View <ArrowRight size={11} />
-                      </span>
-                    </div>
+                  {/* Name + Price */}
+                  <div className="px-5 py-4 flex items-center justify-between gap-4">
+                    <h3 className="text-text-white font-display font-bold text-base leading-snug flex-1">
+                      {product.title}
+                    </h3>
+                    {price ? (
+                      <span className="text-primary-red font-display font-bold text-lg flex-shrink-0">{price}</span>
+                    ) : (
+                      <span className="text-soft-grey/50 text-xs uppercase tracking-widest flex-shrink-0">Cena pēc piepras.</span>
+                    )}
                   </div>
                 </Link>
               );

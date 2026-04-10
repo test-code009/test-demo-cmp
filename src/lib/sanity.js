@@ -61,6 +61,21 @@ export async function getProductBySlug(slug) {
   return result;
 }
 
+export async function getLatestProducts(limit = 3) {
+  const query = `*[_type == "product"] | order(_createdAt desc) [0...$limit] {
+    _id,
+    title,
+    "slug": slug.current,
+    mainImage,
+    "imageAlt": mainImage.alt,
+    shortDescription,
+    category,
+    price,
+    featured
+  }`;
+  return await client.fetch(query, { limit });
+}
+
 export async function getCategories() {
   return await client.fetch(
     `array::unique(*[_type == "product"].category)`
