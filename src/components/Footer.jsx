@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Mail, Phone, ArrowUpRight } from 'lucide-react';
+import logoSrc from '../assets/logomk2.png';
 
 const InstagramIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -27,7 +28,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <img
-              src="/logomk2.png"
+              src={logoSrc}
               alt="Classic Motion Performance"
               className="mb-4"
               style={{ height: '90px', width: 'auto', opacity: 0.9 }}
