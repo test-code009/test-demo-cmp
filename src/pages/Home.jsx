@@ -170,8 +170,6 @@ export default function Home() {
 
       {/* ─── Intro block ──────────────────────────────────────────────── */}
       <section className="relative" style={{ background: '#0d0d0d' }}>
-        <div className="absolute left-0 top-0 bottom-0 w-[3px]"
-          style={{ background: 'linear-gradient(180deg, #D91F26 0%, rgba(217,31,38,0.1) 100%)' }} />
 
         <div className="max-w-7xl mx-auto px-8 md:px-12 py-12 md:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
