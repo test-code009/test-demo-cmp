@@ -45,14 +45,16 @@ const HeroBackground = () => (
 
 export default function Home() {
   const [newProducts, setNewProducts] = useState(homeFallbackProducts);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
 
-  useScrollReveal([newProducts]);
+  useScrollReveal([newProducts, featuredProducts]);
 
   useEffect(() => {
     getLatestProducts(3)
-      .then(data => {
-        if (data && data.length) setNewProducts(data);
-      })
+      .then(data => { if (data && data.length) setNewProducts(data); })
+      .catch(() => {});
+    getFeaturedProducts()
+      .then(data => { if (data && data.length) setFeaturedProducts(data); })
       .catch(() => {});
   }, []);
 
@@ -259,6 +261,94 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ─── Most Popular ────────────────────────────────────────────── */}
+      {featuredProducts.length > 0 && (
+        <section className="relative py-28 bg-charcoal">
+          <div className="absolute top-0 left-0 right-0 h-px opacity-20"
+            style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)' }} />
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex items-end justify-between mb-14">
+              <div>
+                <p className="section-eyebrow mb-3 fade-up-element">Top Picks</p>
+                <h2 className="section-title text-3xl sm:text-4xl fade-up-element" style={{ transitionDelay: '0.1s' }}>
+                  Most Popular
+                </h2>
+              </div>
+              <Link to="/produkti"
+                className="hidden sm:flex items-center gap-2 text-soft-grey/60 hover:text-primary-red transition-colors duration-200 text-sm font-medium fade-up-element"
+                style={{ transitionDelay: '0.2s' }}>
+                View all <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+              {featuredProducts.map((product, i) => {
+                let imageUrl = null;
+                try {
+                  if (product.mainImage?.asset) {
+                    imageUrl = urlFor(product.mainImage).width(900).height(600).fit('crop').quality(90).url();
+                  }
+                } catch (e) { /* ignore */ }
+
+                const price = product.price
+                  ? (typeof product.price === 'number'
+                      ? `${product.price} €`
+                      : product.price.toString().includes('€') ? product.price : `${product.price} €`)
+                  : null;
+
+                return (
+                  <Link
+                    key={product._id}
+                    to={product.slug ? `/produkti/${product.slug}` : '/produkti'}
+                    className="group fade-up-element block rounded-2xl overflow-hidden"
+                    style={{
+                      transitionDelay: `${0.1 + i * 0.1}s`,
+                      background: '#111111',
+                      border: '1px solid rgba(255,255,255,0.07)',
+                      transition: 'border-color 0.2s, transform 0.2s, box-shadow 0.2s',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = 'rgba(217,31,38,0.35)';
+                      e.currentTarget.style.transform = 'translateY(-3px)';
+                      e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.5)';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    <div className="relative overflow-hidden" style={{ aspectRatio: '4/3', background: '#0d0d0d' }}>
+                      {imageUrl ? (
+                        <img src={imageUrl} alt={product.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                    <div className="px-5 py-4 flex items-center justify-between gap-4">
+                      <h3 className="text-text-white font-display font-bold text-base leading-snug flex-1">
+                        {product.title}
+                      </h3>
+                      {price ? (
+                        <span className="text-primary-red font-display font-bold text-lg flex-shrink-0">{price}</span>
+                      ) : (
+                        <span className="text-soft-grey/50 text-xs uppercase tracking-widest flex-shrink-0">Cena pēc piepras.</span>
+                      )}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ─── CTA Banner ───────────────────────────────────────────────── */}
       <section
