@@ -35,70 +35,125 @@ function ProductCard({ product }) {
   let imageUrl = product.localImage || null;
   try {
     if (product.mainImage?.asset) {
-      imageUrl = urlFor(product.mainImage).width(800).height(560).fit('crop').url();
+      imageUrl = urlFor(product.mainImage).width(900).height(600).fit('crop').quality(90).url();
     }
   } catch (e) { /* silent */ }
+
+  const altText = product.imageAlt || product.title || 'Product image';
+
+  const formatPrice = (p) => {
+    if (!p) return null;
+    const str = String(p).trim();
+    if (str.startsWith('€') || str.startsWith('$') || str.includes('€')) return str;
+    const num = parseFloat(str.replace(/[^0-9.]/g, ''));
+    return isNaN(num) ? str : `€ ${num.toLocaleString('de-DE')}`;
+  };
+
+  const formattedPrice = formatPrice(product.price);
 
   return (
     <Link
       to={product.slug ? `/produkti/${product.slug}` : '/kontakti'}
-      className="fade-up-element group flex flex-col rounded-2xl overflow-hidden"
+      className="group flex flex-col rounded-2xl overflow-hidden h-full"
       style={{
-        background: '#111111',
+        background: 'linear-gradient(160deg, #161616 0%, #111111 100%)',
         border: '1px solid rgba(255,255,255,0.07)',
-        transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
+        transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease',
+        boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-5px)';
-        e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.6)';
-        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.4)';
+        e.currentTarget.style.transform = 'translateY(-6px)';
+        e.currentTarget.style.boxShadow = '0 24px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(217,31,38,0.3)';
+        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.35)';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.3)';
         e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
       }}
     >
-      {/* Image */}
-      <div className="relative overflow-hidden" style={{ aspectRatio: '4/3', background: '#0a0a0a' }}>
+      {/* ── Image ─────────────────────────────────────────────────── */}
+      <div className="relative overflow-hidden" style={{ aspectRatio: '16/10', background: '#0a0a0a' }}>
         {imageUrl ? (
           <img
             src={imageUrl}
-            alt={product.title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            alt={altText}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="text-soft-grey/20 text-xs uppercase tracking-widest">No image</span>
+          /* Premium placeholder */
+          <div className="w-full h-full flex flex-col items-center justify-center gap-3"
+            style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #171717 100%)' }}>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center"
+              style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <span className="text-soft-grey/20 text-[10px] uppercase tracking-widest">No image</span>
           </div>
         )}
-        {/* Dark bottom gradient */}
+
+        {/* Gradient overlay */}
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, rgba(17,17,17,0.75) 0%, transparent 55%)' }} />
-        {/* Category / Featured badge */}
-        <span className="absolute top-3 left-3 text-[11px] font-semibold uppercase tracking-widest px-3 py-1 rounded-full"
-          style={product.featured
-            ? { background: 'rgba(217,31,38,0.18)', border: '1px solid rgba(217,31,38,0.4)', color: '#FF3B30' }
-            : { background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.12)', color: '#A7A7A7' }}>
-          {product.featured ? 'Featured' : (product.category || 'Product')}
-        </span>
+          style={{ background: 'linear-gradient(to top, rgba(17,17,17,0.85) 0%, rgba(17,17,17,0.1) 50%, transparent 100%)' }} />
+
+        {/* Badges row */}
+        <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+          {product.featured ? (
+            <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
+              style={{ background: 'rgba(217,31,38,0.22)', border: '1px solid rgba(217,31,38,0.45)', color: '#FF3B30' }}>
+              ★ Featured
+            </span>
+          ) : product.category ? (
+            <span className="text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full"
+              style={{ background: 'rgba(0,0,0,0.55)', border: '1px solid rgba(255,255,255,0.1)', color: '#A7A7A7', backdropFilter: 'blur(6px)' }}>
+              {product.category}
+            </span>
+          ) : <span />}
+
+          {/* Arrow icon — appears on hover */}
+          <span className="w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ background: 'rgba(217,31,38,0.85)', backdropFilter: 'blur(6px)' }}>
+            <ArrowRight size={13} className="text-white" />
+          </span>
+        </div>
       </div>
 
-      {/* Info */}
-      <div className="flex flex-col p-5 gap-3">
-        <div>
-          {product.category && (
-            <p className="text-soft-grey/40 text-[11px] uppercase tracking-widest mb-1">{product.category}</p>
-          )}
-          <h3 className="text-text-white font-display font-bold text-lg leading-snug">{product.title}</h3>
-        </div>
-        <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          {product.price
-            ? <span className="text-primary-red font-bold text-xl">{product.price}</span>
-            : <span className="text-soft-grey/35 text-sm italic">Contact for price</span>
-          }
-          <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-soft-grey/40 group-hover:text-primary-red transition-colors duration-200">
-            View product <ArrowRight size={12} />
+      {/* ── Content ───────────────────────────────────────────────── */}
+      <div className="flex flex-col flex-1 px-5 pt-4 pb-5 gap-2">
+        {product.category && (
+          <p className="text-soft-grey/35 text-[10px] font-medium uppercase tracking-[0.15em]">
+            {product.category}
+          </p>
+        )}
+
+        <h3 className="text-text-white font-display font-bold text-[17px] leading-snug">
+          {product.title}
+        </h3>
+
+        {product.shortDescription && (
+          <p className="text-soft-grey/55 text-sm leading-relaxed line-clamp-2">
+            {product.shortDescription}
+          </p>
+        )}
+
+        {/* Divider + Price row */}
+        <div className="flex items-center justify-between mt-auto pt-4"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.06)', marginTop: '12px' }}>
+          <div>
+            {formattedPrice ? (
+              <>
+                <p className="text-soft-grey/35 text-[9px] uppercase tracking-widest mb-0.5">Price</p>
+                <p className="text-primary-red font-display font-bold text-2xl leading-none">{formattedPrice}</p>
+              </>
+            ) : (
+              <p className="text-soft-grey/35 text-sm">Contact for price</p>
+            )}
+          </div>
+          <span className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-soft-grey/35 group-hover:text-primary-red transition-colors duration-200 font-medium">
+            View <ArrowRight size={11} />
           </span>
         </div>
       </div>
@@ -210,25 +265,26 @@ export default function Products() {
       <section className="py-20 bg-base-black">
         <div className="max-w-7xl mx-auto px-6">
           {fetchError && (
-            <div className="mb-6 px-4 py-3 rounded-xl text-xs font-mono" style={{ background: 'rgba(217,31,38,0.08)', border: '1px solid rgba(217,31,38,0.2)', color: '#FF3B30' }}>
+            <div className="mb-8 px-4 py-3 rounded-xl text-xs font-mono" style={{ background: 'rgba(217,31,38,0.08)', border: '1px solid rgba(217,31,38,0.2)', color: '#FF3B30' }}>
               Sanity fetch error: {fetchError}
             </div>
           )}
           {loading ? (
-            <div className="flex items-center justify-center py-32">
+            <div className="flex items-center justify-center py-40">
               <div className="flex flex-col items-center gap-4">
                 <div className="w-10 h-10 rounded-full border-2 border-primary-red/30 border-t-primary-red animate-spin" />
                 <p className="text-soft-grey/50 text-sm uppercase tracking-widest">Loading products</p>
               </div>
             </div>
           ) : filtered.length === 0 ? (
-            <div className="text-center py-32">
-              <p className="text-soft-grey/40 text-sm uppercase tracking-widest">No products found</p>
+            <div className="text-center py-40">
+              <p className="text-soft-grey/40 text-sm uppercase tracking-widest mb-3">No products found</p>
+              <p className="text-soft-grey/25 text-xs">Try a different filter or check back soon.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
               {filtered.map((product, i) => (
-                <div key={product._id} style={{ transitionDelay: `${i * 0.08}s` }}>
+                <div key={product._id} className="fade-up-element" style={{ transitionDelay: `${i * 0.08}s` }}>
                   <ProductCard product={product} />
                 </div>
               ))}
