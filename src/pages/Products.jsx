@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import BackButton from '../components/BackButton';
 import { getProducts, getCategories, urlFor } from '../lib/sanity';
@@ -39,123 +39,58 @@ function ProductCard({ product }) {
     }
   } catch (e) { /* silent */ }
 
-  const altText = product.imageAlt || product.title || 'Product image';
-
-  const formatPrice = (p) => {
-    if (!p) return null;
-    const str = String(p).trim();
-    if (str.startsWith('€') || str.startsWith('$') || str.includes('€')) return str;
-    const num = parseFloat(str.replace(/[^0-9.]/g, ''));
-    return isNaN(num) ? str : `€ ${num.toLocaleString('de-DE')}`;
-  };
-
-  const formattedPrice = formatPrice(product.price);
+  const altText = product.imageAlt || product.title || 'Product';
+  const price = product.price || null;
 
   return (
     <Link
       to={product.slug ? `/produkti/${product.slug}` : '/kontakti'}
       className="group flex flex-col rounded-2xl overflow-hidden h-full"
       style={{
-        background: 'linear-gradient(160deg, #161616 0%, #111111 100%)',
+        background: '#111111',
         border: '1px solid rgba(255,255,255,0.07)',
         transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-6px)';
-        e.currentTarget.style.boxShadow = '0 24px 64px rgba(0,0,0,0.7), 0 0 0 1px rgba(217,31,38,0.3)';
-        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.35)';
+        e.currentTarget.style.transform = 'translateY(-5px)';
+        e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.7)';
+        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.4)';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.3)';
+        e.currentTarget.style.boxShadow = 'none';
         e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
       }}
     >
-      {/* ── Image ─────────────────────────────────────────────────── */}
-      <div className="relative overflow-hidden" style={{ aspectRatio: '16/10', background: '#0a0a0a' }}>
+      {/* Image */}
+      <div className="relative overflow-hidden" style={{ aspectRatio: '4/3', background: '#0a0a0a' }}>
         {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={altText}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-          />
+          <img src={imageUrl} alt={altText}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
         ) : (
-          /* Premium placeholder */
-          <div className="w-full h-full flex flex-col items-center justify-center gap-3"
-            style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #171717 100%)' }}>
-            <div className="w-12 h-12 rounded-full flex items-center justify-center"
-              style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5">
-                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-                <polyline points="21 15 16 10 5 21"/>
-              </svg>
-            </div>
-            <span className="text-soft-grey/20 text-[10px] uppercase tracking-widest">No image</span>
+          <div className="w-full h-full flex items-center justify-center"
+            style={{ background: '#111' }}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
           </div>
         )}
-
-        {/* Gradient overlay */}
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, rgba(17,17,17,0.85) 0%, rgba(17,17,17,0.1) 50%, transparent 100%)' }} />
-
-        {/* Badges row */}
-        <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-          {product.featured ? (
-            <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"
-              style={{ background: 'rgba(217,31,38,0.22)', border: '1px solid rgba(217,31,38,0.45)', color: '#FF3B30' }}>
-              ★ Featured
-            </span>
-          ) : product.category ? (
-            <span className="text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full"
-              style={{ background: 'rgba(0,0,0,0.55)', border: '1px solid rgba(255,255,255,0.1)', color: '#A7A7A7', backdropFilter: 'blur(6px)' }}>
-              {product.category}
-            </span>
-          ) : <span />}
-
-          {/* Arrow icon — appears on hover */}
-          <span className="w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{ background: 'rgba(217,31,38,0.85)', backdropFilter: 'blur(6px)' }}>
-            <ArrowRight size={13} className="text-white" />
-          </span>
-        </div>
+          style={{ background: 'linear-gradient(to top, rgba(17,17,17,0.6) 0%, transparent 60%)' }} />
       </div>
 
-      {/* ── Content ───────────────────────────────────────────────── */}
-      <div className="flex flex-col flex-1 px-5 pt-4 pb-5 gap-2">
-        {product.category && (
-          <p className="text-soft-grey/35 text-[10px] font-medium uppercase tracking-[0.15em]">
-            {product.category}
-          </p>
-        )}
-
-        <h3 className="text-text-white font-display font-bold text-[17px] leading-snug">
+      {/* Name + Price */}
+      <div className="px-5 py-4 flex items-center justify-between gap-4">
+        <h3 className="text-text-white font-display font-bold text-base leading-snug flex-1">
           {product.title}
         </h3>
-
-        {product.shortDescription && (
-          <p className="text-soft-grey/55 text-sm leading-relaxed line-clamp-2">
-            {product.shortDescription}
-          </p>
+        {price ? (
+          <span className="text-primary-red font-display font-bold text-lg flex-shrink-0">{price}</span>
+        ) : (
+          <span className="text-soft-grey/35 text-sm flex-shrink-0">—</span>
         )}
-
-        {/* Divider + Price row */}
-        <div className="flex items-center justify-between mt-auto pt-4"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.06)', marginTop: '12px' }}>
-          <div>
-            {formattedPrice ? (
-              <>
-                <p className="text-soft-grey/35 text-[9px] uppercase tracking-widest mb-0.5">Price</p>
-                <p className="text-primary-red font-display font-bold text-2xl leading-none">{formattedPrice}</p>
-              </>
-            ) : (
-              <p className="text-soft-grey/35 text-sm">Contact for price</p>
-            )}
-          </div>
-          <span className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-soft-grey/35 group-hover:text-primary-red transition-colors duration-200 font-medium">
-            View <ArrowRight size={11} />
-          </span>
-        </div>
       </div>
     </Link>
   );
