@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import BackButton from '../components/BackButton';
 import { getProducts, getCategories, urlFor } from '../lib/sanity';
 
 // Fallback static products shown while Sanity loads or if empty
@@ -140,7 +139,6 @@ export default function Products() {
           <div className="absolute bottom-0 left-0 right-0 h-48"
             style={{ background: 'linear-gradient(to top, #060606, transparent)' }} />
         </div>
-        <BackButton />
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 pt-40 md:pt-44 w-full">
           <p className="section-eyebrow mb-4 fade-up-element">Our Range</p>
           <h1 className="section-title text-5xl sm:text-6xl lg:text-7xl mb-4 fade-up-element" style={{ transitionDelay: '0.1s' }}>

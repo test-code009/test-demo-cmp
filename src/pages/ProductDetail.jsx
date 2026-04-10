@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Check, Send } from 'lucide-react';
 import { getProductBySlug, urlFor } from '../lib/sanity';
-import BackButton from '../components/BackButton';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 
 function OrderForm({ productTitle }) {
@@ -131,7 +130,6 @@ export default function ProductDetail() {
 
   return (
     <main className="bg-base-black min-h-screen pt-28 pb-24">
-      <BackButton />
 
       <div className="max-w-7xl mx-auto px-6">
 

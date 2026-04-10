@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, Mail, Phone } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Search, Mail, Phone, ArrowLeft } from 'lucide-react';
 
 const InstagramIcon = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -21,6 +21,13 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
+
+  function handleBack() {
+    if (window.history.length > 1) navigate(-1);
+    else navigate('/');
+  }
 
   useEffect(() => {
     setMenuOpen(false);
@@ -37,7 +44,7 @@ export default function Navbar() {
     <>
       {/* ── Top info bar (desktop only) ───────────────────────────── */}
       <div
-        className="absolute top-0 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8"
+        className={`${isHome ? 'absolute' : 'fixed'} top-0 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8`}
         style={{
           height: '36px',
           background: 'rgba(10,10,10,0.92)',
@@ -71,17 +78,40 @@ export default function Navbar() {
 
       {/* ── Main navbar ──────────────────────────────────────────────── */}
       <header
-        className="absolute left-0 right-0 z-50 bg-transparent"
+        className="left-0 right-0 z-50 bg-transparent"
         style={{
-          top: 0,
-          marginTop: 'clamp(0px, 4vw, 36px)',
+          position: isHome ? 'absolute' : 'fixed',
+          top: isHome ? 0 : 0,
+          marginTop: isHome ? 'clamp(0px, 4vw, 36px)' : '0',
+          background: isHome ? 'transparent' : 'rgba(6,6,6,0.92)',
+          backdropFilter: isHome ? 'none' : 'blur(16px)',
+          borderBottom: isHome ? 'none' : '1px solid rgba(255,255,255,0.05)',
         }}
       >
         <div className="flex items-center gap-4 px-0"
-          style={{ height: location.pathname === '/' ? '300px' : '64px' }}>
+          style={{ height: isHome ? '300px' : '60px' }}>
+
+          {/* ── Back button — sub-pages only ───── */}
+          {!isHome && (
+            <button
+              onClick={handleBack}
+              className="group flex items-center gap-2 flex-shrink-0 ml-5 transition-all duration-200"
+              style={{
+                background: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '10px',
+                padding: '7px 13px',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(217,31,38,0.12)'; e.currentTarget.style.borderColor = 'rgba(217,31,38,0.35)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+            >
+              <ArrowLeft size={13} className="text-soft-grey group-hover:text-primary-red transition-colors" />
+              <span className="text-soft-grey group-hover:text-text-white transition-colors text-xs font-medium uppercase tracking-widest">Back</span>
+            </button>
+          )}
 
           {/* ── Logo — hard left edge, home page only ───── */}
-          {location.pathname === '/' && (
+          {isHome && (
             <Link to="/" className="flex-shrink-0 flex items-center" style={{ marginLeft: '0', paddingLeft: '0' }}>
               <img
                 src="/logo.png"

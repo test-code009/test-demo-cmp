@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Mail, Phone, ArrowRight, Send } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import BackButton from '../components/BackButton';
 
 const InstagramIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -44,7 +43,6 @@ export default function Contact() {
       {/* Hero */}
       <section className="relative min-h-[50vh] flex items-end overflow-hidden">
         <ContactHeroBg />
-        <BackButton />
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-44 md:pt-48 w-full">
           <p className="section-eyebrow mb-4 fade-up-element">Let's Talk</p>
           <h1

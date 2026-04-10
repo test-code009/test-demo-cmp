@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import BackButton from '../components/BackButton';
 
 const AboutHeroBg = () => (
   <div className="absolute inset-0 overflow-hidden">
@@ -32,7 +31,6 @@ export default function About() {
       {/* Hero */}
       <section className="relative min-h-[55vh] flex items-end overflow-hidden">
         <AboutHeroBg />
-        <BackButton />
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-44 md:pt-48 w-full">
           <p className="section-eyebrow mb-4 fade-up-element">Who We Are</p>
           <h1
