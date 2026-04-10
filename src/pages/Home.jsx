@@ -168,7 +168,7 @@ export default function Home() {
       </section>
 
       {/* ─── Intro block ──────────────────────────────────────────────── */}
-      <section className="relative" style={{ background: '#131313' }}>
+      <section className="relative" style={{ background: '#0d0d0d' }}>
         <div className="absolute left-0 top-0 bottom-0 w-[3px]"
           style={{ background: 'linear-gradient(180deg, #D91F26 0%, rgba(217,31,38,0.1) 100%)' }} />
 
@@ -222,13 +222,12 @@ export default function Home() {
                 New in Store
               </h2>
             </div>
-            {/* Red underline extending past right edge */}
-            <div className="relative mt-3 flex items-center justify-end" style={{ width: 'calc(100% + 6rem)' }}>
+            {/* Red underline — starts at right edge, fades left to ~50% screen */}
+            <div className="mt-3" style={{ width: 'calc(100% + 3rem)', marginRight: '-3rem' }}>
               <div style={{
-                height: '3px',
+                height: '2px',
                 width: '100%',
-                background: 'linear-gradient(to left, transparent 0%, #D91F26 30%, #D91F26 70%, rgba(217,31,38,0.3) 100%)',
-                borderRadius: '2px',
+                background: 'linear-gradient(to left, #D91F26 0%, #D91F26 20%, rgba(217,31,38,0.5) 45%, transparent 100%)',
               }} />
             </div>
             <Link to="/produkti"
