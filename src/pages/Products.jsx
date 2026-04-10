@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { ArrowRight, X } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { getProducts, getCategories, urlFor } from '../lib/sanity';
 
@@ -102,6 +102,8 @@ export default function Products() {
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get('q') || '';
 
   useScrollReveal([products, loading]);
 
@@ -125,6 +127,14 @@ export default function Products() {
   const filtered = products.filter(p => {
     if (showFeaturedOnly && !p.featured) return false;
     if (activeCategory !== 'all' && p.category !== activeCategory) return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      return (
+        p.title?.toLowerCase().includes(q) ||
+        p.category?.toLowerCase().includes(q) ||
+        p.shortDescription?.toLowerCase().includes(q)
+      );
+    }
     return true;
   });
 
@@ -154,6 +164,15 @@ export default function Products() {
       {(categories.length > 0 || true) && (
         <div className="sticky top-0 z-30 py-4 px-6" style={{ background: 'rgba(6,6,6,0.92)', borderBottom: '1px solid rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
           <div className="max-w-7xl mx-auto flex items-center gap-3 flex-wrap">
+            {searchQuery && (
+              <div className="flex items-center gap-2 text-xs px-4 py-2 rounded-full mr-2"
+                style={{ background: 'rgba(217,31,38,0.12)', border: '1px solid rgba(217,31,38,0.3)', color: '#FF3B30' }}>
+                <span>"{searchQuery}"</span>
+                <button onClick={() => setSearchParams({})} className="hover:text-white transition-colors">
+                  <X size={11} />
+                </button>
+              </div>
+            )}
             <button
               onClick={() => { setActiveCategory('all'); setShowFeaturedOnly(false); }}
               className="text-xs uppercase tracking-widest px-4 py-2 rounded-full transition-all duration-200"

@@ -130,6 +130,12 @@ export default function Navbar() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && searchQuery.trim()) {
+                    navigate(`/produkti?q=${encodeURIComponent(searchQuery.trim())}`);
+                    e.target.blur();
+                  }
+                }}
                 placeholder="Search..."
                 className="text-text-white text-sm pl-8 pr-8 py-2 outline-none transition-all duration-300 rounded-full w-36 sm:w-44"
                 style={{
