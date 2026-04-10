@@ -121,8 +121,8 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* ── Search + CTA — top-right ─── */}
-          <div className="flex items-center gap-3 ml-auto self-start pt-4 pr-6">
+          {/* ── Search + CTA — centered on sub-pages, top-right on home ─── */}
+          <div className={`flex items-center gap-3 pr-6 ${isHome ? 'ml-auto self-start pt-4' : 'mx-auto'}`}>
             {/* Always-visible search bar */}
             <div className="relative flex items-center">
               <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" />
