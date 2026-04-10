@@ -26,12 +26,6 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-12">
           {/* Brand */}
           <div>
-            <img
-              src="/logomk2.png"
-              alt="Classic Motion Performance"
-              className="mb-4"
-              style={{ height: '90px', width: 'auto', opacity: 0.9 }}
-            />
             <p className="text-soft-grey text-sm leading-relaxed max-w-xs">
               Premium brake and suspension upgrades for performance-focused builds.
             </p>
