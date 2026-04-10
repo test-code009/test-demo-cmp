@@ -26,17 +26,6 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2.5 mb-4">
-              <div
-                className="w-8 h-8 rounded-md flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #D91F26, #FF3B30)', boxShadow: '0 0 16px rgba(217,31,38,0.3)' }}
-              >
-                <span className="text-white font-display font-bold text-sm">CMP</span>
-              </div>
-              <span className="text-text-white font-display font-semibold text-sm tracking-wide">
-                Classic Motion Performance
-              </span>
-            </div>
             <p className="text-soft-grey text-sm leading-relaxed max-w-xs">
               Premium brake and suspension upgrades for performance-focused builds.
             </p>
