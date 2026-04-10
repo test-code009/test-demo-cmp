@@ -205,11 +205,6 @@ export default function Products() {
       {/* ── Product Grid ─────────────────────────────────────────────── */}
       <section className="py-20 bg-base-black">
         <div className="max-w-7xl mx-auto px-6">
-          {fetchError && (
-            <div className="mb-8 px-4 py-3 rounded-xl text-xs font-mono" style={{ background: 'rgba(217,31,38,0.08)', border: '1px solid rgba(217,31,38,0.2)', color: '#FF3B30' }}>
-              Sanity fetch error: {fetchError}
-            </div>
-          )}
           {loading ? (
             <div className="flex items-center justify-center py-40">
               <div className="flex flex-col items-center gap-4">
