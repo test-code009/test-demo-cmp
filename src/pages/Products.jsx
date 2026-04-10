@@ -32,9 +32,14 @@ const fallbackProducts = [
 ];
 
 function ProductCard({ product }) {
-  const imageUrl = product.mainImage
-    ? urlFor(product.mainImage).width(600).height(440).fit('crop').url()
-    : product.localImage || null;
+  let imageUrl = product.localImage || null;
+  try {
+    if (product.mainImage?.asset) {
+      imageUrl = urlFor(product.mainImage).width(600).height(440).fit('crop').url();
+    }
+  } catch (e) {
+    console.warn('[ProductCard] image error:', e);
+  }
 
   return (
     <Link

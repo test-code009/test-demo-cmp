@@ -529,9 +529,12 @@ export default function Home() {
           {/* Dynamic Product Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {newProducts.map((product, i) => {
-              const imageUrl = product.mainImage
-                ? urlFor(product.mainImage).width(600).height(416).fit('crop').url()
-                : product.localImage || null;
+              let imageUrl = product.localImage || null;
+              try {
+                if (product.mainImage?.asset) {
+                  imageUrl = urlFor(product.mainImage).width(600).height(416).fit('crop').url();
+                }
+              } catch (e) { /* ignore */ }
               return (
                 <Link
                   key={product._id}

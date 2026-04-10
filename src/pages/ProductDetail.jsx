@@ -46,9 +46,14 @@ export default function ProductDetail() {
     </main>
   );
 
-  const imageUrl = product.mainImage
-    ? urlFor(product.mainImage).width(900).height(600).fit('crop').url()
-    : null;
+  let imageUrl = null;
+  try {
+    if (product.mainImage?.asset) {
+      imageUrl = urlFor(product.mainImage).width(900).height(600).fit('crop').url();
+    }
+  } catch (e) {
+    console.warn('[ProductDetail] image error:', e);
+  }
 
   return (
     <main>
