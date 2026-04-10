@@ -35,69 +35,70 @@ function ProductCard({ product }) {
   let imageUrl = product.localImage || null;
   try {
     if (product.mainImage?.asset) {
-      imageUrl = urlFor(product.mainImage).width(600).height(440).fit('crop').url();
+      imageUrl = urlFor(product.mainImage).width(800).height(560).fit('crop').url();
     }
-  } catch (e) {
-    console.warn('[ProductCard] image error:', e);
-  }
+  } catch (e) { /* silent */ }
 
   return (
     <Link
       to={product.slug ? `/produkti/${product.slug}` : '/kontakti'}
-      className="fade-up-element flex flex-col rounded-2xl overflow-hidden transition-all duration-300 group"
-      style={{ background: '#111111', border: '1px solid rgba(255,255,255,0.07)' }}
+      className="fade-up-element group flex flex-col rounded-2xl overflow-hidden"
+      style={{
+        background: '#111111',
+        border: '1px solid rgba(255,255,255,0.07)',
+        transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
+      }}
       onMouseEnter={e => {
-        e.currentTarget.style.border = '1px solid rgba(217,31,38,0.35)';
-        e.currentTarget.style.transform = 'translateY(-4px)';
-        e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.5)';
+        e.currentTarget.style.transform = 'translateY(-5px)';
+        e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.6)';
+        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.4)';
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.border = '1px solid rgba(255,255,255,0.07)';
         e.currentTarget.style.transform = 'translateY(0)';
         e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)';
       }}
     >
       {/* Image */}
-      <div className="relative overflow-hidden" style={{ height: '220px', background: '#0d0d0d' }}>
+      <div className="relative overflow-hidden" style={{ aspectRatio: '4/3', background: '#0a0a0a' }}>
         {imageUrl ? (
-          <img src={imageUrl} alt={product.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img
+            src={imageUrl}
+            alt={product.title}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <p className="text-soft-grey/20 text-xs uppercase tracking-widest">No image</p>
+            <span className="text-soft-grey/20 text-xs uppercase tracking-widest">No image</span>
           </div>
         )}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(17,17,17,0.6) 0%, transparent 50%)' }} />
-        {product.featured && (
-          <span className="absolute top-3 left-3 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
-            style={{ background: 'rgba(217,31,38,0.15)', border: '1px solid rgba(217,31,38,0.3)', color: '#FF3B30' }}>
-            Featured
-          </span>
-        )}
-        {product.category && !product.featured && (
-          <span className="absolute top-3 left-3 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"
-            style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.15)', color: '#A7A7A7' }}>
-            {product.category}
-          </span>
-        )}
+        {/* Dark bottom gradient */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: 'linear-gradient(to top, rgba(17,17,17,0.75) 0%, transparent 55%)' }} />
+        {/* Category / Featured badge */}
+        <span className="absolute top-3 left-3 text-[11px] font-semibold uppercase tracking-widest px-3 py-1 rounded-full"
+          style={product.featured
+            ? { background: 'rgba(217,31,38,0.18)', border: '1px solid rgba(217,31,38,0.4)', color: '#FF3B30' }
+            : { background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.12)', color: '#A7A7A7' }}>
+          {product.featured ? 'Featured' : (product.category || 'Product')}
+        </span>
       </div>
 
       {/* Info */}
-      <div className="flex flex-col flex-1 p-5 gap-2">
-        {product.category && (
-          <p className="text-soft-grey/45 text-xs uppercase tracking-widest">{product.category}</p>
-        )}
-        <h3 className="text-text-white font-display font-bold text-base leading-snug">{product.title}</h3>
-        {product.shortDescription && (
-          <p className="text-soft-grey/60 text-sm leading-relaxed line-clamp-2">{product.shortDescription}</p>
-        )}
-        <div className="flex items-center justify-between mt-auto pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          {product.price ? (
-            <span className="text-primary-red font-bold text-lg">{product.price}</span>
-          ) : (
-            <span className="text-soft-grey/30 text-sm">Enquire for price</span>
+      <div className="flex flex-col p-5 gap-3">
+        <div>
+          {product.category && (
+            <p className="text-soft-grey/40 text-[11px] uppercase tracking-widest mb-1">{product.category}</p>
           )}
-          <span className="flex items-center gap-1.5 text-soft-grey/50 text-xs uppercase tracking-widest group-hover:text-primary-red transition-colors">
-            View more <ArrowRight size={12} />
+          <h3 className="text-text-white font-display font-bold text-lg leading-snug">{product.title}</h3>
+        </div>
+        <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          {product.price
+            ? <span className="text-primary-red font-bold text-xl">{product.price}</span>
+            : <span className="text-soft-grey/35 text-sm italic">Contact for price</span>
+          }
+          <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-soft-grey/40 group-hover:text-primary-red transition-colors duration-200">
+            View product <ArrowRight size={12} />
           </span>
         </div>
       </div>
