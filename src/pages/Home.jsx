@@ -251,10 +251,15 @@ export default function Home() {
       <div className="h-px" style={{ background: 'rgba(255,255,255,0.05)' }} />
 
       {/* ─── Brand Statement ──────────────────────────────────────────── */}
-      <section className="relative py-16" style={{ background: '#111111' }}>
-        {/* Subtle red radial bg */}
+      <section className="relative py-16"
+        style={{
+          background: '#1c1c1c',
+          borderTop: '1px solid rgba(255,255,255,0.1)',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
+          boxShadow: '0 -8px 40px rgba(0,0,0,0.4), 0 8px 40px rgba(0,0,0,0.4)',
+        }}>
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(217,31,38,0.06) 0%, transparent 65%)' }} />
+          style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(217,31,38,0.07) 0%, transparent 65%)' }} />
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
