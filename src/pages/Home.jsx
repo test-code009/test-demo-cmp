@@ -168,78 +168,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Intro block ──────────────────────────────────────────────── */}
+      {/* ─── Kas ir CMP ───────────────────────────────────────────────── */}
       <section className="relative" style={{ background: '#0d0d0d' }}>
-        <div className="max-w-7xl mx-auto px-8 md:px-12 py-12 md:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
+        <div className="max-w-7xl mx-auto px-8 md:px-12 py-16 md:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-end">
             <div>
-              <p className="section-eyebrow mb-4 fade-up-element">PREMIUM PERFORMANCE UPGRADES</p>
-              <h1 className="section-title text-4xl sm:text-5xl lg:text-6xl fade-up-element"
-                style={{ transitionDelay: '0.08s', lineHeight: 1.05 }}>
-                Classic Motion<br />
-                <span className="text-gradient-red">Performance</span>
-              </h1>
+              <p className="section-eyebrow mb-4 fade-up-element">Par mums</p>
+              <h2 className="text-text-white font-display font-bold text-3xl sm:text-4xl lg:text-5xl leading-tight fade-up-element"
+                style={{ transitionDelay: '0.08s' }}>
+                Kas ir{' '}
+                <span style={{ borderBottom: '3px solid #D91F26', paddingBottom: '3px' }}>
+                  Classic Motion Performance
+                </span>
+                ?
+              </h2>
             </div>
             <div className="fade-up-element" style={{ transitionDelay: '0.15s' }}>
-              <p className="text-soft-grey text-base leading-relaxed mb-8">
-                Precision brake and suspension solutions for Mk2 builds and enthusiasts who demand more.
+              <p className="text-soft-grey text-base leading-relaxed mb-6">
+                Classic Motion Performance ir Latvijā dibināts zīmols, kas specializējas VW Golf Mk2 bremžu un balstiekārtas jaunināšanā. Mēs piedāvājam precīzi izstrādātus risinājumus entuziastiem, kuriem svarīga katras detaļas kvalitāte un veiktspēja.
               </p>
-              <div className="flex flex-wrap gap-3 mb-10">
-                <Link to="/produkti" className="btn-primary text-sm py-2.5 px-6">
-                  Explore Products <ArrowRight size={14} />
-                </Link>
-                <Link to="/kontakti" className="btn-secondary text-sm py-2.5 px-6">
-                  Get in Touch
-                </Link>
-              </div>
-              <div className="flex flex-wrap gap-8 pt-6" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                {[
-                  { label: 'Brake Upgrades', value: 'G60 Systems' },
-                  { label: 'Suspension', value: 'Precision Kits' },
-                  { label: 'Fitment', value: 'Mk2 Specific' },
-                ].map(s => (
-                  <div key={s.label}>
-                    <p className="text-soft-grey/40 text-[10px] uppercase tracking-widest mb-1">{s.label}</p>
-                    <p className="text-text-white font-display font-semibold text-sm">{s.value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* ─── "Kas ir CMP" sub-block ─────────────────────────────── */}
-          <div className="mt-12 pt-10 fade-up-element" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', transitionDelay: '0.2s' }}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
-              <div>
-                <p className="section-eyebrow mb-3">Par mums</p>
-                <h2 className="text-text-white font-display font-bold text-2xl sm:text-3xl leading-tight">
-                  Kas ir{' '}
-                  <span style={{ borderBottom: '2px solid #D91F26', paddingBottom: '2px' }}>
-                    Classic Motion Performance
-                  </span>
-                  ?
-                </h2>
-              </div>
-              <div>
-                <p className="text-soft-grey text-sm leading-relaxed mb-5">
-                  Classic Motion Performance ir Latvijā dibināts zīmols, kas specializējas VW Golf Mk2 bremžu un balstiekārtas jaunināšanā. Mēs piedāvājam precīzi izstrādātus risinājumus entuziastiem, kuriem svarīga katras detaļas kvalitāte un veiktspēja.
-                </p>
-                <Link
-                  to="/par-mums"
-                  className="inline-flex items-center gap-2 text-soft-grey/60 hover:text-primary-red transition-colors duration-200 text-sm font-medium group"
+              <Link
+                to="/par-mums"
+                className="inline-flex items-center gap-2 text-soft-grey/60 hover:text-primary-red transition-colors duration-200 text-sm font-medium group"
+              >
+                Lasīt vairāk
+                <div
+                  className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
+                  style={{ border: '1px solid rgba(255,255,255,0.15)' }}
                 >
-                  Lasīt vairāk
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
-                    style={{ border: '1px solid rgba(255,255,255,0.15)' }}
-                  >
-                    <ArrowRight size={11} />
-                  </div>
-                </Link>
-              </div>
+                  <ArrowRight size={11} />
+                </div>
+              </Link>
             </div>
           </div>
-
         </div>
       </section>
 
