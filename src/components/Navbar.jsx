@@ -185,7 +185,7 @@ export default function Navbar() {
           )}
 
           {/* Right controls */}
-          <div className={`flex items-center gap-3 ml-auto ${isHome ? 'self-start pt-4' : ''}`}>
+          <div className={`flex items-center gap-3 ml-auto ${isHome ? 'self-start pt-11' : ''}`}>
             {/* Search */}
             <div className="relative flex items-center">
               <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" />
