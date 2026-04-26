@@ -60,23 +60,27 @@ function ProductCard({ product, delay = 0 }) {
   return (
     <Link
       to={product.slug ? `/produkti/${product.slug}` : '/produkti'}
-      className="group fade-up-element flex flex-col overflow-hidden rounded-xl"
+      className="group fade-up-element flex flex-col overflow-hidden"
       style={{
         transitionDelay: `${delay}s`,
-        transition: 'transform 0.3s, box-shadow 0.3s',
-        background: '#0d0d0d',
+        transition: 'transform 0.3s, box-shadow 0.3s, border-color 0.3s',
+        background: '#111111',
+        border: '1px solid rgba(255,255,255,0.1)',
+        borderRadius: '0',
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translateY(-4px)';
         e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.6)';
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'translateY(0)';
         e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
       }}
     >
       {/* Image */}
-      <div className="overflow-hidden rounded-xl" style={{ background: '#111111' }}>
+      <div className="overflow-hidden" style={{ background: '#111111' }}>
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -95,7 +99,7 @@ function ProductCard({ product, delay = 0 }) {
       </div>
 
       {/* Info */}
-      <div className="flex items-center justify-between gap-4 pt-4 px-1">
+      <div className="flex items-center justify-between gap-4 px-4 py-4" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
         <div className="flex-1 min-w-0">
           <h3 className="text-text-white font-display font-semibold text-base leading-snug truncate">{product.title}</h3>
           {price ? (
