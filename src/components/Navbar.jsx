@@ -46,12 +46,12 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ''; document.body.dataset.menuOpen = 'false'; };
   }, [menuOpen]);
 
-  const LangToggle = () => (
+  const LangToggle = ({ small = false }) => (
     <div className="flex items-center rounded-full overflow-hidden flex-shrink-0"
       style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.06)' }}>
       {['lv', 'en'].map(l => (
         <button key={l} onClick={() => setLang(l)}
-          className="text-xs font-semibold px-3 py-1.5 transition-all duration-200 uppercase"
+          className={`font-semibold uppercase transition-all duration-200 ${small ? 'text-[11px] px-2.5 py-1' : 'text-xs px-3 py-1.5'}`}
           style={{
             background: lang === l ? '#D91F26' : 'transparent',
             color: lang === l ? '#fff' : 'rgba(255,255,255,0.45)',
@@ -62,14 +62,14 @@ export default function Navbar() {
     </div>
   );
 
-  const Hamburger = () => (
+  const HamburgerBtn = () => (
     <button
-      className="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 flex-shrink-0"
+      className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 flex-shrink-0"
       style={{ border: '1px solid rgba(255,255,255,0.08)', background: menuOpen ? 'rgba(217,31,38,0.12)' : 'rgba(255,255,255,0.04)' }}
       onClick={() => setMenuOpen(!menuOpen)}
       aria-label="Toggle menu"
     >
-      <div className="flex flex-col gap-[5px] w-5">
+      <div className="flex flex-col gap-[5px] w-[18px]">
         <span className="block h-px w-full transition-all duration-300"
           style={{ transform: menuOpen ? 'translateY(6px) rotate(45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
         <span className="block h-px transition-all duration-300"
@@ -82,19 +82,50 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ── Top info bar — desktop only ───────────────────────────── */}
-      <div
-        className={`${isHome ? 'absolute' : 'fixed'} top-0 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8`}
-        style={{ height: '36px', background: 'rgba(10,10,10,0.92)', borderBottom: '1px solid rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}
-      >
+      {/* ════════════════════════════════════════════
+          MOBILE NAVBAR — always fixed at top
+      ════════════════════════════════════════════ */}
+      <header className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center px-4"
+        style={{
+          height: '56px',
+          background: 'rgba(6,6,6,0.96)',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          backdropFilter: 'blur(16px)',
+        }}>
+        {/* Left: back button or spacer */}
+        {!isHome ? (
+          <button onClick={handleBack}
+            className="flex items-center gap-1.5 flex-shrink-0 transition-all duration-200 mr-2"
+            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '6px 10px' }}>
+            <ArrowLeft size={13} className="text-soft-grey" />
+            <span className="text-soft-grey text-xs font-medium uppercase tracking-wider">{tr.nav_back}</span>
+          </button>
+        ) : (
+          <Link to="/" className="flex-shrink-0">
+            <span className="text-text-white font-display font-bold text-sm tracking-tight">CMP</span>
+          </Link>
+        )}
+
+        {/* Right: lang + hamburger */}
+        <div className="flex items-center gap-2 ml-auto">
+          <LangToggle small />
+          <HamburgerBtn />
+        </div>
+      </header>
+
+      {/* ════════════════════════════════════════════
+          DESKTOP INFO BAR — top strip
+      ════════════════════════════════════════════ */}
+      <div className={`${isHome ? 'absolute' : 'fixed'} top-0 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8`}
+        style={{ height: '36px', background: 'rgba(10,10,10,0.92)', borderBottom: '1px solid rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
         <div className="flex items-center gap-6">
           <a href="mailto:info@classicmotionperformance.com"
-            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-text-white transition-colors duration-200 text-xs">
+            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-text-white transition-colors text-xs">
             <Mail size={11} className="text-primary-red" />
             info@classicmotionperformance.com
           </a>
           <a href="tel:+371XXXXXXXX"
-            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-text-white transition-colors duration-200 text-xs">
+            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-text-white transition-colors text-xs">
             <Phone size={11} className="text-primary-red" />
             +371 XXXXXXXX
           </a>
@@ -102,7 +133,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <a href="https://instagram.com/classicmotionperformance"
             target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-primary-red transition-colors duration-200 text-xs">
+            className="flex items-center gap-1.5 text-soft-grey/70 hover:text-primary-red transition-colors text-xs">
             <InstagramIcon />
             @classicmotionperformance
           </a>
@@ -111,34 +142,29 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ── Main navbar ──────────────────────────────────────────────── */}
-      <header
-        className="left-0 right-0 z-50"
+      {/* ════════════════════════════════════════════
+          DESKTOP MAIN NAVBAR
+      ════════════════════════════════════════════ */}
+      <header className="hidden md:block left-0 right-0 z-50"
         style={{
           position: isHome ? 'absolute' : 'fixed',
-          top: isHome ? 0 : '0',
-          // on desktop non-home push below info bar
-          background: isHome ? 'transparent' : 'rgba(6,6,6,0.95)',
+          top: isHome ? 0 : '36px',
+          background: isHome ? 'transparent' : 'rgba(6,6,6,0.92)',
           backdropFilter: isHome ? 'none' : 'blur(16px)',
           borderBottom: isHome ? 'none' : '1px solid rgba(255,255,255,0.05)',
-        }}
-      >
-        {/* Desktop: push below info bar */}
-        <div className="hidden md:block" style={{ height: isHome ? 0 : '36px' }} />
+        }}>
+        <div className="flex items-center px-6" style={{ height: isHome ? '300px' : '60px' }}>
 
-        <div className="flex items-center px-4 md:px-6"
-          style={{ height: isHome ? '300px' : '60px' }}>
-
-          {/* Back button — sub-pages only */}
+          {/* Back button — sub-pages */}
           {!isHome && (
             <button onClick={handleBack}
-              className="group flex items-center gap-2 flex-shrink-0 mr-3 transition-all duration-200"
+              className="group flex items-center gap-2 flex-shrink-0 mr-4 transition-all duration-200"
               style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '7px 13px' }}
               onMouseEnter={e => { e.currentTarget.style.background = 'rgba(217,31,38,0.12)'; e.currentTarget.style.borderColor = 'rgba(217,31,38,0.35)'; }}
               onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
             >
               <ArrowLeft size={13} className="text-soft-grey group-hover:text-primary-red transition-colors" />
-              <span className="text-soft-grey group-hover:text-text-white transition-colors text-xs font-medium uppercase tracking-widest hidden sm:block">{tr.nav_back}</span>
+              <span className="text-soft-grey group-hover:text-text-white transition-colors text-xs font-medium uppercase tracking-widest">{tr.nav_back}</span>
             </button>
           )}
 
@@ -150,15 +176,12 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Right side controls */}
-          <div className={`flex items-center gap-2 md:gap-3 ml-auto ${isHome ? 'self-start pt-4' : ''}`}>
-
-            {/* Search — desktop only in navbar */}
-            <div className="relative hidden md:flex items-center">
+          {/* Right controls */}
+          <div className={`flex items-center gap-3 ml-auto ${isHome ? 'self-start pt-4' : ''}`}>
+            {/* Search */}
+            <div className="relative flex items-center">
               <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" />
-              <input
-                type="text"
-                value={searchQuery}
+              <input type="text" value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && searchQuery.trim()) {
@@ -179,30 +202,24 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Lang toggle */}
             <LangToggle />
 
-            {/* Sazināties — desktop only */}
-            <Link to="/kontakti" className="btn-primary text-sm py-2 px-5 hidden md:inline-flex">
+            <Link to="/kontakti" className="btn-primary text-sm py-2 px-5">
               {tr.nav_contact_btn}
             </Link>
 
-            {/* Hamburger */}
-            <Hamburger />
+            <HamburgerBtn />
           </div>
         </div>
       </header>
 
-      {/* ── Backdrop ──────────────────────────────────────────────────── */}
-      <div
-        className={`fixed inset-0 z-40 transition-all duration-500 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+      {/* ── Backdrop ─────────────────────────────────────────────── */}
+      <div className={`fixed inset-0 z-40 transition-all duration-500 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)' }}
-        onClick={() => setMenuOpen(false)}
-      />
+        onClick={() => setMenuOpen(false)} />
 
-      {/* ── Side drawer ───────────────────────────────────────────────── */}
-      <div
-        className="fixed top-0 left-0 bottom-0 z-50 flex flex-col"
+      {/* ── Side drawer ──────────────────────────────────────────── */}
+      <div className="fixed top-0 left-0 bottom-0 z-50 flex flex-col"
         style={{
           width: 'min(80vw, 340px)',
           background: '#0a0a0a',
@@ -210,28 +227,23 @@ export default function Navbar() {
           transform: menuOpen ? 'translateX(0)' : 'translateX(-100%)',
           transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
           boxShadow: menuOpen ? '8px 0 60px rgba(0,0,0,0.7)' : 'none',
-        }}
-      >
-        {/* Drawer header */}
+        }}>
+        {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-5"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
           <p className="section-eyebrow">{tr.nav_menu}</p>
-          <button
-            className="w-8 h-8 flex items-center justify-center rounded-lg"
+          <button className="w-8 h-8 flex items-center justify-center rounded-lg"
             style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(217,31,38,0.1)' }}
-            onClick={() => setMenuOpen(false)}
-          >
+            onClick={() => setMenuOpen(false)}>
             <X size={15} className="text-primary-red" />
           </button>
         </div>
 
-        {/* Mobile search — visible only on mobile */}
-        <div className="px-6 pt-5 pb-2 md:hidden">
+        {/* Mobile search in drawer */}
+        <div className="px-6 pt-4 pb-2">
           <div className="relative flex items-center">
             <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" />
-            <input
-              type="text"
-              value={mobileSearch}
+            <input type="text" value={mobileSearch}
               onChange={(e) => setMobileSearch(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && mobileSearch.trim()) {
@@ -241,17 +253,14 @@ export default function Navbar() {
               }}
               placeholder={tr.nav_search}
               className="w-full text-text-white text-sm pl-9 pr-3 py-3 outline-none rounded-xl"
-              style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }}
-            />
+              style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }} />
           </div>
         </div>
 
         {/* Nav links */}
-        <nav className="flex flex-col flex-1 px-6 py-4 gap-0 overflow-y-auto">
+        <nav className="flex flex-col flex-1 px-6 py-4 overflow-y-auto">
           {navLinks.map((link, i) => (
-            <Link
-              key={link.path}
-              to={link.path}
+            <Link key={link.path} to={link.path}
               className={`flex items-center justify-between py-4 transition-all duration-300 ${
                 location.pathname === link.path ? 'text-text-white' : 'text-soft-grey/60 hover:text-text-white'
               }`}
@@ -260,8 +269,7 @@ export default function Navbar() {
                 transitionDelay: menuOpen ? `${i * 50}ms` : '0ms',
                 transform: menuOpen ? 'translateX(0)' : 'translateX(-16px)',
                 opacity: menuOpen ? 1 : 0,
-              }}
-            >
+              }}>
               <span className="font-display font-bold text-2xl">{link.label}</span>
               {location.pathname === link.path && (
                 <span className="w-1.5 h-1.5 rounded-full bg-primary-red flex-shrink-0" />
@@ -269,21 +277,18 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <Link
-            to="/kontakti"
-            className="btn-primary mt-6 justify-center text-sm"
+          <Link to="/kontakti" className="btn-primary mt-6 justify-center text-sm"
             style={{
               transitionDelay: menuOpen ? '240ms' : '0ms',
               transform: menuOpen ? 'translateY(0)' : 'translateY(10px)',
               opacity: menuOpen ? 1 : 0,
               transition: 'opacity 0.4s ease, transform 0.4s ease',
-            }}
-          >
+            }}>
             {tr.nav_contact_btn}
           </Link>
         </nav>
 
-        {/* Drawer footer */}
+        {/* Footer */}
         <div className="px-6 py-5 flex flex-col gap-3"
           style={{ borderTop: '1px solid rgba(255,255,255,0.05)', opacity: menuOpen ? 1 : 0, transition: 'opacity 0.4s ease 0.28s' }}>
           <a href="mailto:info@classicmotionperformance.com"
