@@ -251,7 +251,7 @@ export default function Home() {
       <div className="h-px" style={{ background: 'rgba(255,255,255,0.05)' }} />
 
       {/* ─── Brand Statement ──────────────────────────────────────────── */}
-      <section className="relative py-16"
+      <section className="relative py-20"
         style={{
           background: '#1c1c1c',
           borderTop: '1px solid rgba(255,255,255,0.1)',
@@ -260,26 +260,29 @@ export default function Home() {
         }}>
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(217,31,38,0.07) 0%, transparent 65%)' }} />
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="red-line-accent fade-up-element" />
-              <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl mb-0 fade-up-element" style={{ transitionDelay: '0.1s' }}>
-                Built for Drivers Who Care About Every Detail
-              </h2>
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="section-eyebrow mb-5 fade-up-element">Par mums</p>
+          <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl mb-6 fade-up-element" style={{ transitionDelay: '0.08s' }}>
+            Kas ir{' '}
+            <span style={{
+              borderBottom: '2px solid #D91F26',
+              paddingBottom: '2px',
+            }}>Classic Motion Performance</span>
+            ?
+          </h2>
+          <Link
+            to="/par-mums"
+            className="fade-up-element inline-flex items-center gap-2 text-soft-grey/60 hover:text-primary-red transition-colors duration-200 text-sm font-medium group"
+            style={{ transitionDelay: '0.15s' }}
+          >
+            Lasīt vairāk
+            <div
+              className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
+              style={{ border: '1px solid rgba(255,255,255,0.15)' }}
+            >
+              <ArrowRight size={11} />
             </div>
-            <div className="fade-up-element" style={{ transitionDelay: '0.2s' }}>
-              <p className="text-soft-grey text-base leading-relaxed mb-5">
-                Classic Motion Performance delivers refined upgrade solutions for enthusiasts who want sharper braking, better road feel, and a more purposeful build. Every detail is chosen to combine performance, reliability, and visual impact.
-              </p>
-              <p className="text-soft-grey/50 text-sm leading-relaxed mb-8">
-                Focused exclusively on Volkswagen Golf Mk2 — not a general catalogue. Purpose-built solutions for builds that deserve precision.
-              </p>
-              <Link to="/par-mums" className="btn-secondary text-sm">
-                Our Story <ArrowRight size={14} />
-              </Link>
-            </div>
-          </div>
+          </Link>
         </div>
       </section>
 
