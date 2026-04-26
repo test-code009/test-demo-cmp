@@ -181,7 +181,7 @@ export default function Home() {
         <div className="max-w-2xl mx-auto px-6 text-center">
           <h2 className="text-text-white font-display font-bold text-3xl sm:text-4xl lg:text-5xl leading-tight mb-8 fade-up-element">
             Kas ir{' '}
-            <span style={{ borderBottom: '3px solid #D91F26', paddingBottom: '4px' }}>
+            <span className="text-gradient-red italic">
               Classic Motion Performance
             </span>
             ?
