@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Mail, Phone, ArrowUpRight } from 'lucide-react';
 import logoSrc from '../assets/logomk2.png';
+import { useLanguage } from '../context/LanguageContext';
+import t from '../lib/translations';
 
 const InstagramIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -10,14 +12,17 @@ const InstagramIcon = () => (
   </svg>
 );
 
-const navLinks = [
-  { label: 'Sākums', path: '/' },
-  { label: 'Produkti', path: '/produkti' },
-  { label: 'Par mums', path: '/par-mums' },
-  { label: 'Kontakti', path: '/kontakti' },
-];
-
 export default function Footer() {
+  const { lang } = useLanguage();
+  const tr = t[lang];
+
+  const navLinks = [
+    { label: tr.nav_home, path: '/' },
+    { label: tr.nav_products, path: '/produkti' },
+    { label: tr.nav_about, path: '/par-mums' },
+    { label: tr.nav_contacts, path: '/kontakti' },
+  ];
+
   return (
     <footer
       className="relative mt-auto"
@@ -34,14 +39,14 @@ export default function Footer() {
               style={{ height: '90px', width: 'auto', opacity: 0.9 }}
             />
             <p className="text-soft-grey text-sm leading-relaxed max-w-xs">
-              Premium brake and suspension upgrades for performance-focused builds.
+              {tr.footer_desc}
             </p>
             <div className="red-line-accent mt-6" />
           </div>
 
           {/* Navigation */}
           <div>
-            <p className="section-eyebrow mb-5">Navigation</p>
+            <p className="section-eyebrow mb-5">{tr.footer_nav}</p>
             <nav className="flex flex-col gap-3">
               {navLinks.map((link) => (
                 <Link
@@ -61,7 +66,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <p className="section-eyebrow mb-5">Contact</p>
+            <p className="section-eyebrow mb-5">{tr.footer_contact}</p>
             <div className="flex flex-col gap-3">
               <a
                 href="mailto:info@classicmotionperformance.com"
@@ -96,10 +101,10 @@ export default function Footer() {
           style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
         >
           <p className="text-soft-grey text-xs">
-            &copy; {new Date().getFullYear()} Classic Motion Performance. All rights reserved.
+            &copy; {new Date().getFullYear()} Classic Motion Performance. {tr.footer_rights}
           </p>
           <p className="text-soft-grey text-xs">
-            Mk2 Performance Specialists
+            {tr.footer_tagline}
           </p>
         </div>
       </div>

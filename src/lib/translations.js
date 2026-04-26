@@ -44,6 +44,16 @@ const t = {
     products_not_found: 'Produkti nav atrasti',
     products_not_found_sub: 'Mēģiniet citu meklēšanas vaicājumu.',
 
+    // How it works
+    how_eyebrow: 'Kā Tas Darbojas',
+    how_title: 'Vienkārši. Skaidri. Pārliecinoši.',
+    how_steps: [
+      { step: '01', title: 'Izvēlies savu risinājumu', text: 'Pārlūko mūsu produktus un izvēlies jaunināšanas virzienu, kas atbilst tava projekta mērķiem.' },
+      { step: '02', title: 'Apstiprina piemērotību', text: 'Mēs apstiprinām saderību un piemērošanas detaļas tieši tavam Mk2 variantam pirms jebkā tiek uzsākts.' },
+      { step: '03', title: 'Jaunini ar pārliecību', text: 'Saņem savu jauninājumu ar skaidriem uzstādīšanas norādījumiem un mērķtiecīga risinājuma garantiju.' },
+    ],
+    how_cta: 'Sākt Sarunu',
+
     // Product Detail
     detail_contact_title: 'Sazināties',
     detail_contact_sub: 'Aizpildi formu un mēs ar tevi sazināsimies.',
@@ -158,6 +168,16 @@ const t = {
     products_price_on_request: 'Price on request',
     products_not_found: 'No products found',
     products_not_found_sub: 'Try a different search query.',
+
+    // How it works
+    how_eyebrow: 'How It Works',
+    how_title: 'Simple. Clear. Confident.',
+    how_steps: [
+      { step: '01', title: 'Choose your setup', text: 'Browse our products and identify the upgrade direction that fits your build goals.' },
+      { step: '02', title: 'Confirm fitment', text: 'We confirm compatibility and fitment specifics for your exact Mk2 variant before anything moves forward.' },
+      { step: '03', title: 'Upgrade with confidence', text: 'Receive your upgrade with clear installation guidance and the assurance of a purpose-built solution.' },
+    ],
+    how_cta: 'Start the Conversation',
 
     // Product Detail
     detail_contact_title: 'Get in Touch',

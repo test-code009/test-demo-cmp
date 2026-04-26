@@ -3,8 +3,10 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Check, Send } from 'lucide-react';
 import { getProductBySlug, urlFor } from '../lib/sanity';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useLanguage } from '../context/LanguageContext';
+import t from '../lib/translations';
 
-function OrderForm({ productTitle }) {
+function OrderForm({ productTitle, tr }) {
   const [form, setForm] = useState({ name: '', phone: '' });
   const [status, setStatus] = useState(null);
 
@@ -30,57 +32,40 @@ function OrderForm({ productTitle }) {
         style={{ background: 'rgba(217,31,38,0.12)', border: '1px solid rgba(217,31,38,0.3)' }}>
         <Check size={22} className="text-primary-red" />
       </div>
-      <p className="text-text-white font-display font-semibold text-lg">Paldies!</p>
-      <p className="text-soft-grey text-sm">Mēs ar tevi sazināsimies drīzumā.</p>
+      <p className="text-text-white font-display font-semibold text-lg">{tr.detail_thanks}</p>
+      <p className="text-soft-grey text-sm">{tr.detail_thanks_sub}</p>
     </div>
   );
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
-        <label className="text-soft-grey/50 text-xs uppercase tracking-widest">Vārds</label>
-        <input
-          type="text"
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          placeholder="Jānis Bērziņš"
-          required
+        <label className="text-soft-grey/50 text-xs uppercase tracking-widest">{tr.detail_name}</label>
+        <input type="text" name="name" value={form.name} onChange={handleChange}
+          placeholder="Jānis Bērziņš" required
           className="w-full px-4 py-3 rounded-xl text-text-white text-sm outline-none transition-all duration-200"
           style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }}
           onFocus={e => { e.target.style.borderColor = 'rgba(217,31,38,0.5)'; e.target.style.background = 'rgba(255,255,255,0.07)'; }}
           onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.background = 'rgba(255,255,255,0.05)'; }}
         />
       </div>
-
       <div className="flex flex-col gap-1.5">
-        <label className="text-soft-grey/50 text-xs uppercase tracking-widest">Tālrunis</label>
-        <input
-          type="tel"
-          name="phone"
-          value={form.phone}
-          onChange={handleChange}
-          placeholder="+371 2X XXX XXX"
-          required
+        <label className="text-soft-grey/50 text-xs uppercase tracking-widest">{tr.detail_phone}</label>
+        <input type="tel" name="phone" value={form.phone} onChange={handleChange}
+          placeholder="+371 2X XXX XXX" required
           className="w-full px-4 py-3 rounded-xl text-text-white text-sm outline-none transition-all duration-200"
           style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }}
           onFocus={e => { e.target.style.borderColor = 'rgba(217,31,38,0.5)'; e.target.style.background = 'rgba(255,255,255,0.07)'; }}
           onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.background = 'rgba(255,255,255,0.05)'; }}
         />
       </div>
-
-      <button
-        type="submit"
-        disabled={status === 'sending'}
-        className="btn-primary justify-center mt-2"
-        style={{ opacity: status === 'sending' ? 0.7 : 1 }}
-      >
+      <button type="submit" disabled={status === 'sending'} className="btn-primary justify-center mt-2"
+        style={{ opacity: status === 'sending' ? 0.7 : 1 }}>
         <Send size={15} />
-        {status === 'sending' ? 'Nosūta...' : 'Pasūtīt'}
+        {status === 'sending' ? tr.detail_sending : tr.detail_order}
       </button>
-
       {status === 'error' && (
-        <p className="text-primary-red text-xs text-center">Kļūda. Lūdzu mēģini vēlreiz.</p>
+        <p className="text-primary-red text-xs text-center">{tr.detail_error}</p>
       )}
     </form>
   );
@@ -90,6 +75,8 @@ export default function ProductDetail() {
   const { slug } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { lang } = useLanguage();
+  const tr = t[lang];
 
   useScrollReveal([product]);
 
@@ -109,8 +96,8 @@ export default function ProductDetail() {
   if (!product) return (
     <main className="min-h-screen bg-base-black flex items-center justify-center">
       <div className="text-center">
-        <p className="text-soft-grey/40 text-sm uppercase tracking-widest mb-6">Produkts nav atrasts</p>
-        <Link to="/produkti" className="btn-primary"><ArrowLeft size={15} /> Atpakaļ</Link>
+        <p className="text-soft-grey/40 text-sm uppercase tracking-widest mb-6">{tr.detail_not_found}</p>
+        <Link to="/produkti" className="btn-primary"><ArrowLeft size={15} /> {tr.detail_back}</Link>
       </div>
     </main>
   );
@@ -186,11 +173,9 @@ export default function ProductDetail() {
                 border: '1px solid rgba(255,255,255,0.1)',
                 backdropFilter: 'blur(6px)',
               }}>
-              <p className="text-text-white font-display font-bold text-xl mb-1">Sazināties</p>
-              <p className="text-soft-grey/45 text-sm mb-6">
-                Aizpildi formu un mēs ar tevi sazināsimies.
-              </p>
-              <OrderForm productTitle={product.title} />
+              <p className="text-text-white font-display font-bold text-xl mb-1">{tr.detail_contact_title}</p>
+              <p className="text-soft-grey/45 text-sm mb-6">{tr.detail_contact_sub}</p>
+              <OrderForm productTitle={product.title} tr={tr} />
             </div>
           </div>
 
@@ -202,7 +187,7 @@ export default function ProductDetail() {
           {(product.shortDescription || product.description) && (
             <div className="fade-up-element rounded-2xl p-7"
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-4">Par produktu</p>
+              <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-4">{tr.detail_description}</p>
               <p className="text-soft-grey text-base leading-relaxed">
                 {product.description || product.shortDescription}
               </p>
@@ -212,7 +197,7 @@ export default function ProductDetail() {
           {product.specs && product.specs.length > 0 && (
             <div className="fade-up-element rounded-2xl p-7"
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-5">Komplektācija</p>
+              <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-5">{tr.detail_specs}</p>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {product.specs.map((spec, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-soft-grey/80">
@@ -230,7 +215,7 @@ export default function ProductDetail() {
         <div className="mt-12">
           <Link to="/produkti"
             className="fade-up-element inline-flex items-center gap-2 text-soft-grey/35 hover:text-soft-grey text-sm transition-colors">
-            <ArrowLeft size={14} /> Visi produkti
+            <ArrowLeft size={14} /> {tr.nav_products}
           </Link>
         </div>
 

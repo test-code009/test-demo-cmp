@@ -3,6 +3,8 @@ import { ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { getLatestProducts, getFeaturedProducts, urlFor } from '../lib/sanity';
+import { useLanguage } from '../context/LanguageContext';
+import t from '../lib/translations';
 
 const homeFallbackProducts = [
   {
@@ -122,6 +124,8 @@ function ProductCard({ product, delay = 0 }) {
 export default function Home() {
   const [newProducts, setNewProducts] = useState(homeFallbackProducts);
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const { lang } = useLanguage();
+  const tr = t[lang];
 
   useScrollReveal([newProducts, featuredProducts]);
 
@@ -150,7 +154,7 @@ export default function Home() {
           <div className="flex items-center py-3" style={{ animation: 'marquee 22s linear infinite' }}>
             {[...Array(3)].map((_, rep) => (
               <div key={rep} className="flex items-center flex-shrink-0">
-                {['Stop Harder', 'Drive Sharper', 'Built for Mk2', 'Engineered Performance', 'Clean & Purposeful', 'Upgrade Everything'].map((kw, i) => (
+                {tr.home_ticker.map((kw, i) => (
                   <span key={i} className="flex items-center gap-5 px-6">
                     <span className="text-text-white/75 text-xs font-semibold uppercase tracking-[0.18em] whitespace-nowrap">{kw}</span>
                     <span className="w-1 h-1 rounded-full bg-primary-red flex-shrink-0" />
@@ -174,21 +178,21 @@ export default function Home() {
         }} />
         <div className="max-w-2xl mx-auto px-6 text-center">
           <h2 className="text-text-white font-display font-bold text-3xl sm:text-4xl lg:text-5xl leading-tight mb-8 fade-up-element">
-            Kas ir{' '}
+            {tr.home_cmp_q}{' '}
             <span className="text-gradient-red italic">
-              Classic Motion Performance
+              {tr.home_cmp_name}
             </span>
             ?
           </h2>
           <p className="text-soft-grey text-base leading-relaxed mb-10 fade-up-element" style={{ transitionDelay: '0.1s' }}>
-            Classic Motion Performance ir Latvijā dibināts zīmols, kas specializējas VW Golf Mk2 bremžu un balstiekārtas jaunināšanā. Mēs piedāvājam precīzi izstrādātus risinājumus entuziastiem, kuriem svarīga katras detaļas kvalitāte un veiktspēja.
+            {tr.home_cmp_desc}
           </p>
           <div className="fade-up-element" style={{ transitionDelay: '0.18s' }}>
             <Link
               to="/par-mums"
               className="inline-flex items-center gap-2 text-soft-grey/60 hover:text-primary-red transition-colors duration-200 text-sm font-medium group"
             >
-              Lasīt vairāk
+              {tr.home_read_more}
               <div
                 className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
                 style={{ border: '1px solid rgba(255,255,255,0.15)' }}
@@ -206,12 +210,12 @@ export default function Home() {
           {/* Section heading */}
           <div className="flex items-end justify-between mb-10 fade-up-element">
             <h2 className="section-title text-4xl sm:text-5xl font-display font-bold">
-              New in Store
+              {tr.home_new_in_store}
             </h2>
             <Link to="/produkti"
               className="flex items-center gap-2 text-sm font-semibold text-text-white/80 hover:text-primary-red transition-colors duration-200 group pb-1"
             >
-              Skatīt visus
+              {tr.home_view_all}
               <div className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 group-hover:bg-primary-red"
                 style={{ border: '1px solid rgba(255,255,255,0.25)', background: 'rgba(255,255,255,0.05)' }}>
                 <ArrowRight size={12} />
@@ -236,15 +240,15 @@ export default function Home() {
             <div className="max-w-7xl mx-auto px-6">
               <div className="flex items-end justify-between mb-12">
                 <div>
-                  <p className="section-eyebrow mb-3 fade-up-element">Top Picks</p>
+                  <p className="section-eyebrow mb-3 fade-up-element">{tr.home_top_picks}</p>
                   <h2 className="section-title text-3xl sm:text-4xl fade-up-element" style={{ transitionDelay: '0.1s' }}>
-                    Most Popular
+                    {tr.home_most_popular}
                   </h2>
                 </div>
                 <Link to="/produkti"
                   className="hidden sm:flex items-center gap-2 text-soft-grey/50 hover:text-primary-red transition-colors text-sm font-medium fade-up-element"
                   style={{ transitionDelay: '0.2s' }}>
-                  View all <ArrowRight size={13} />
+                  {tr.home_view_all} <ArrowRight size={13} />
                 </Link>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -267,19 +271,19 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-px"
           style={{ background: 'linear-gradient(90deg, transparent, rgba(217,31,38,0.1), transparent)' }} />
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-          <p className="section-eyebrow mb-5 fade-up-element">Let's Build</p>
+          <p className="section-eyebrow mb-5 fade-up-element">{tr.home_cta_eyebrow}</p>
           <h2 className="section-title text-4xl sm:text-5xl lg:text-6xl mb-6 fade-up-element" style={{ transitionDelay: '0.1s' }}>
-            Ready to upgrade your build?
+            {tr.home_cta_title}
           </h2>
           <p className="text-soft-grey text-lg mb-10 fade-up-element" style={{ transitionDelay: '0.2s' }}>
-            Let's talk about the right setup for your project.
+            {tr.home_cta_desc}
           </p>
           <div className="flex flex-wrap justify-center gap-4 fade-up-element" style={{ transitionDelay: '0.3s' }}>
             <Link to="/kontakti" className="btn-primary">
-              Contact Us <ArrowRight size={16} />
+              {tr.home_get_in_touch} <ArrowRight size={16} />
             </Link>
             <Link to="/produkti" className="btn-secondary">
-              Browse Products
+              {tr.home_explore}
             </Link>
           </div>
         </div>

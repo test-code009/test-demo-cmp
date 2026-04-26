@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, Mail, Phone, ArrowLeft } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import t from '../lib/translations';
 
 const InstagramIcon = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -10,19 +12,21 @@ const InstagramIcon = () => (
   </svg>
 );
 
-const navLinks = [
-  { label: 'Sākums', path: '/' },
-  { label: 'Produkti', path: '/produkti' },
-  { label: 'Par mums', path: '/par-mums' },
-  { label: 'Kontakti', path: '/kontakti' },
-];
-
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
+  const { lang, setLang } = useLanguage();
+  const tr = t[lang];
+
+  const navLinks = [
+    { label: tr.nav_home, path: '/' },
+    { label: tr.nav_products, path: '/produkti' },
+    { label: tr.nav_about, path: '/par-mums' },
+    { label: tr.nav_contacts, path: '/kontakti' },
+  ];
 
   function handleBack() {
     if (window.history.length > 1) navigate(-1);
@@ -72,7 +76,7 @@ export default function Navbar() {
             @classicmotionperformance
           </a>
           <span className="text-white/10 text-xs">|</span>
-          <span className="text-soft-grey/40 text-xs uppercase tracking-widest">Mk2 Specialists</span>
+          <span className="text-soft-grey/40 text-xs uppercase tracking-widest">{tr.nav_specialists}</span>
         </div>
       </div>
 
@@ -106,7 +110,7 @@ export default function Navbar() {
               onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
             >
               <ArrowLeft size={13} className="text-soft-grey group-hover:text-primary-red transition-colors" />
-              <span className="text-soft-grey group-hover:text-text-white transition-colors text-xs font-medium uppercase tracking-widest">Back</span>
+              <span className="text-soft-grey group-hover:text-text-white transition-colors text-xs font-medium uppercase tracking-widest">{tr.nav_back}</span>
             </button>
           )}
 
@@ -121,9 +125,10 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* ── Search + CTA — centered on sub-pages, top-right on home ─── */}
+          {/* ── Search + Language + CTA ─── */}
           <div className={`flex items-center gap-3 pr-6 ml-auto ${isHome ? 'self-start pt-4' : ''}`}>
-            {/* Always-visible search bar */}
+
+            {/* Search bar */}
             <div className="relative flex items-center">
               <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" />
               <input
@@ -136,7 +141,7 @@ export default function Navbar() {
                     e.target.blur();
                   }
                 }}
-                placeholder="Search..."
+                placeholder={tr.nav_search}
                 className="text-text-white text-sm pl-8 pr-8 py-2 outline-none transition-all duration-300 rounded-full w-36 sm:w-44"
                 style={{
                   background: 'rgba(255,255,255,0.12)',
@@ -167,11 +172,36 @@ export default function Navbar() {
               )}
             </div>
 
+            {/* Language selector */}
+            <div className="flex items-center rounded-full overflow-hidden flex-shrink-0"
+              style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.06)' }}>
+              <button
+                onClick={() => setLang('lv')}
+                className="text-xs font-semibold px-3 py-1.5 transition-all duration-200"
+                style={{
+                  background: lang === 'lv' ? '#D91F26' : 'transparent',
+                  color: lang === 'lv' ? '#fff' : 'rgba(255,255,255,0.45)',
+                }}
+              >
+                LV
+              </button>
+              <button
+                onClick={() => setLang('en')}
+                className="text-xs font-semibold px-3 py-1.5 transition-all duration-200"
+                style={{
+                  background: lang === 'en' ? '#D91F26' : 'transparent',
+                  color: lang === 'en' ? '#fff' : 'rgba(255,255,255,0.45)',
+                }}
+              >
+                EN
+              </button>
+            </div>
+
             <Link to="/kontakti" className="btn-primary text-sm py-2 px-5 hidden sm:inline-flex">
-              Sazināties
+              {tr.nav_contact_btn}
             </Link>
 
-            {/* ── Hamburger — right ───── */}
+            {/* ── Hamburger ───── */}
             <button
               className="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 flex-shrink-0"
               style={{ border: '1px solid rgba(255,255,255,0.08)', background: menuOpen ? 'rgba(217,31,38,0.12)' : 'rgba(255,255,255,0.04)' }}
@@ -189,19 +219,16 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-
       </header>
 
-      {/* ── Backdrop dimmer ──────────────────────────────────────────── */}
+      {/* ── Backdrop ──────────────────────────────────────────────────── */}
       <div
-        className={`fixed inset-0 z-40 transition-all duration-500 ${
-          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 z-40 transition-all duration-500 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
         onClick={() => setMenuOpen(false)}
       />
 
-      {/* ── Side drawer — 1/4 width, slides from left ────────────────── */}
+      {/* ── Side drawer ───────────────────────────────────────────────── */}
       <div
         className="fixed top-0 left-0 bottom-0 z-50 flex flex-col"
         style={{
@@ -213,21 +240,18 @@ export default function Navbar() {
           boxShadow: menuOpen ? '8px 0 60px rgba(0,0,0,0.7)' : 'none',
         }}
       >
-        {/* Drawer header */}
         <div className="flex items-center justify-between px-7 pt-6 pb-5"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-          <p className="section-eyebrow">Menu</p>
+          <p className="section-eyebrow">{tr.nav_menu}</p>
           <button
             className="w-8 h-8 flex items-center justify-center rounded-lg text-soft-grey hover:text-text-white transition-colors"
             style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(217,31,38,0.1)' }}
             onClick={() => setMenuOpen(false)}
-            aria-label="Close menu"
           >
             <X size={15} className="text-primary-red" />
           </button>
         </div>
 
-        {/* Nav links */}
         <nav className="flex flex-col flex-1 px-7 py-6 gap-1 overflow-y-auto">
           {navLinks.map((link, i) => (
             <Link
@@ -260,11 +284,10 @@ export default function Navbar() {
               transition: 'opacity 0.4s ease, transform 0.4s ease',
             }}
           >
-            Sazināties
+            {tr.nav_contact_btn}
           </Link>
         </nav>
 
-        {/* Contact info at bottom */}
         <div className="px-7 py-6 flex flex-col gap-3"
           style={{ borderTop: '1px solid rgba(255,255,255,0.05)', opacity: menuOpen ? 1 : 0, transition: 'opacity 0.4s ease 0.3s' }}>
           <a href="mailto:info@classicmotionperformance.com"

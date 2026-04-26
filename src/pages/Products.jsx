@@ -3,6 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, X } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { getProducts, getCategories, urlFor } from '../lib/sanity';
+import { useLanguage } from '../context/LanguageContext';
+import t from '../lib/translations';
 
 // Fallback static products shown while Sanity loads or if empty
 const fallbackProducts = [
@@ -90,7 +92,7 @@ function ProductCard({ product }) {
         {price ? (
           <span className="text-primary-red font-display font-bold text-lg flex-shrink-0">{price} €</span>
         ) : (
-          <span className="text-soft-grey/50 text-xs uppercase tracking-widest flex-shrink-0">Cena pēc piepras.</span>
+          <span className="text-soft-grey/50 text-xs uppercase tracking-widest flex-shrink-0">{tr.products_price_on_request}</span>
         )}
       </div>
     </Link>
@@ -106,6 +108,8 @@ export default function Products() {
   const [fetchError, setFetchError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('q') || '';
+  const { lang } = useLanguage();
+  const tr = t[lang];
 
   useScrollReveal([products, loading]);
 
@@ -152,12 +156,12 @@ export default function Products() {
             style={{ background: 'linear-gradient(to top, #060606, transparent)' }} />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 pt-40 md:pt-44 w-full">
-          <p className="section-eyebrow mb-4 fade-up-element">Our Range</p>
+          <p className="section-eyebrow mb-4 fade-up-element">{tr.products_eyebrow}</p>
           <h1 className="section-title text-5xl sm:text-6xl lg:text-7xl mb-4 fade-up-element" style={{ transitionDelay: '0.1s' }}>
-            Products
+            {tr.products_title}
           </h1>
           <p className="text-soft-grey text-lg max-w-xl fade-up-element" style={{ transitionDelay: '0.2s' }}>
-            Purpose-built upgrade solutions for Volkswagen Golf Mk2 enthusiasts.
+            {tr.products_desc}
           </p>
         </div>
       </section>
@@ -184,7 +188,7 @@ export default function Products() {
                 color: activeCategory === 'all' && !showFeaturedOnly ? '#FF3B30' : '#A7A7A7',
               }}
             >
-              All
+              {tr.products_all}
             </button>
             {categories.map(cat => (
               <button
@@ -211,13 +215,13 @@ export default function Products() {
             <div className="flex items-center justify-center py-40">
               <div className="flex flex-col items-center gap-4">
                 <div className="w-10 h-10 rounded-full border-2 border-primary-red/30 border-t-primary-red animate-spin" />
-                <p className="text-soft-grey/50 text-sm uppercase tracking-widest">Loading products</p>
+                <p className="text-soft-grey/50 text-sm uppercase tracking-widest">{tr.products_title}...</p>
               </div>
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-40">
-              <p className="text-soft-grey/40 text-sm uppercase tracking-widest mb-3">No products found</p>
-              <p className="text-soft-grey/25 text-xs">Try a different filter or check back soon.</p>
+              <p className="text-soft-grey/40 text-sm uppercase tracking-widest mb-3">{tr.products_not_found}</p>
+              <p className="text-soft-grey/25 text-xs">{tr.products_not_found_sub}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
@@ -235,17 +239,13 @@ export default function Products() {
       <section className="py-24 bg-charcoal">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-14">
-            <p className="section-eyebrow mb-4 fade-up-element">How It Works</p>
+            <p className="section-eyebrow mb-4 fade-up-element">{tr.how_eyebrow}</p>
             <h2 className="section-title text-3xl fade-up-element" style={{ transitionDelay: '0.1s' }}>
-              Simple. Clear. Confident.
+              {tr.how_title}
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { step: '01', title: 'Choose your setup', text: 'Browse our products and identify the upgrade direction that fits your build goals.' },
-              { step: '02', title: 'Confirm fitment', text: 'We confirm compatibility and fitment specifics for your exact Mk2 variant before anything moves forward.' },
-              { step: '03', title: 'Upgrade with confidence', text: 'Receive your upgrade with clear installation guidance and the assurance of a purpose-built solution.' },
-            ].map((s, i) => (
+            {tr.how_steps.map((s, i) => (
               <div key={s.step} className="glass-card p-8 text-center fade-up-element" style={{ transitionDelay: `${i * 0.12}s` }}>
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-5"
                   style={{ background: 'rgba(217,31,38,0.1)', border: '1px solid rgba(217,31,38,0.25)' }}>
@@ -258,7 +258,7 @@ export default function Products() {
           </div>
           <div className="text-center mt-12 fade-up-element">
             <Link to="/kontakti" className="btn-primary">
-              Start the Conversation <ArrowRight size={16} />
+              {tr.how_cta} <ArrowRight size={16} />
             </Link>
           </div>
         </div>
