@@ -60,33 +60,29 @@ function ProductCard({ product, delay = 0 }) {
   return (
     <Link
       to={product.slug ? `/produkti/${product.slug}` : '/produkti'}
-      className="group fade-up-element flex flex-col rounded-2xl overflow-hidden"
+      className="group fade-up-element flex flex-col overflow-hidden rounded-xl"
       style={{
         transitionDelay: `${delay}s`,
-        border: '1px solid rgba(255,255,255,0.14)',
-        transition: 'border-color 0.3s, transform 0.3s, box-shadow 0.3s',
-        background: '#1a1a1a',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset',
+        transition: 'transform 0.3s, box-shadow 0.3s',
+        background: '#0d0d0d',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.55)';
-        e.currentTarget.style.transform = 'translateY(-5px)';
-        e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(217,31,38,0.15), 0 1px 0 rgba(255,255,255,0.06) inset';
+        e.currentTarget.style.transform = 'translateY(-4px)';
+        e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.6)';
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)';
         e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset';
+        e.currentTarget.style.boxShadow = 'none';
       }}
     >
-      {/* Image — full picture, no crop */}
-      <div className="overflow-hidden" style={{ background: '#111111' }}>
+      {/* Image */}
+      <div className="overflow-hidden rounded-xl" style={{ background: '#111111' }}>
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={product.title}
-            className="w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-            style={{ display: 'block', maxHeight: '280px' }}
+            className="w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            style={{ display: 'block', maxHeight: '260px' }}
           />
         ) : (
           <div className="flex items-center justify-center" style={{ height: '220px' }}>
@@ -98,27 +94,21 @@ function ProductCard({ product, delay = 0 }) {
         )}
       </div>
 
-      {/* Bottom info panel */}
-      <div className="flex items-center justify-between gap-4 px-5 py-4"
-        style={{ borderTop: '1px solid rgba(255,255,255,0.08)', background: '#1a1a1a' }}>
+      {/* Info */}
+      <div className="flex items-center justify-between gap-4 pt-4 px-1">
         <div className="flex-1 min-w-0">
-          {product.category && (
-            <p className="text-soft-grey/40 text-[10px] uppercase tracking-widest mb-1">{product.category}</p>
-          )}
-          <h3 className="text-text-white font-display font-bold text-base leading-snug truncate">{product.title}</h3>
-        </div>
-        <div className="flex items-center gap-3 flex-shrink-0">
+          <h3 className="text-text-white font-display font-semibold text-base leading-snug truncate">{product.title}</h3>
           {price ? (
-            <span className="text-primary-red font-display font-bold text-lg">{price}</span>
+            <p className="text-soft-grey/60 text-sm mt-0.5">{price}</p>
           ) : (
-            <span className="text-soft-grey/40 text-xs uppercase tracking-widest">Pēc piepras.</span>
+            <p className="text-soft-grey/40 text-xs mt-0.5 uppercase tracking-widest">Pēc piepras.</p>
           )}
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 group-hover:bg-primary-red"
-            style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.04)' }}
-          >
-            <ArrowRight size={13} className="text-soft-grey group-hover:text-white transition-colors" />
-          </div>
+        </div>
+        <div
+          className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-200 group-hover:bg-primary-red group-hover:border-primary-red"
+          style={{ border: '1px solid rgba(255,255,255,0.15)' }}
+        >
+          <ArrowRight size={13} className="text-soft-grey/70 group-hover:text-white transition-colors" />
         </div>
       </div>
     </Link>
@@ -209,29 +199,18 @@ export default function Home() {
       {/* ─── New in Store ─────────────────────────────────────────────── */}
       <section id="new-in-store" className="relative py-16" style={{ background: '#0d0d0d' }}>
         <div className="max-w-7xl mx-auto px-6">
-          {/* Section heading — right aligned with red line extending off screen */}
-          <div className="flex flex-col items-end mb-10 overflow-hidden fade-up-element">
-            <p className="section-eyebrow mb-2 text-right">Fresh Arrivals</p>
-            <div className="flex items-center gap-0 w-full justify-end">
-              <h2 className="section-title text-4xl sm:text-5xl font-display font-bold whitespace-nowrap">
-                New in Store
-              </h2>
-            </div>
-            {/* Red underline — starts at right edge, fades left to ~50% screen */}
-            <div className="mt-3" style={{ width: 'calc(100% + 3rem)', marginRight: '-3rem' }}>
-              <div style={{
-                height: '2px',
-                width: '100%',
-                background: 'linear-gradient(to left, #D91F26 0%, #D91F26 20%, rgba(217,31,38,0.5) 45%, transparent 100%)',
-              }} />
-            </div>
+          {/* Section heading */}
+          <div className="flex items-end justify-between mb-10 fade-up-element">
+            <h2 className="section-title text-4xl sm:text-5xl font-display font-bold">
+              New in Store
+            </h2>
             <Link to="/produkti"
-              className="mt-4 flex items-center gap-2 text-soft-grey/50 hover:text-primary-red transition-colors text-sm font-medium group"
-              style={{ transitionDelay: '0.2s' }}>
-              View all
-              <div className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
-                style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
-                <ArrowRight size={11} />
+              className="flex items-center gap-2 text-sm font-semibold text-text-white/80 hover:text-primary-red transition-colors duration-200 group pb-1"
+            >
+              Skatīt visus
+              <div className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 group-hover:bg-primary-red"
+                style={{ border: '1px solid rgba(255,255,255,0.25)', background: 'rgba(255,255,255,0.05)' }}>
+                <ArrowRight size={12} />
               </div>
             </Link>
           </div>
