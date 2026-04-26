@@ -145,13 +145,18 @@ export default function Home() {
       {/* ─── Hero ─────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
         <HeroBackground />
-        {/* Mobile logo — centered in hero */}
-        <div className="md:hidden absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 5 }}>
-          <img
-            src="/logo.png"
-            alt="Classic Motion Performance"
-            style={{ height: '220px', filter: 'drop-shadow(0 0 24px rgba(217,31,38,0.5))' }}
-          />
+        {/* Mobile: centered logo + bottom text */}
+        <div className="md:hidden absolute inset-0 pointer-events-none" style={{ zIndex: 5 }}>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <img src="/logo.png" alt="Classic Motion Performance"
+              style={{ height: '210px', filter: 'drop-shadow(0 0 28px rgba(217,31,38,0.55))' }} />
+          </div>
+          <div className="absolute bottom-20 left-0 right-0 px-6 text-center">
+            <p className="text-text-white font-display font-bold text-2xl leading-tight mb-2">
+              Bremžu & balstiekārtas<br />uzlabojumi
+            </p>
+            <p className="text-soft-grey/55 text-xs uppercase tracking-[0.22em]">VW Golf Mk2 · Latvija</p>
+          </div>
         </div>
         {/* Ticker */}
         <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden"

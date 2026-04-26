@@ -85,31 +85,39 @@ export default function Navbar() {
       {/* ════════════════════════════════════════════
           MOBILE NAVBAR — always fixed at top
       ════════════════════════════════════════════ */}
-      <header className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center px-4"
+      <header className="md:hidden fixed top-0 left-0 right-0 z-50"
         style={{
-          height: '56px',
-          background: 'rgba(6,6,6,0.96)',
+          height: '60px',
+          background: 'rgba(6,6,6,0.94)',
           borderBottom: '1px solid rgba(255,255,255,0.06)',
           backdropFilter: 'blur(16px)',
         }}>
-        {/* Left: back button or logo */}
-        {!isHome ? (
-          <button onClick={handleBack}
-            className="flex items-center gap-1.5 flex-shrink-0 transition-all duration-200 mr-2"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '6px 10px' }}>
-            <ArrowLeft size={13} className="text-soft-grey" />
-            <span className="text-soft-grey text-xs font-medium uppercase tracking-wider">{tr.nav_back}</span>
-          </button>
-        ) : (
-          <Link to="/" className="flex-shrink-0">
-            <img src="/logo.png" alt="CMP" style={{ height: '38px', width: 'auto', filter: 'drop-shadow(0 0 6px rgba(217,31,38,0.3))' }} />
-          </Link>
-        )}
+        <div className="flex items-center h-full px-4">
+          {/* Left: lang toggle or back button */}
+          <div className="flex-1 flex items-center">
+            {!isHome ? (
+              <button onClick={handleBack}
+                className="flex items-center gap-1.5"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '6px 10px' }}>
+                <ArrowLeft size={13} className="text-soft-grey" />
+                <span className="text-soft-grey text-xs font-medium uppercase tracking-wider">{tr.nav_back}</span>
+              </button>
+            ) : (
+              <LangToggle small />
+            )}
+          </div>
 
-        {/* Right: lang + hamburger */}
-        <div className="flex items-center gap-2 ml-auto">
-          <LangToggle small />
-          <HamburgerBtn />
+          {/* Center: logo */}
+          <Link to="/" className="absolute left-1/2 -translate-x-1/2">
+            <img src="/logo.png" alt="CMP"
+              style={{ height: '46px', width: 'auto', filter: 'drop-shadow(0 0 8px rgba(217,31,38,0.35))' }} />
+          </Link>
+
+          {/* Right: hamburger (+ lang on sub-pages) */}
+          <div className="flex-1 flex items-center justify-end gap-2">
+            {!isHome && <LangToggle small />}
+            <HamburgerBtn />
+          </div>
         </div>
       </header>
 
