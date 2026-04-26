@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Search, Mail, Phone, ArrowLeft } from 'lucide-react';
+import { X, Search, Mail, Phone, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import t from '../lib/translations';
 
@@ -15,6 +15,7 @@ const InstagramIcon = () => (
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [mobileSearch, setMobileSearch] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
@@ -36,6 +37,7 @@ export default function Navbar() {
   useEffect(() => {
     setMenuOpen(false);
     setSearchQuery('');
+    setMobileSearch('');
   }, [location]);
 
   useEffect(() => {
@@ -44,17 +46,46 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ''; document.body.dataset.menuOpen = 'false'; };
   }, [menuOpen]);
 
+  const LangToggle = () => (
+    <div className="flex items-center rounded-full overflow-hidden flex-shrink-0"
+      style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.06)' }}>
+      {['lv', 'en'].map(l => (
+        <button key={l} onClick={() => setLang(l)}
+          className="text-xs font-semibold px-3 py-1.5 transition-all duration-200 uppercase"
+          style={{
+            background: lang === l ? '#D91F26' : 'transparent',
+            color: lang === l ? '#fff' : 'rgba(255,255,255,0.45)',
+          }}>
+          {l}
+        </button>
+      ))}
+    </div>
+  );
+
+  const Hamburger = () => (
+    <button
+      className="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 flex-shrink-0"
+      style={{ border: '1px solid rgba(255,255,255,0.08)', background: menuOpen ? 'rgba(217,31,38,0.12)' : 'rgba(255,255,255,0.04)' }}
+      onClick={() => setMenuOpen(!menuOpen)}
+      aria-label="Toggle menu"
+    >
+      <div className="flex flex-col gap-[5px] w-5">
+        <span className="block h-px w-full transition-all duration-300"
+          style={{ transform: menuOpen ? 'translateY(6px) rotate(45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
+        <span className="block h-px transition-all duration-300"
+          style={{ width: menuOpen ? '100%' : '70%', opacity: menuOpen ? 0 : 1, background: '#F5F5F5' }} />
+        <span className="block h-px w-full transition-all duration-300"
+          style={{ transform: menuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
+      </div>
+    </button>
+  );
+
   return (
     <>
-      {/* ── Top info bar (desktop only) ───────────────────────────── */}
+      {/* ── Top info bar — desktop only ───────────────────────────── */}
       <div
         className={`${isHome ? 'absolute' : 'fixed'} top-0 left-0 right-0 z-50 hidden md:flex items-center justify-between px-8`}
-        style={{
-          height: '36px',
-          background: 'rgba(10,10,10,0.92)',
-          borderBottom: '1px solid rgba(255,255,255,0.05)',
-          backdropFilter: 'blur(12px)',
-        }}
+        style={{ height: '36px', background: 'rgba(10,10,10,0.92)', borderBottom: '1px solid rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}
       >
         <div className="flex items-center gap-6">
           <a href="mailto:info@classicmotionperformance.com"
@@ -82,54 +113,48 @@ export default function Navbar() {
 
       {/* ── Main navbar ──────────────────────────────────────────────── */}
       <header
-        className="left-0 right-0 z-50 bg-transparent"
+        className="left-0 right-0 z-50"
         style={{
           position: isHome ? 'absolute' : 'fixed',
-          top: isHome ? 0 : '36px',
-          marginTop: isHome ? 'clamp(0px, 4vw, 36px)' : '0',
-          background: isHome ? 'transparent' : 'rgba(6,6,6,0.92)',
+          top: isHome ? 0 : '0',
+          // on desktop non-home push below info bar
+          background: isHome ? 'transparent' : 'rgba(6,6,6,0.95)',
           backdropFilter: isHome ? 'none' : 'blur(16px)',
           borderBottom: isHome ? 'none' : '1px solid rgba(255,255,255,0.05)',
         }}
       >
-        <div className="flex items-center gap-4 px-0"
+        {/* Desktop: push below info bar */}
+        <div className="hidden md:block" style={{ height: isHome ? 0 : '36px' }} />
+
+        <div className="flex items-center px-4 md:px-6"
           style={{ height: isHome ? '300px' : '60px' }}>
 
-          {/* ── Back button — sub-pages only ───── */}
+          {/* Back button — sub-pages only */}
           {!isHome && (
-            <button
-              onClick={handleBack}
-              className="group flex items-center gap-2 flex-shrink-0 ml-5 transition-all duration-200"
-              style={{
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: '10px',
-                padding: '7px 13px',
-              }}
+            <button onClick={handleBack}
+              className="group flex items-center gap-2 flex-shrink-0 mr-3 transition-all duration-200"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '7px 13px' }}
               onMouseEnter={e => { e.currentTarget.style.background = 'rgba(217,31,38,0.12)'; e.currentTarget.style.borderColor = 'rgba(217,31,38,0.35)'; }}
               onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
             >
               <ArrowLeft size={13} className="text-soft-grey group-hover:text-primary-red transition-colors" />
-              <span className="text-soft-grey group-hover:text-text-white transition-colors text-xs font-medium uppercase tracking-widest">{tr.nav_back}</span>
+              <span className="text-soft-grey group-hover:text-text-white transition-colors text-xs font-medium uppercase tracking-widest hidden sm:block">{tr.nav_back}</span>
             </button>
           )}
 
-          {/* ── Logo — hard left edge, home page only ───── */}
+          {/* Logo — home only */}
           {isHome && (
-            <Link to="/" className="flex-shrink-0 flex items-center" style={{ marginLeft: '0', paddingLeft: '0' }}>
-              <img
-                src="/logo.png"
-                alt="Classic Motion Performance"
-                style={{ height: '280px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))', display: 'block' }}
-              />
+            <Link to="/" className="flex-shrink-0 flex items-center">
+              <img src="/logo.png" alt="Classic Motion Performance"
+                style={{ height: '280px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))', display: 'block' }} />
             </Link>
           )}
 
-          {/* ── Search + Language + CTA ─── */}
-          <div className={`flex items-center gap-3 pr-6 ml-auto ${isHome ? 'self-start pt-4' : ''}`}>
+          {/* Right side controls */}
+          <div className={`flex items-center gap-2 md:gap-3 ml-auto ${isHome ? 'self-start pt-4' : ''}`}>
 
-            {/* Search bar */}
-            <div className="relative flex items-center">
+            {/* Search — desktop only in navbar */}
+            <div className="relative hidden md:flex items-center">
               <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" />
               <input
                 type="text"
@@ -142,81 +167,28 @@ export default function Navbar() {
                   }
                 }}
                 placeholder={tr.nav_search}
-                className="text-text-white text-sm pl-8 pr-8 py-2 outline-none transition-all duration-300 rounded-full w-36 sm:w-44"
-                style={{
-                  background: 'rgba(255,255,255,0.12)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  backdropFilter: 'blur(8px)',
-                  color: '#F5F5F5',
-                }}
-                onFocus={(e) => {
-                  e.target.style.background = 'rgba(255,255,255,0.18)';
-                  e.target.style.borderColor = 'rgba(217,31,38,0.5)';
-                  e.target.style.boxShadow = '0 0 0 3px rgba(217,31,38,0.08)';
-                  e.target.style.width = '200px';
-                }}
-                onBlur={(e) => {
-                  e.target.style.background = 'rgba(255,255,255,0.12)';
-                  e.target.style.borderColor = 'rgba(255,255,255,0.15)';
-                  e.target.style.boxShadow = 'none';
-                  if (!searchQuery) e.target.style.width = '';
-                }}
+                className="text-text-white text-sm pl-8 pr-8 py-2 outline-none transition-all duration-300 rounded-full w-44"
+                style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', color: '#F5F5F5' }}
+                onFocus={(e) => { e.target.style.background = 'rgba(255,255,255,0.18)'; e.target.style.borderColor = 'rgba(217,31,38,0.5)'; e.target.style.width = '210px'; }}
+                onBlur={(e) => { e.target.style.background = 'rgba(255,255,255,0.12)'; e.target.style.borderColor = 'rgba(255,255,255,0.15)'; if (!searchQuery) e.target.style.width = ''; }}
               />
               {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 text-soft-grey/50 hover:text-text-white transition-colors"
-                >
+                <button onClick={() => setSearchQuery('')} className="absolute right-2.5 text-soft-grey/50 hover:text-text-white transition-colors">
                   <X size={12} />
                 </button>
               )}
             </div>
 
-            {/* Language selector */}
-            <div className="flex items-center rounded-full overflow-hidden flex-shrink-0"
-              style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.06)' }}>
-              <button
-                onClick={() => setLang('lv')}
-                className="text-xs font-semibold px-3 py-1.5 transition-all duration-200"
-                style={{
-                  background: lang === 'lv' ? '#D91F26' : 'transparent',
-                  color: lang === 'lv' ? '#fff' : 'rgba(255,255,255,0.45)',
-                }}
-              >
-                LV
-              </button>
-              <button
-                onClick={() => setLang('en')}
-                className="text-xs font-semibold px-3 py-1.5 transition-all duration-200"
-                style={{
-                  background: lang === 'en' ? '#D91F26' : 'transparent',
-                  color: lang === 'en' ? '#fff' : 'rgba(255,255,255,0.45)',
-                }}
-              >
-                EN
-              </button>
-            </div>
+            {/* Lang toggle */}
+            <LangToggle />
 
-            <Link to="/kontakti" className="btn-primary text-sm py-2 px-5 hidden sm:inline-flex">
+            {/* Sazināties — desktop only */}
+            <Link to="/kontakti" className="btn-primary text-sm py-2 px-5 hidden md:inline-flex">
               {tr.nav_contact_btn}
             </Link>
 
-            {/* ── Hamburger ───── */}
-            <button
-              className="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 flex-shrink-0"
-              style={{ border: '1px solid rgba(255,255,255,0.08)', background: menuOpen ? 'rgba(217,31,38,0.12)' : 'rgba(255,255,255,0.04)' }}
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-            >
-              <div className="flex flex-col gap-[5px] w-5">
-                <span className="block h-px w-full transition-all duration-300"
-                  style={{ transform: menuOpen ? 'translateY(6px) rotate(45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
-                <span className="block h-px transition-all duration-300"
-                  style={{ width: menuOpen ? '100%' : '70%', opacity: menuOpen ? 0 : 1, background: '#F5F5F5' }} />
-                <span className="block h-px w-full transition-all duration-300"
-                  style={{ transform: menuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none', background: menuOpen ? '#D91F26' : '#F5F5F5' }} />
-              </div>
-            </button>
+            {/* Hamburger */}
+            <Hamburger />
           </div>
         </div>
       </header>
@@ -224,7 +196,7 @@ export default function Navbar() {
       {/* ── Backdrop ──────────────────────────────────────────────────── */}
       <div
         className={`fixed inset-0 z-40 transition-all duration-500 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-        style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+        style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)' }}
         onClick={() => setMenuOpen(false)}
       />
 
@@ -232,19 +204,20 @@ export default function Navbar() {
       <div
         className="fixed top-0 left-0 bottom-0 z-50 flex flex-col"
         style={{
-          width: 'clamp(260px, 25vw, 380px)',
+          width: 'min(80vw, 340px)',
           background: '#0a0a0a',
           borderRight: '1px solid rgba(255,255,255,0.07)',
           transform: menuOpen ? 'translateX(0)' : 'translateX(-100%)',
-          transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+          transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
           boxShadow: menuOpen ? '8px 0 60px rgba(0,0,0,0.7)' : 'none',
         }}
       >
-        <div className="flex items-center justify-between px-7 pt-6 pb-5"
+        {/* Drawer header */}
+        <div className="flex items-center justify-between px-6 pt-6 pb-5"
           style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
           <p className="section-eyebrow">{tr.nav_menu}</p>
           <button
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-soft-grey hover:text-text-white transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg"
             style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(217,31,38,0.1)' }}
             onClick={() => setMenuOpen(false)}
           >
@@ -252,7 +225,29 @@ export default function Navbar() {
           </button>
         </div>
 
-        <nav className="flex flex-col flex-1 px-7 py-6 gap-1 overflow-y-auto">
+        {/* Mobile search — visible only on mobile */}
+        <div className="px-6 pt-5 pb-2 md:hidden">
+          <div className="relative flex items-center">
+            <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" />
+            <input
+              type="text"
+              value={mobileSearch}
+              onChange={(e) => setMobileSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && mobileSearch.trim()) {
+                  navigate(`/produkti?q=${encodeURIComponent(mobileSearch.trim())}`);
+                  setMenuOpen(false);
+                }
+              }}
+              placeholder={tr.nav_search}
+              className="w-full text-text-white text-sm pl-9 pr-3 py-3 outline-none rounded-xl"
+              style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }}
+            />
+          </div>
+        </div>
+
+        {/* Nav links */}
+        <nav className="flex flex-col flex-1 px-6 py-4 gap-0 overflow-y-auto">
           {navLinks.map((link, i) => (
             <Link
               key={link.path}
@@ -262,7 +257,7 @@ export default function Navbar() {
               }`}
               style={{
                 borderBottom: '1px solid rgba(255,255,255,0.05)',
-                transitionDelay: menuOpen ? `${i * 55}ms` : '0ms',
+                transitionDelay: menuOpen ? `${i * 50}ms` : '0ms',
                 transform: menuOpen ? 'translateX(0)' : 'translateX(-16px)',
                 opacity: menuOpen ? 1 : 0,
               }}
@@ -276,9 +271,9 @@ export default function Navbar() {
 
           <Link
             to="/kontakti"
-            className="btn-primary mt-8 justify-center text-sm"
+            className="btn-primary mt-6 justify-center text-sm"
             style={{
-              transitionDelay: menuOpen ? '260ms' : '0ms',
+              transitionDelay: menuOpen ? '240ms' : '0ms',
               transform: menuOpen ? 'translateY(0)' : 'translateY(10px)',
               opacity: menuOpen ? 1 : 0,
               transition: 'opacity 0.4s ease, transform 0.4s ease',
@@ -288,10 +283,11 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        <div className="px-7 py-6 flex flex-col gap-3"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.05)', opacity: menuOpen ? 1 : 0, transition: 'opacity 0.4s ease 0.3s' }}>
+        {/* Drawer footer */}
+        <div className="px-6 py-5 flex flex-col gap-3"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.05)', opacity: menuOpen ? 1 : 0, transition: 'opacity 0.4s ease 0.28s' }}>
           <a href="mailto:info@classicmotionperformance.com"
-            className="flex items-center gap-2 text-soft-grey/50 hover:text-soft-grey text-xs transition-colors truncate">
+            className="flex items-center gap-2 text-soft-grey/50 hover:text-soft-grey text-xs transition-colors">
             <Mail size={11} className="text-primary-red flex-shrink-0" />
             info@classicmotionperformance.com
           </a>

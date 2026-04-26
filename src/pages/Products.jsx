@@ -164,7 +164,7 @@ export default function Products() {
           <div className="absolute bottom-0 left-0 right-0 h-48"
             style={{ background: 'linear-gradient(to top, #060606, transparent)' }} />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 pt-40 md:pt-44 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 pt-24 md:pt-44 w-full">
           <p className="section-eyebrow mb-4 fade-up-element">{tr.products_eyebrow}</p>
           <h1 className="section-title text-5xl sm:text-6xl lg:text-7xl mb-4 fade-up-element" style={{ transitionDelay: '0.1s' }}>
             {tr.products_title}

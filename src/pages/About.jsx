@@ -42,7 +42,7 @@ export default function About() {
       {/* Hero */}
       <section className="relative min-h-[55vh] flex items-end overflow-hidden">
         <AboutHeroBg />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-44 md:pt-48 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-24 md:pt-48 w-full">
           <p className="section-eyebrow mb-4 fade-up-element">{tr.about_eyebrow}</p>
           <h1 className="section-title text-5xl sm:text-6xl lg:text-7xl mb-5 fade-up-element" style={{ transitionDelay: '0.1s' }}>
             {tr.about_title}
