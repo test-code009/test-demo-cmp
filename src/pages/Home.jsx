@@ -145,16 +145,15 @@ export default function Home() {
       {/* ─── Hero ─────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
         <HeroBackground />
-        {/* Mobile: text centered */}
-        <div className="md:hidden absolute inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex: 5 }}>
-          <div className="text-center px-6 py-6 rounded-xl"
-            style={{ background: 'rgba(6,6,6,0.55)', backdropFilter: 'blur(4px)' }}>
+        {/* Mobile: text bottom-right */}
+        <div className="md:hidden absolute bottom-24 right-0 left-0 pointer-events-none px-6" style={{ zIndex: 5 }}>
+          <div className="flex flex-col items-end text-right">
             <p className="text-white font-display font-bold leading-tight mb-2"
-              style={{ fontSize: 'clamp(1.6rem, 7.5vw, 2.2rem)', textShadow: '0 2px 12px rgba(0,0,0,0.8)' }}>
-              Bremžu &amp; balstiekārtas<br />uzlabojumi
+              style={{ fontSize: 'clamp(1.5rem, 7vw, 2rem)', textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}>
+              Bremžu &amp;<br />balstiekārtas uzlabojumi
             </p>
-            <div className="w-8 h-px mx-auto mb-2" style={{ background: '#D91F26' }} />
-            <p className="text-white/60 text-xs uppercase tracking-[0.22em]">VW Golf Mk2 · Latvija</p>
+            <div className="w-8 h-px mb-2" style={{ background: '#D91F26' }} />
+            <p className="text-white/55 text-xs uppercase tracking-[0.2em]" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}>VW Golf Mk2 · Latvija</p>
           </div>
         </div>
         {/* Ticker */}
