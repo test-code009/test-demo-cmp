@@ -32,68 +32,77 @@ const fallbackProducts = [
   },
 ];
 
-function ProductCard({ product }) {
+function ProductCard({ product, delay = 0 }) {
   let imageUrl = product.localImage || null;
   try {
     if (product.mainImage?.asset) {
-      imageUrl = urlFor(product.mainImage).width(900).height(600).fit('crop').quality(90).url();
+      imageUrl = urlFor(product.mainImage).width(900).height(600).fit('max').quality(92).url();
     }
   } catch (e) { /* silent */ }
 
-  const altText = product.imageAlt || product.title || 'Product';
-  const price = product.price || null;
+  const { lang } = useLanguage();
+  const tr = t[lang];
+
+  const price = product.price
+    ? (typeof product.price === 'number'
+        ? `${product.price} €`
+        : product.price.toString().includes('€') ? product.price : `${product.price} €`)
+    : null;
 
   return (
     <Link
       to={product.slug ? `/produkti/${product.slug}` : '/kontakti'}
-      className="group flex flex-col rounded-2xl overflow-hidden h-full"
+      className="group flex flex-col overflow-hidden"
       style={{
-        background: '#1a1a1a',
-        border: '1px solid rgba(255,255,255,0.14)',
-        transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, border-color 0.3s ease',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset',
+        transition: 'transform 0.3s, box-shadow 0.3s, border-color 0.3s',
+        background: '#111111',
+        border: '1px solid rgba(255,255,255,0.1)',
+        borderRadius: '0',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-5px)';
-        e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(217,31,38,0.15), 0 1px 0 rgba(255,255,255,0.06) inset';
-        e.currentTarget.style.borderColor = 'rgba(217,31,38,0.55)';
+        e.currentTarget.style.transform = 'translateY(-4px)';
+        e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.6)';
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.06) inset';
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)';
+        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
       }}
     >
       {/* Image */}
-      <div className="relative overflow-hidden" style={{ aspectRatio: '4/3', background: '#111111' }}>
+      <div className="overflow-hidden" style={{ background: '#111111' }}>
         {imageUrl ? (
-          <img src={imageUrl} alt={altText}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
+          <img src={imageUrl} alt={product.title}
+            className="w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            style={{ display: 'block', maxHeight: '260px' }} />
         ) : (
-          <div className="w-full h-full flex items-center justify-center"
-            style={{ background: '#111' }}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1.5">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
+          <div className="flex items-center justify-center" style={{ height: '220px' }}>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
               <polyline points="21 15 16 10 5 21"/>
             </svg>
           </div>
         )}
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(to top, rgba(17,17,17,0.6) 0%, transparent 60%)' }} />
       </div>
 
-      {/* Name + Price */}
-      <div className="px-5 py-4 flex items-center justify-between gap-4"
-        style={{ borderTop: '1px solid rgba(255,255,255,0.07)', background: '#1a1a1a' }}>
-        <h3 className="text-text-white font-display font-bold text-base leading-snug flex-1">
-          {product.title}
-        </h3>
-        {price ? (
-          <span className="text-primary-red font-display font-bold text-lg flex-shrink-0">{price} €</span>
-        ) : (
-          <span className="text-soft-grey/50 text-xs uppercase tracking-widest flex-shrink-0">{tr.products_price_on_request}</span>
-        )}
+      {/* Info */}
+      <div className="flex items-center justify-between gap-4 px-4 py-4"
+        style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-text-white font-display font-semibold text-base leading-snug truncate">{product.title}</h3>
+          {price ? (
+            <p className="text-soft-grey/60 text-sm mt-0.5">{price}</p>
+          ) : (
+            <p className="text-soft-grey/40 text-xs mt-0.5 uppercase tracking-widest">{tr.products_price_on_request}</p>
+          )}
+        </div>
+        <div
+          className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-200 group-hover:bg-primary-red group-hover:border-primary-red"
+          style={{ border: '1px solid rgba(255,255,255,0.15)' }}
+        >
+          <ArrowRight size={13} className="text-soft-grey/70 group-hover:text-white transition-colors" />
+        </div>
       </div>
     </Link>
   );
