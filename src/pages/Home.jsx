@@ -169,31 +169,40 @@ export default function Home() {
       </section>
 
       {/* ─── Kas ir CMP ───────────────────────────────────────────────── */}
-      <section className="relative" style={{ background: '#0d0d0d' }}>
-        <div className="max-w-3xl mx-auto px-8 md:px-12 py-16 md:py-20">
+      <section className="relative py-20 md:py-28" style={{
+        background: '#141414',
+        borderTop: '1px solid rgba(255,255,255,0.07)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        boxShadow: '0 0 60px rgba(0,0,0,0.5)',
+      }}>
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: 'radial-gradient(ellipse at 50% 100%, rgba(217,31,38,0.06) 0%, transparent 65%)',
+        }} />
+        <div className="max-w-2xl mx-auto px-6 text-center">
           <h2 className="text-text-white font-display font-bold text-3xl sm:text-4xl lg:text-5xl leading-tight mb-8 fade-up-element">
             Kas ir{' '}
-            <span style={{ borderBottom: '3px solid #D91F26', paddingBottom: '3px' }}>
+            <span style={{ borderBottom: '3px solid #D91F26', paddingBottom: '4px' }}>
               Classic Motion Performance
             </span>
             ?
           </h2>
-          <p className="text-soft-grey text-base leading-relaxed mb-8 fade-up-element" style={{ transitionDelay: '0.1s' }}>
+          <p className="text-soft-grey text-base leading-relaxed mb-10 fade-up-element" style={{ transitionDelay: '0.1s' }}>
             Classic Motion Performance ir Latvijā dibināts zīmols, kas specializējas VW Golf Mk2 bremžu un balstiekārtas jaunināšanā. Mēs piedāvājam precīzi izstrādātus risinājumus entuziastiem, kuriem svarīga katras detaļas kvalitāte un veiktspēja.
           </p>
-          <Link
-            to="/par-mums"
-            className="inline-flex items-center gap-2 text-soft-grey/60 hover:text-primary-red transition-colors duration-200 text-sm font-medium group fade-up-element"
-            style={{ transitionDelay: '0.18s' }}
-          >
-            Lasīt vairāk
-            <div
-              className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
-              style={{ border: '1px solid rgba(255,255,255,0.15)' }}
+          <div className="fade-up-element" style={{ transitionDelay: '0.18s' }}>
+            <Link
+              to="/par-mums"
+              className="inline-flex items-center gap-2 text-soft-grey/60 hover:text-primary-red transition-colors duration-200 text-sm font-medium group"
             >
-              <ArrowRight size={11} />
-            </div>
-          </Link>
+              Lasīt vairāk
+              <div
+                className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
+                style={{ border: '1px solid rgba(255,255,255,0.15)' }}
+              >
+                <ArrowRight size={11} />
+              </div>
+            </Link>
+          </div>
         </div>
       </section>
 
