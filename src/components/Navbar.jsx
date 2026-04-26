@@ -87,7 +87,7 @@ export default function Navbar() {
       ════════════════════════════════════════════ */}
       <header className="md:hidden fixed top-0 left-0 right-0 z-50"
         style={{
-          height: '76px',
+          height: '90px',
           background: 'rgba(6,6,6,0.94)',
           borderBottom: '1px solid rgba(255,255,255,0.06)',
           backdropFilter: 'blur(16px)',
@@ -110,7 +110,7 @@ export default function Navbar() {
           {/* Center: logo */}
           <Link to="/" className="absolute left-1/2 -translate-x-1/2">
             <img src="/logo.png" alt="CMP"
-              style={{ height: '72px', width: 'auto', filter: 'drop-shadow(0 0 10px rgba(217,31,38,0.4))' }} />
+              style={{ height: '87px', width: 'auto', filter: 'drop-shadow(0 0 10px rgba(217,31,38,0.4))' }} />
           </Link>
 
           {/* Right: hamburger (+ lang on sub-pages) */}

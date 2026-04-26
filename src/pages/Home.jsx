@@ -145,14 +145,16 @@ export default function Home() {
       {/* ─── Hero ─────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
         <HeroBackground />
-        {/* Mobile: text centered, no logo */}
+        {/* Mobile: text centered */}
         <div className="md:hidden absolute inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex: 5 }}>
-          <div className="text-center px-8">
-            <p className="text-text-white font-display font-bold leading-tight mb-3"
-              style={{ fontSize: 'clamp(1.7rem, 8vw, 2.4rem)' }}>
+          <div className="text-center px-6 py-6 rounded-xl"
+            style={{ background: 'rgba(6,6,6,0.55)', backdropFilter: 'blur(4px)' }}>
+            <p className="text-white font-display font-bold leading-tight mb-2"
+              style={{ fontSize: 'clamp(1.6rem, 7.5vw, 2.2rem)', textShadow: '0 2px 12px rgba(0,0,0,0.8)' }}>
               Bremžu &amp; balstiekārtas<br />uzlabojumi
             </p>
-            <p className="text-soft-grey/55 text-xs uppercase tracking-[0.22em]">VW Golf Mk2 · Latvija</p>
+            <div className="w-8 h-px mx-auto mb-2" style={{ background: '#D91F26' }} />
+            <p className="text-white/60 text-xs uppercase tracking-[0.22em]">VW Golf Mk2 · Latvija</p>
           </div>
         </div>
         {/* Ticker */}
