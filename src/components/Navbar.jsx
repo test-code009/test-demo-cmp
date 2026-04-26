@@ -92,7 +92,7 @@ export default function Navbar() {
           borderBottom: '1px solid rgba(255,255,255,0.06)',
           backdropFilter: 'blur(16px)',
         }}>
-        {/* Left: back button or spacer */}
+        {/* Left: back button or logo */}
         {!isHome ? (
           <button onClick={handleBack}
             className="flex items-center gap-1.5 flex-shrink-0 transition-all duration-200 mr-2"
@@ -102,7 +102,7 @@ export default function Navbar() {
           </button>
         ) : (
           <Link to="/" className="flex-shrink-0">
-            <span className="text-text-white font-display font-bold text-sm tracking-tight">CMP</span>
+            <img src="/logo.png" alt="CMP" style={{ height: '38px', width: 'auto', filter: 'drop-shadow(0 0 6px rgba(217,31,38,0.3))' }} />
           </Link>
         )}
 

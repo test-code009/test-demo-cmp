@@ -36,7 +36,8 @@ const HeroBackground = () => (
       style={{ animation: 'slowZoom 14s ease-in-out infinite alternate' }}
     />
     <div className="absolute inset-0" style={{ background: 'rgba(6,6,6,0.40)' }} />
-    <div className="absolute inset-y-0 left-0 w-3/4" style={{ background: 'linear-gradient(to right, rgba(6,6,6,0.88) 0%, rgba(6,6,6,0.50) 45%, transparent 100%)' }} />
+    <div className="hidden md:block absolute inset-y-0 left-0 w-3/4" style={{ background: 'linear-gradient(to right, rgba(6,6,6,0.88) 0%, rgba(6,6,6,0.50) 45%, transparent 100%)' }} />
+    <div className="md:hidden absolute inset-0" style={{ background: 'rgba(6,6,6,0.45)' }} />
     <div className="absolute bottom-0 left-0 right-0 h-56" style={{ background: 'linear-gradient(to top, #060606 0%, transparent 100%)' }} />
     <div
       className="absolute bottom-0 right-0 w-[600px] h-[400px] opacity-25 pointer-events-none"
@@ -144,12 +145,12 @@ export default function Home() {
       {/* ─── Hero ─────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
         <HeroBackground />
-        {/* Mobile logo — centered in hero, desktop logo is in navbar */}
-        <div className="md:hidden absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+        {/* Mobile logo — centered in hero */}
+        <div className="md:hidden absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 5 }}>
           <img
             src="/logo.png"
             alt="Classic Motion Performance"
-            style={{ height: '240px', filter: 'drop-shadow(0 0 20px rgba(217,31,38,0.45))' }}
+            style={{ height: '220px', filter: 'drop-shadow(0 0 24px rgba(217,31,38,0.5))' }}
           />
         </div>
         {/* Ticker */}
