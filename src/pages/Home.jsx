@@ -144,6 +144,14 @@ export default function Home() {
       {/* ─── Hero ─────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
         <HeroBackground />
+        {/* Mobile logo — centered in hero, desktop logo is in navbar */}
+        <div className="md:hidden absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+          <img
+            src="/logo.png"
+            alt="Classic Motion Performance"
+            style={{ height: '240px', filter: 'drop-shadow(0 0 20px rgba(217,31,38,0.45))' }}
+          />
+        </div>
         {/* Ticker */}
         <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden"
           style={{
