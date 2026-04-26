@@ -170,7 +170,6 @@ export default function Home() {
 
       {/* ─── Intro block ──────────────────────────────────────────────── */}
       <section className="relative" style={{ background: '#0d0d0d' }}>
-
         <div className="max-w-7xl mx-auto px-8 md:px-12 py-12 md:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
             <div>
@@ -207,6 +206,40 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* ─── "Kas ir CMP" sub-block ─────────────────────────────── */}
+          <div className="mt-12 pt-10 fade-up-element" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', transitionDelay: '0.2s' }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+              <div>
+                <p className="section-eyebrow mb-3">Par mums</p>
+                <h2 className="text-text-white font-display font-bold text-2xl sm:text-3xl leading-tight">
+                  Kas ir{' '}
+                  <span style={{ borderBottom: '2px solid #D91F26', paddingBottom: '2px' }}>
+                    Classic Motion Performance
+                  </span>
+                  ?
+                </h2>
+              </div>
+              <div>
+                <p className="text-soft-grey text-sm leading-relaxed mb-5">
+                  Classic Motion Performance ir Latvijā dibināts zīmols, kas specializējas VW Golf Mk2 bremžu un balstiekārtas jaunināšanā. Mēs piedāvājam precīzi izstrādātus risinājumus entuziastiem, kuriem svarīga katras detaļas kvalitāte un veiktspēja.
+                </p>
+                <Link
+                  to="/par-mums"
+                  className="inline-flex items-center gap-2 text-soft-grey/60 hover:text-primary-red transition-colors duration-200 text-sm font-medium group"
+                >
+                  Lasīt vairāk
+                  <div
+                    className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
+                    style={{ border: '1px solid rgba(255,255,255,0.15)' }}
+                  >
+                    <ArrowRight size={11} />
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -244,45 +277,6 @@ export default function Home() {
               <ProductCard key={product._id} product={product} delay={0.1 + i * 0.08} />
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ─── Divider ──────────────────────────────────────────────────── */}
-      <div className="h-px" style={{ background: 'rgba(255,255,255,0.05)' }} />
-
-      {/* ─── Brand Statement ──────────────────────────────────────────── */}
-      <section className="relative py-20"
-        style={{
-          background: '#1c1c1c',
-          borderTop: '1px solid rgba(255,255,255,0.1)',
-          borderBottom: '1px solid rgba(255,255,255,0.07)',
-          boxShadow: '0 -8px 40px rgba(0,0,0,0.4), 0 8px 40px rgba(0,0,0,0.4)',
-        }}>
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(217,31,38,0.07) 0%, transparent 65%)' }} />
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="section-eyebrow mb-5 fade-up-element">Par mums</p>
-          <h2 className="section-title text-3xl sm:text-4xl lg:text-5xl mb-6 fade-up-element" style={{ transitionDelay: '0.08s' }}>
-            Kas ir{' '}
-            <span style={{
-              borderBottom: '2px solid #D91F26',
-              paddingBottom: '2px',
-            }}>Classic Motion Performance</span>
-            ?
-          </h2>
-          <Link
-            to="/par-mums"
-            className="fade-up-element inline-flex items-center gap-2 text-soft-grey/60 hover:text-primary-red transition-colors duration-200 text-sm font-medium group"
-            style={{ transitionDelay: '0.15s' }}
-          >
-            Lasīt vairāk
-            <div
-              className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
-              style={{ border: '1px solid rgba(255,255,255,0.15)' }}
-            >
-              <ArrowRight size={11} />
-            </div>
-          </Link>
         </div>
       </section>
 
