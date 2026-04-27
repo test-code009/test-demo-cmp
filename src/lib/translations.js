@@ -24,7 +24,7 @@ const t = {
     home_cmp_name: 'Classic Motion Performance',
     home_cmp_desc: 'Classic Motion Performance ir Latvijā dibināts zīmols, kas specializējas VW Golf Mk2 bremžu un balstiekārtas jaunināšanā. Mēs piedāvājam precīzi izstrādātus risinājumus entuziastiem, kuriem svarīga katras detaļas kvalitāte un veiktspēja.',
     home_read_more: 'Lasīt vairāk',
-    home_new_in_store: 'New in Store',
+    home_new_in_store: 'Jaunumi',
     home_view_all: 'Skatīt visus',
     home_most_popular: 'Populārākie',
     home_top_picks: 'Top Izvēle',
