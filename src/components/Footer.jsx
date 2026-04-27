@@ -36,7 +36,7 @@ export default function Footer() {
               src={logoSrc}
               alt="Classic Motion Performance"
               className="mb-4"
-              style={{ height: '90px', width: 'auto', opacity: 0.9 }}
+              style={{ height: '120px', width: 'auto', opacity: 0.9 }}
             />
             <p className="text-soft-grey text-sm leading-relaxed max-w-xs">
               {tr.footer_desc}
