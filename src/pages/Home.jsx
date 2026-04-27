@@ -47,6 +47,9 @@ const HeroBackground = () => (
 );
 
 function ProductCard({ product, delay = 0 }) {
+  const { lang } = useLanguage();
+  const tr = t[lang];
+
   let imageUrl = product.localImage || null;
   try {
     if (product.mainImage?.asset) {
@@ -108,7 +111,7 @@ function ProductCard({ product, delay = 0 }) {
           {price ? (
             <p className="text-soft-grey/60 text-sm mt-0.5">{price}</p>
           ) : (
-            <p className="text-soft-grey/40 text-xs mt-0.5 uppercase tracking-widest">Pēc piepras.</p>
+            <p className="text-soft-grey/40 text-xs mt-0.5 uppercase tracking-widest">{tr.products_price_on_request}</p>
           )}
         </div>
         <div
@@ -148,12 +151,12 @@ export default function Home() {
         {/* Mobile: text bottom-right */}
         <div className="md:hidden absolute bottom-24 right-0 left-0 pointer-events-none px-6" style={{ zIndex: 5 }}>
           <div className="flex flex-col items-end text-right">
-            <p className="text-white font-display font-bold leading-tight mb-2"
+            <p className="text-white font-display font-bold leading-tight mb-2 whitespace-pre-line"
               style={{ fontSize: 'clamp(1.5rem, 7vw, 2rem)', textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}>
-              Bremžu &amp;<br />balstiekārtas uzlabojumi
+              {tr.home_hero_mobile_title}
             </p>
             <div className="w-8 h-px mb-2" style={{ background: '#D91F26' }} />
-            <p className="text-white/55 text-xs uppercase tracking-[0.2em]" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}>VW Golf Mk2 · Latvija</p>
+            <p className="text-white/55 text-xs uppercase tracking-[0.2em]" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}>{tr.home_hero_mobile_sub}</p>
           </div>
         </div>
         {/* Ticker */}

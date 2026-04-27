@@ -33,6 +33,8 @@ const t = {
     home_cta_desc: 'Aplūkojiet mūsu klāstu vai sazinieties ar mums — mēs atbildēsim personīgi.',
     home_explore: 'Apskatīt produktus',
     home_get_in_touch: 'Sazināties',
+    home_hero_mobile_title: 'Bremžu &\nbalstiekārtas uzlabojumi',
+    home_hero_mobile_sub: 'VW Golf Mk2 · Latvija',
     home_ticker: ['Bremzē Precīzāk', 'Brauc Asāk', 'Radīts Mk2', 'Inženiertehniskā Veiktspēja', 'Tīrs un Mērķtiecīgs', 'Uzlabo Visu'],
 
     // Products page
@@ -158,6 +160,8 @@ const t = {
     home_cta_desc: 'Browse our range or get in touch — we reply personally.',
     home_explore: 'Explore Products',
     home_get_in_touch: 'Get in Touch',
+    home_hero_mobile_title: 'Brake &\nSuspension Upgrades',
+    home_hero_mobile_sub: 'VW Golf Mk2 · Latvia',
     home_ticker: ['Stop Harder', 'Drive Sharper', 'Built for Mk2', 'Engineered Performance', 'Clean & Purposeful', 'Upgrade Everything'],
 
     // Products page
