@@ -90,7 +90,9 @@ function ProductCard({ product, delay = 0 }) {
       <div className="flex items-center justify-between gap-4 px-4 py-4"
         style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
         <div className="flex-1 min-w-0">
-          <h3 className="text-text-white font-display font-semibold text-base leading-snug truncate">{product.title}</h3>
+          <h3 className="text-text-white font-display font-semibold text-base leading-snug truncate">
+            {lang === 'en' && product.titleEn ? product.titleEn : product.title}
+          </h3>
           {price ? (
             <p className="text-soft-grey/60 text-sm mt-0.5">{price}</p>
           ) : (

@@ -24,10 +24,12 @@ export async function getProducts({ category, featured } = {}) {
   const query = `*[${conditions.join(' && ')}]{
     _id,
     title,
+    titleEn,
     "slug": slug.current,
     mainImage,
     "imageAlt": mainImage.alt,
     shortDescription,
+    shortDescriptionEn,
     category,
     price,
     featured
@@ -45,11 +47,14 @@ export async function getProductBySlug(slug) {
     `*[_type == "product" && slug.current == $slug][0]{
       _id,
       title,
+      titleEn,
       "slug": slug.current,
       mainImage,
       "imageAlt": mainImage.alt,
       shortDescription,
+      shortDescriptionEn,
       description,
+      descriptionEn,
       category,
       price,
       featured,
@@ -65,10 +70,12 @@ export async function getLatestProducts(limit = 3) {
   const query = `*[_type == "product"] | order(_createdAt desc) [0...$limit] {
     _id,
     title,
+    titleEn,
     "slug": slug.current,
     mainImage,
     "imageAlt": mainImage.alt,
     shortDescription,
+    shortDescriptionEn,
     category,
     price,
     featured
@@ -81,10 +88,12 @@ export async function getFeaturedProducts() {
     `*[_type == "product" && featured == true] | order(_createdAt desc) {
       _id,
       title,
+      titleEn,
       "slug": slug.current,
       mainImage,
       "imageAlt": mainImage.alt,
       shortDescription,
+      shortDescriptionEn,
       category,
       price,
       featured

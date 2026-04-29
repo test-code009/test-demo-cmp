@@ -159,7 +159,7 @@ export default function ProductDetail() {
                 <p className="section-eyebrow mb-2">{product.category}</p>
               )}
               <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl mb-3 leading-tight">
-                {product.title}
+                {lang === 'en' && product.titleEn ? product.titleEn : product.title}
               </h1>
               {price && (
                 <p className="text-primary-red font-display font-bold text-2xl">{price}</p>
@@ -175,7 +175,7 @@ export default function ProductDetail() {
               }}>
               <p className="text-text-white font-display font-bold text-xl mb-1">{tr.detail_contact_title}</p>
               <p className="text-soft-grey/45 text-sm mb-6">{tr.detail_contact_sub}</p>
-              <OrderForm productTitle={product.title} tr={tr} />
+              <OrderForm productTitle={lang === 'en' && product.titleEn ? product.titleEn : product.title} tr={tr} />
             </div>
           </div>
 
@@ -189,7 +189,9 @@ export default function ProductDetail() {
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-4">{tr.detail_description}</p>
               <p className="text-soft-grey text-base leading-relaxed">
-                {product.description || product.shortDescription}
+                {lang === 'en'
+                  ? (product.descriptionEn || product.shortDescriptionEn || product.description || product.shortDescription)
+                  : (product.description || product.shortDescription)}
               </p>
             </div>
           )}
