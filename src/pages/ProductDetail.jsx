@@ -103,13 +103,13 @@ export default function ProductDetail() {
     </main>
   );
 
-  // Build full image list: mainImage first, then extras from images[]
+  // Build full image list: mainImage first, then galleryImages
   const allImages = [];
   try {
     if (product.mainImage?.asset) allImages.push(product.mainImage);
   } catch (e) { /* silent */ }
-  if (product.images?.length) {
-    product.images.forEach(img => {
+  if (product.galleryImages?.length) {
+    product.galleryImages.forEach(img => {
       if (img?.asset) allImages.push(img);
     });
   }
@@ -189,10 +189,11 @@ export default function ProductDetail() {
             )}
           </div>
 
-          {/* RIGHT — order form */}
-          <div className="fade-up-element flex flex-col justify-start">
-            {/* Product title + price at top of right column */}
-            <div className="mb-6">
+          {/* RIGHT — info + form */}
+          <div className="fade-up-element flex flex-col gap-5">
+
+            {/* Category + title + price */}
+            <div>
               {product.category && (
                 <p className="section-eyebrow mb-2">{product.category}</p>
               )}
@@ -204,51 +205,42 @@ export default function ProductDetail() {
               )}
             </div>
 
+            {/* Description card */}
+            {product.shortDescription && (
+              <div className="rounded-2xl p-6"
+                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-3">{tr.detail_description}</p>
+                <p className="text-soft-grey text-sm leading-relaxed">
+                  {lang === 'en' && product.shortDescriptionEn ? product.shortDescriptionEn : product.shortDescription}
+                </p>
+              </div>
+            )}
+
+            {/* Specs card */}
+            {product.specs && product.specs.length > 0 && (
+              <div className="rounded-2xl p-6"
+                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-4">{tr.detail_specs}</p>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {product.specs.map((spec, i) => (
+                    <li key={i} className="flex items-start gap-2.5 text-sm text-soft-grey/80">
+                      <Check size={13} className="text-primary-red flex-shrink-0 mt-0.5" />
+                      {spec}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {/* Order form card */}
-            <div className="rounded-2xl p-7"
-              style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                backdropFilter: 'blur(6px)',
-              }}>
+            <div className="rounded-2xl p-6"
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(6px)' }}>
               <p className="text-text-white font-display font-bold text-xl mb-1">{tr.detail_contact_title}</p>
-              <p className="text-soft-grey/45 text-sm mb-6">{tr.detail_contact_sub}</p>
+              <p className="text-soft-grey/45 text-sm mb-5">{tr.detail_contact_sub}</p>
               <OrderForm productTitle={lang === 'en' && product.titleEn ? product.titleEn : product.title} tr={tr} />
             </div>
+
           </div>
-
-        </div>
-
-        {/* ── Bottom: description + specs ────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-          {(product.shortDescription || product.description) && (
-            <div className="fade-up-element rounded-2xl p-7"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-4">{tr.detail_description}</p>
-              <p className="text-soft-grey text-base leading-relaxed">
-                {lang === 'en'
-                  ? (product.descriptionEn || product.shortDescriptionEn || product.description || product.shortDescription)
-                  : (product.description || product.shortDescription)}
-              </p>
-            </div>
-          )}
-
-          {product.specs && product.specs.length > 0 && (
-            <div className="fade-up-element rounded-2xl p-7"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-5">{tr.detail_specs}</p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {product.specs.map((spec, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-soft-grey/80">
-                    <Check size={13} className="text-primary-red flex-shrink-0 mt-0.5" />
-                    {spec}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
         </div>
 
         {/* ── Back link ─────────────────────────────────────────── */}

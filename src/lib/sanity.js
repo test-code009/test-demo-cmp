@@ -59,7 +59,7 @@ export async function getProductBySlug(slug) {
       price,
       featured,
       specs,
-      images[] { asset, alt }
+      "galleryImages": galleryImages[]{ asset, "alt": asset._ref }
     }`,
     { slug }
   );
