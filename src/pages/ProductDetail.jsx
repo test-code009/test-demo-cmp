@@ -75,6 +75,7 @@ export default function ProductDetail() {
   const { slug } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeImg, setActiveImg] = useState(0);
   const { lang } = useLanguage();
   const tr = t[lang];
 
@@ -102,12 +103,20 @@ export default function ProductDetail() {
     </main>
   );
 
-  let imageUrl = null;
+  // Build full image list: mainImage first, then extras from images[]
+  const allImages = [];
   try {
-    if (product.mainImage?.asset) {
-      imageUrl = urlFor(product.mainImage).width(1200).height(900).fit('crop').quality(90).url();
-    }
+    if (product.mainImage?.asset) allImages.push(product.mainImage);
   } catch (e) { /* silent */ }
+  if (product.images?.length) {
+    product.images.forEach(img => {
+      if (img?.asset) allImages.push(img);
+    });
+  }
+
+  const activeImageUrl = allImages[activeImg]
+    ? urlFor(allImages[activeImg]).width(1200).height(900).fit('crop').quality(90).url()
+    : null;
 
   const price = product.price
     ? (typeof product.price === 'number'
@@ -123,32 +132,61 @@ export default function ProductDetail() {
         {/* ── Top: image left + form right ───────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
 
-          {/* LEFT — image in transparent frame */}
-          <div className="fade-up-element rounded-2xl overflow-hidden relative"
-            style={{
-              border: '1px solid rgba(255,255,255,0.1)',
-              background: 'rgba(255,255,255,0.03)',
-              backdropFilter: 'blur(6px)',
-              aspectRatio: '4/3',
-            }}>
-            {imageUrl ? (
-              <img
-                src={imageUrl}
-                alt={product.imageAlt || product.title}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #111, #0a0a0a)' }}>
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1">
-                  <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-                  <polyline points="21 15 16 10 5 21"/>
-                </svg>
+          {/* LEFT — main image + thumbnails */}
+          <div className="fade-up-element flex flex-col gap-3">
+            {/* Main image */}
+            <div className="rounded-2xl overflow-hidden relative"
+              style={{
+                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'rgba(255,255,255,0.03)',
+                backdropFilter: 'blur(6px)',
+                aspectRatio: '4/3',
+              }}>
+              {activeImageUrl ? (
+                <img
+                  src={activeImageUrl}
+                  alt={allImages[activeImg]?.alt || product.title}
+                  className="w-full h-full object-cover transition-opacity duration-300"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg, #111, #0a0a0a)' }}>
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                </div>
+              )}
+              <div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
+                style={{ background: 'linear-gradient(to top, rgba(6,6,6,0.6), transparent)' }} />
+            </div>
+
+            {/* Thumbnails — only if >1 image */}
+            {allImages.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {allImages.map((img, i) => {
+                  const thumbUrl = urlFor(img).width(200).height(150).fit('crop').quality(80).url();
+                  return (
+                    <button key={i} onClick={() => setActiveImg(i)}
+                      className="flex-shrink-0 rounded-xl overflow-hidden transition-all duration-200"
+                      style={{
+                        width: '72px',
+                        height: '54px',
+                        border: i === activeImg
+                          ? '2px solid #D91F26'
+                          : '2px solid rgba(255,255,255,0.08)',
+                        opacity: i === activeImg ? 1 : 0.5,
+                      }}
+                      onMouseEnter={e => { if (i !== activeImg) e.currentTarget.style.opacity = '0.8'; }}
+                      onMouseLeave={e => { if (i !== activeImg) e.currentTarget.style.opacity = '0.5'; }}
+                    >
+                      <img src={thumbUrl} alt={img.alt || `Image ${i + 1}`}
+                        className="w-full h-full object-cover" />
+                    </button>
+                  );
+                })}
               </div>
             )}
-            {/* subtle inner glow at bottom */}
-            <div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
-              style={{ background: 'linear-gradient(to top, rgba(6,6,6,0.6), transparent)' }} />
           </div>
 
           {/* RIGHT — order form */}
