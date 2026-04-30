@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowRight, X } from 'lucide-react';
+import { ArrowRight, X, ChevronDown } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { getProducts, getCategories, urlFor } from '../lib/sanity';
 import { useLanguage } from '../context/LanguageContext';
 import t from '../lib/translations';
 
-// Fallback static products shown while Sanity loads or if empty
 const fallbackProducts = [
   {
     _id: 'suspension-brake',
@@ -25,14 +24,14 @@ const fallbackProducts = [
     category: 'Chassis',
     title: 'Front Subframe',
     price: '€ 849',
-    shortDescription: 'Fully restored and reinforced front subframe. Powder-coated gloss black with performance bushings.',
+    shortDescription: 'Fully restored and reinforced front subframe.',
     mainImage: null,
     _isFallback: true,
     localImage: '/product-subframe.jpeg',
   },
 ];
 
-function ProductCard({ product, delay = 0 }) {
+function ProductCard({ product }) {
   let imageUrl = product.localImage || null;
   try {
     if (product.mainImage?.asset) {
@@ -49,15 +48,20 @@ function ProductCard({ product, delay = 0 }) {
         : product.price.toString().includes('€') ? product.price : `${product.price} €`)
     : null;
 
+  const href = product.slug ? `/produkti/${product.slug}` : '/kontakti';
+
   return (
-    <Link
-      to={product.slug ? `/produkti/${product.slug}` : '/kontakti'}
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       className="group flex flex-col overflow-hidden"
       style={{
         transition: 'transform 0.3s, box-shadow 0.3s, border-color 0.3s',
         background: '#111111',
         border: '1px solid rgba(255,255,255,0.1)',
         borderRadius: '0',
+        textDecoration: 'none',
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translateY(-4px)';
@@ -70,7 +74,6 @@ function ProductCard({ product, delay = 0 }) {
         e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
       }}
     >
-      {/* Image */}
       <div className="overflow-hidden" style={{ background: '#111111' }}>
         {imageUrl ? (
           <img src={imageUrl} alt={product.title}
@@ -85,8 +88,6 @@ function ProductCard({ product, delay = 0 }) {
           </div>
         )}
       </div>
-
-      {/* Info */}
       <div className="flex items-center justify-between gap-4 px-4 py-4"
         style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
         <div className="flex-1 min-w-0">
@@ -99,24 +100,81 @@ function ProductCard({ product, delay = 0 }) {
             <p className="text-soft-grey/40 text-xs mt-0.5 uppercase tracking-widest">{tr.products_price_on_request}</p>
           )}
         </div>
-        <div
-          className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-200 group-hover:bg-primary-red group-hover:border-primary-red"
-          style={{ border: '1px solid rgba(255,255,255,0.15)' }}
-        >
+        <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-200 group-hover:bg-primary-red group-hover:border-primary-red"
+          style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
           <ArrowRight size={13} className="text-soft-grey/70 group-hover:text-white transition-colors" />
         </div>
       </div>
-    </Link>
+    </a>
+  );
+}
+
+function CategoryDropdown({ categories, activeCategory, onChange, tr }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  const allOptions = [{ value: 'all', label: tr.products_all }, ...categories.map(c => ({ value: c, label: c }))];
+  const current = allOptions.find(o => o.value === activeCategory) || allOptions[0];
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-2 text-xs uppercase tracking-widest px-4 py-2.5 rounded-full transition-all duration-200"
+        style={{
+          background: activeCategory !== 'all' ? 'rgba(217,31,38,0.15)' : 'rgba(255,255,255,0.06)',
+          border: activeCategory !== 'all' ? '1px solid rgba(217,31,38,0.35)' : '1px solid rgba(255,255,255,0.12)',
+          color: activeCategory !== 'all' ? '#FF3B30' : '#A7A7A7',
+          minWidth: '130px',
+        }}
+      >
+        <span className="flex-1 text-left">{current.label}</span>
+        <ChevronDown size={12} className="transition-transform duration-200" style={{ transform: open ? 'rotate(180deg)' : 'none' }} />
+      </button>
+
+      {open && (
+        <div className="absolute top-full left-0 mt-2 rounded-xl overflow-hidden z-50"
+          style={{
+            background: '#111',
+            border: '1px solid rgba(255,255,255,0.1)',
+            boxShadow: '0 16px 48px rgba(0,0,0,0.7)',
+            minWidth: '160px',
+          }}>
+          {allOptions.map(opt => (
+            <button
+              key={opt.value}
+              onClick={() => { onChange(opt.value); setOpen(false); }}
+              className="w-full text-left text-xs uppercase tracking-widest px-4 py-3 transition-colors duration-150"
+              style={{
+                background: activeCategory === opt.value ? 'rgba(217,31,38,0.12)' : 'transparent',
+                color: activeCategory === opt.value ? '#FF3B30' : '#A7A7A7',
+                borderBottom: '1px solid rgba(255,255,255,0.04)',
+              }}
+              onMouseEnter={e => { if (activeCategory !== opt.value) e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
+              onMouseLeave={e => { if (activeCategory !== opt.value) e.currentTarget.style.background = 'transparent'; }}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(fallbackProducts);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('all');
-  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [fetchError, setFetchError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('q') || '';
   const { lang } = useLanguage();
@@ -127,27 +185,20 @@ export default function Products() {
   useEffect(() => {
     Promise.all([getProducts(), getCategories()])
       .then(([prods, cats]) => {
-        console.log('[Sanity] products received:', prods?.length, prods);
-        console.log('[Sanity] categories received:', cats);
-        setProducts(prods && prods.length ? prods : fallbackProducts);
+        if (prods && prods.length) setProducts(prods);
         setCategories(cats ? cats.filter(Boolean) : []);
-        setFetchError(null);
       })
-      .catch((err) => {
-        console.error('[Sanity] fetch error:', err?.message || err);
-        setFetchError(err?.message || 'Unknown error');
-        setProducts(fallbackProducts);
-      })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
   const filtered = products.filter(p => {
-    if (showFeaturedOnly && !p.featured) return false;
     if (activeCategory !== 'all' && p.category !== activeCategory) return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       return (
         p.title?.toLowerCase().includes(q) ||
+        p.titleEn?.toLowerCase().includes(q) ||
         p.category?.toLowerCase().includes(q) ||
         p.shortDescription?.toLowerCase().includes(q)
       );
@@ -178,58 +229,33 @@ export default function Products() {
       </section>
 
       {/* ── Filters ──────────────────────────────────────────────────── */}
-      {(categories.length > 0 || true) && (
-        <div className="sticky top-0 z-30 py-4 px-6" style={{ background: 'rgba(6,6,6,0.92)', borderBottom: '1px solid rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
-          <div className="max-w-7xl mx-auto flex items-center gap-3 flex-wrap">
-            {searchQuery && (
-              <div className="flex items-center gap-2 text-xs px-4 py-2 rounded-full mr-2"
-                style={{ background: 'rgba(217,31,38,0.12)', border: '1px solid rgba(217,31,38,0.3)', color: '#FF3B30' }}>
-                <span>"{searchQuery}"</span>
-                <button onClick={() => setSearchParams({})} className="hover:text-white transition-colors">
-                  <X size={11} />
-                </button>
-              </div>
-            )}
-            <button
-              onClick={() => { setActiveCategory('all'); setShowFeaturedOnly(false); }}
-              className="text-xs uppercase tracking-widest px-4 py-2 rounded-full transition-all duration-200"
-              style={{
-                background: activeCategory === 'all' && !showFeaturedOnly ? 'rgba(217,31,38,0.15)' : 'rgba(255,255,255,0.05)',
-                border: activeCategory === 'all' && !showFeaturedOnly ? '1px solid rgba(217,31,38,0.35)' : '1px solid rgba(255,255,255,0.1)',
-                color: activeCategory === 'all' && !showFeaturedOnly ? '#FF3B30' : '#A7A7A7',
-              }}
-            >
-              {tr.products_all}
-            </button>
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => { setActiveCategory(cat); setShowFeaturedOnly(false); }}
-                className="text-xs uppercase tracking-widest px-4 py-2 rounded-full transition-all duration-200"
-                style={{
-                  background: activeCategory === cat ? 'rgba(217,31,38,0.15)' : 'rgba(255,255,255,0.05)',
-                  border: activeCategory === cat ? '1px solid rgba(217,31,38,0.35)' : '1px solid rgba(255,255,255,0.1)',
-                  color: activeCategory === cat ? '#FF3B30' : '#A7A7A7',
-                }}
-              >
-                {cat}
+      <div className="sticky top-0 z-30 py-3 px-6" style={{ background: 'rgba(6,6,6,0.92)', borderBottom: '1px solid rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
+        <div className="max-w-7xl mx-auto flex items-center gap-3">
+          <CategoryDropdown
+            categories={categories}
+            activeCategory={activeCategory}
+            onChange={setActiveCategory}
+            tr={tr}
+          />
+          {searchQuery && (
+            <div className="flex items-center gap-2 text-xs px-4 py-2 rounded-full"
+              style={{ background: 'rgba(217,31,38,0.12)', border: '1px solid rgba(217,31,38,0.3)', color: '#FF3B30' }}>
+              <span>"{searchQuery}"</span>
+              <button onClick={() => setSearchParams({})} className="hover:text-white transition-colors">
+                <X size={11} />
               </button>
-            ))}
-          </div>
+            </div>
+          )}
+          {loading && (
+            <div className="w-4 h-4 rounded-full border border-primary-red/30 border-t-primary-red animate-spin ml-2" />
+          )}
         </div>
-      )}
+      </div>
 
       {/* ── Product Grid ─────────────────────────────────────────────── */}
       <section className="py-20 bg-base-black">
         <div className="max-w-7xl mx-auto px-6">
-          {loading ? (
-            <div className="flex items-center justify-center py-40">
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-10 h-10 rounded-full border-2 border-primary-red/30 border-t-primary-red animate-spin" />
-                <p className="text-soft-grey/50 text-sm uppercase tracking-widest">{tr.products_title}...</p>
-              </div>
-            </div>
-          ) : filtered.length === 0 ? (
+          {filtered.length === 0 ? (
             <div className="text-center py-40">
               <p className="text-soft-grey/40 text-sm uppercase tracking-widest mb-3">{tr.products_not_found}</p>
               <p className="text-soft-grey/25 text-xs">{tr.products_not_found_sub}</p>
@@ -237,7 +263,7 @@ export default function Products() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
               {filtered.map((product, i) => (
-                <div key={product._id} className="fade-up-element" style={{ transitionDelay: `${i * 0.08}s` }}>
+                <div key={product._id} className="fade-up-element" style={{ transitionDelay: `${i * 0.06}s` }}>
                   <ProductCard product={product} />
                 </div>
               ))}
