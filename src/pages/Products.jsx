@@ -52,7 +52,7 @@ function ProductCard({ product }) {
   const href = product.slug ? `/produkti/${product.slug}` : '/kontakti';
 
   const handleClick = (e) => {
-    if (window.matchMedia('(pointer: coarse)').matches) {
+    if (window.innerWidth < 768) {
       e.preventDefault();
       window.location.href = href;
     }
