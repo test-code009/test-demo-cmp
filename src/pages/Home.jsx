@@ -53,7 +53,7 @@ function ProductCard({ product, delay = 0 }) {
   let imageUrl = product.localImage || null;
   try {
     if (product.mainImage?.asset) {
-      imageUrl = urlFor(product.mainImage).width(900).height(600).fit('max').quality(92).url();
+      imageUrl = urlFor(product.mainImage).format("webp").width(900).height(600).fit('max').quality(92).url();
     }
   } catch (e) { /* ignore */ }
 

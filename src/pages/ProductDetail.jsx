@@ -146,7 +146,7 @@ export default function ProductDetail() {
                 <img
                   src={activeImageUrl}
                   alt={allImages[activeImg]?.alt || product.title}
-                  className="w-full h-full object-cover transition-opacity duration-300"
+                  loading="lazy" decoding="async" className="w-full h-full object-cover transition-opacity duration-300"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center"

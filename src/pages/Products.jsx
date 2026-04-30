@@ -35,7 +35,7 @@ function ProductCard({ product }) {
   let imageUrl = product.localImage || null;
   try {
     if (product.mainImage?.asset) {
-      imageUrl = urlFor(product.mainImage).width(900).height(600).fit('max').quality(92).url();
+      imageUrl = urlFor(product.mainImage).format("webp").width(900).height(600).fit('max').quality(92).url();
     }
   } catch (e) { /* silent */ }
 
@@ -76,7 +76,7 @@ function ProductCard({ product }) {
     >
       <div className="overflow-hidden" style={{ background: '#111111' }}>
         {imageUrl ? (
-          <img src={imageUrl} alt={product.title}
+          <img loading="lazy" decoding="async" src={imageUrl} alt={product.title}
             className="w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             style={{ display: 'block', maxHeight: '260px' }} />
         ) : (

@@ -35,10 +35,7 @@ export async function getProducts({ category, featured } = {}) {
     featured
   } | order(_createdAt desc)`;
 
-  console.log('[Sanity] running query:', query);
   const result = await client.fetch(query);
-  console.log('[Sanity] getProducts result count:', result?.length);
-  console.log('[Sanity] getProducts data:', result);
   return result;
 }
 
@@ -63,7 +60,6 @@ export async function getProductBySlug(slug) {
     }`,
     { slug }
   );
-  console.log('[Sanity] getProductBySlug result:', result);
   return result;
 }
 

@@ -1,13 +1,14 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { LanguageProvider } from './context/LanguageContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Home from './pages/Home';
-import Products from './pages/Products';
-import ProductDetail from './pages/ProductDetail';
-import About from './pages/About';
-import Contact from './pages/Contact';
+
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -17,18 +18,28 @@ function ScrollToTop() {
   return null;
 }
 
+function PageLoader() {
+  return (
+    <div className="min-h-screen bg-base-black flex items-center justify-center">
+      <div className="w-8 h-8 rounded-full border-2 border-primary-red/30 border-t-primary-red animate-spin" />
+    </div>
+  );
+}
+
 function Layout() {
   return (
     <div className="min-h-screen flex flex-col bg-base-black">
       <Navbar />
       <div className="flex-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/produkti" element={<Products />} />
-          <Route path="/produkti/:slug" element={<ProductDetail />} />
-          <Route path="/par-mums" element={<About />} />
-          <Route path="/kontakti" element={<Contact />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/produkti" element={<Products />} />
+            <Route path="/produkti/:slug" element={<ProductDetail />} />
+            <Route path="/par-mums" element={<About />} />
+            <Route path="/kontakti" element={<Contact />} />
+          </Routes>
+        </Suspense>
       </div>
       <Footer />
     </div>
