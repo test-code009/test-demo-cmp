@@ -131,7 +131,7 @@ export default function ProductDetail() {
     : null;
 
   return (
-    <main className="bg-base-black min-h-screen pt-20 md:pt-28 pb-24">
+    <main className="bg-base-black min-h-screen pt-[106px] md:pt-28 pb-24">
 
       <div className="max-w-7xl mx-auto px-6">
 
