@@ -6,11 +6,11 @@ dist/
 dist-ssr/
 
 # Environment variables — NEKAD neliec GitHub!
-# .env # Removed by Orchids to allow .env files
-# .env.local # Removed by Orchids to allow .env files
-# .env.*.local # Removed by Orchids to allow .env files
-# .env.production # Removed by Orchids to allow .env files
-# .env.development # Removed by Orchids to allow .env files
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
 
 # Logs
 *.log
