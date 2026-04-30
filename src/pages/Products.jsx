@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight, X, ChevronDown } from 'lucide-react';
-import { useScrollReveal } from '../hooks/useScrollReveal';
 import { getProducts, getCategories, urlFor } from '../lib/sanity';
 import { useLanguage } from '../context/LanguageContext';
 import t from '../lib/translations';
@@ -189,8 +188,6 @@ export default function Products() {
   const { lang } = useLanguage();
   const tr = t[lang];
 
-  useScrollReveal([products, loading]);
-
   useEffect(() => {
     Promise.all([getProducts(), getCategories()])
       .then(([prods, cats]) => {
@@ -252,11 +249,11 @@ export default function Products() {
             style={{ background: 'linear-gradient(to top, #060606, transparent)' }} />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 pt-20 md:pt-44 w-full">
-          <p className="section-eyebrow mb-4 fade-up-element">{tr.products_eyebrow}</p>
-          <h1 className="section-title text-5xl sm:text-6xl lg:text-7xl mb-4 fade-up-element" style={{ transitionDelay: '0.1s' }}>
+          <p className="section-eyebrow mb-4">{tr.products_eyebrow}</p>
+          <h1 className="section-title text-5xl sm:text-6xl lg:text-7xl mb-4">
             {tr.products_title}
           </h1>
-          <p className="text-soft-grey text-lg max-w-xl fade-up-element" style={{ transitionDelay: '0.2s' }}>
+          <p className="text-soft-grey text-lg max-w-xl">
             {tr.products_desc}
           </p>
         </div>
@@ -297,8 +294,8 @@ export default function Products() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-              {filtered.map((product, i) => (
-                <div key={product._id} className="fade-up-element" style={{ transitionDelay: `${i * 0.06}s` }}>
+              {filtered.map((product) => (
+                <div key={product._id}>
                   <ProductCard product={product} />
                 </div>
               ))}
@@ -311,7 +308,7 @@ export default function Products() {
       <section className="py-24 bg-charcoal">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-14">
-            <p className="section-eyebrow mb-4 fade-up-element">{tr.how_eyebrow}</p>
+            <p className="section-eyebrow mb-4">{tr.how_eyebrow}</p>
             <h2 className="section-title text-3xl fade-up-element" style={{ transitionDelay: '0.1s' }}>
               {tr.how_title}
             </h2>
