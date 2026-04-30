@@ -51,11 +51,19 @@ function ProductCard({ product }) {
 
   const href = product.slug ? `/produkti/${product.slug}` : '/kontakti';
 
+  const handleClick = (e) => {
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      e.preventDefault();
+      window.location.href = href;
+    }
+  };
+
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
       className="group flex flex-col overflow-hidden"
       style={{
         transition: 'transform 0.3s, box-shadow 0.3s, border-color 0.3s',
