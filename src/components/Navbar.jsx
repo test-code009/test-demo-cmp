@@ -29,8 +29,6 @@ export default function Navbar() {
     { label: tr.nav_contacts, path: '/kontakti' },
   ];
 
-  const isDeep = window.history.length > 2;
-
   function handleBack() {
     if (window.history.length > 1) navigate(-1);
     else navigate('/');
@@ -98,21 +96,12 @@ export default function Navbar() {
           {/* Left: lang toggle or back button */}
           <div className="flex-1 flex items-center">
             {!isHome ? (
-              <div className="flex items-center gap-2">
-                <button onClick={handleBack}
-                  className="flex items-center gap-1.5"
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '6px 10px' }}>
-                  <ArrowLeft size={13} className="text-soft-grey" />
-                  <span className="text-soft-grey text-xs font-medium uppercase tracking-wider">{tr.nav_back}</span>
-                </button>
-                {isDeep && (
-                  <Link to="/"
-                    className="flex items-center gap-1.5"
-                    style={{ background: 'rgba(217,31,38,0.10)', border: '1px solid rgba(217,31,38,0.25)', borderRadius: '8px', padding: '6px 10px' }}>
-                    <span className="text-primary-red text-xs font-medium uppercase tracking-wider">{tr.nav_home}</span>
-                  </Link>
-                )}
-              </div>
+              <button onClick={handleBack}
+                className="flex items-center gap-1.5"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '6px 10px' }}>
+                <ArrowLeft size={13} className="text-soft-grey" />
+                <span className="text-soft-grey text-xs font-medium uppercase tracking-wider">{tr.nav_back}</span>
+              </button>
             ) : (
               <LangToggle small />
             )}
@@ -176,27 +165,15 @@ export default function Navbar() {
 
           {/* Back button — sub-pages */}
           {!isHome && (
-            <div className="flex items-center gap-2 flex-shrink-0 mr-4">
-              <button onClick={handleBack}
-                className="group flex items-center gap-2 transition-all duration-200"
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '7px 13px' }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(217,31,38,0.12)'; e.currentTarget.style.borderColor = 'rgba(217,31,38,0.35)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
-              >
-                <ArrowLeft size={13} className="text-soft-grey group-hover:text-primary-red transition-colors" />
-                <span className="text-soft-grey group-hover:text-text-white transition-colors text-xs font-medium uppercase tracking-widest">{tr.nav_back}</span>
-              </button>
-              {isDeep && (
-                <Link to="/"
-                  className="group flex items-center gap-2 transition-all duration-200"
-                  style={{ background: 'rgba(217,31,38,0.10)', border: '1px solid rgba(217,31,38,0.25)', borderRadius: '10px', padding: '7px 13px' }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(217,31,38,0.2)'; e.currentTarget.style.borderColor = 'rgba(217,31,38,0.5)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(217,31,38,0.10)'; e.currentTarget.style.borderColor = 'rgba(217,31,38,0.25)'; }}
-                >
-                  <span className="text-primary-red group-hover:text-white transition-colors text-xs font-medium uppercase tracking-widest">{tr.nav_home}</span>
-                </Link>
-              )}
-            </div>
+            <button onClick={handleBack}
+              className="group flex items-center gap-2 flex-shrink-0 mr-4 transition-all duration-200"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '7px 13px' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(217,31,38,0.12)'; e.currentTarget.style.borderColor = 'rgba(217,31,38,0.35)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+            >
+              <ArrowLeft size={13} className="text-soft-grey group-hover:text-primary-red transition-colors" />
+              <span className="text-soft-grey group-hover:text-text-white transition-colors text-xs font-medium uppercase tracking-widest">{tr.nav_back}</span>
+            </button>
           )}
 
           {/* Logo — home only */}
