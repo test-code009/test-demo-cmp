@@ -50,6 +50,8 @@ function ProductCard({ product, delay = 0 }) {
   const { lang } = useLanguage();
   const tr = t[lang];
 
+  const title = lang === 'en' && product.titleEn ? product.titleEn : (product.titleLv || product.title || '');
+
   let imageUrl = product.localImage || null;
   try {
     if (product.mainImage?.asset) {
@@ -90,7 +92,7 @@ function ProductCard({ product, delay = 0 }) {
         {imageUrl ? (
           <img
             src={imageUrl}
-            alt={product.title}
+            alt={title}
             className="w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             style={{ display: 'block', maxHeight: '260px' }}
           />
@@ -108,7 +110,7 @@ function ProductCard({ product, delay = 0 }) {
       <div className="flex items-center justify-between gap-4 px-4 py-4" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
         <div className="flex-1 min-w-0">
           <h3 className="text-text-white font-display font-semibold text-base leading-snug truncate">
-            {lang === 'en' && product.titleEn ? product.titleEn : product.title}
+            {title}
           </h3>
           {price ? (
             <p className="text-soft-grey/60 text-sm mt-0.5">{price}</p>

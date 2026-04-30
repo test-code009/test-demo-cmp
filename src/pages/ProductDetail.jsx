@@ -118,6 +118,12 @@ export default function ProductDetail() {
     ? urlFor(allImages[activeImg]).width(1200).height(900).fit('crop').quality(90).url()
     : null;
 
+  const productTitle = lang === 'en' && product.titleEn ? product.titleEn : (product.titleLv || product.title || '');
+  const productDescription = lang === 'en' && product.shortDescriptionEn ? product.shortDescriptionEn : (product.shortDescriptionLv || product.shortDescription || null);
+  const categoryLabel = product.category
+    ? (lang === 'en' && product.category.titleEn ? product.category.titleEn : (product.category.titleLv || product.category))
+    : null;
+
   const price = product.price
     ? (typeof product.price === 'number'
         ? `${product.price} €`
@@ -145,7 +151,7 @@ export default function ProductDetail() {
               {activeImageUrl ? (
                 <img
                   src={activeImageUrl}
-                  alt={allImages[activeImg]?.alt || product.title}
+                  alt={allImages[activeImg]?.alt || productTitle}
                   loading="lazy" decoding="async" className="w-full h-full object-cover transition-opacity duration-300"
                 />
               ) : (
@@ -194,11 +200,11 @@ export default function ProductDetail() {
 
             {/* Category + title + price */}
             <div>
-              {product.category && (
-                <p className="section-eyebrow mb-2">{product.category}</p>
+              {categoryLabel && (
+                <p className="section-eyebrow mb-2">{categoryLabel}</p>
               )}
               <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl mb-3 leading-tight">
-                {lang === 'en' && product.titleEn ? product.titleEn : product.title}
+                {productTitle}
               </h1>
               {price && (
                 <p className="text-primary-red font-display font-bold text-2xl">{price}</p>
@@ -206,12 +212,12 @@ export default function ProductDetail() {
             </div>
 
             {/* Description card */}
-            {product.shortDescription && (
+            {productDescription && (
               <div className="rounded-2xl p-6"
                 style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-3">{tr.detail_description}</p>
                 <p className="text-soft-grey text-sm leading-relaxed">
-                  {lang === 'en' && product.shortDescriptionEn ? product.shortDescriptionEn : product.shortDescription}
+                  {productDescription}
                 </p>
               </div>
             )}
@@ -237,7 +243,7 @@ export default function ProductDetail() {
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(6px)' }}>
               <p className="text-text-white font-display font-bold text-xl mb-1">{tr.detail_contact_title}</p>
               <p className="text-soft-grey/45 text-sm mb-5">{tr.detail_contact_sub}</p>
-              <OrderForm productTitle={lang === 'en' && product.titleEn ? product.titleEn : product.title} tr={tr} />
+              <OrderForm productTitle={productTitle} tr={tr} />
             </div>
 
           </div>

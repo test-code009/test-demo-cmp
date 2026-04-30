@@ -16,90 +16,66 @@ export function urlFor(source) {
   return builder.image(source);
 }
 
-export async function getProducts({ category, featured } = {}) {
+// Shared product fields for all queries
+const PRODUCT_FIELDS = `
+  _id,
+  titleLv,
+  titleEn,
+  "slug": slug.current,
+  mainImage,
+  imageAltLv,
+  imageAltEn,
+  shortDescriptionLv,
+  shortDescriptionEn,
+  price,
+  "category": category->{titleLv, titleEn, "slug": slug.current},
+  featured
+`;
+
+export async function getProducts({ featured } = {}) {
   const conditions = ['_type == "product"'];
-  if (category) conditions.push(`category == "${category}"`);
   if (featured === true) conditions.push('featured == true');
 
   const query = `*[${conditions.join(' && ')}]{
-    _id,
-    title,
-    titleEn,
-    "slug": slug.current,
-    mainImage,
-    "imageAlt": mainImage.alt,
-    shortDescription,
-    shortDescriptionEn,
-    category,
-    price,
-    featured
+    ${PRODUCT_FIELDS}
   } | order(_createdAt desc)`;
 
-  const result = await client.fetch(query);
-  return result;
+  return await client.fetch(query);
 }
 
 export async function getProductBySlug(slug) {
-  const result = await client.fetch(
+  return await client.fetch(
     `*[_type == "product" && slug.current == $slug][0]{
-      _id,
-      title,
-      titleEn,
-      "slug": slug.current,
-      mainImage,
-      "imageAlt": mainImage.alt,
-      shortDescription,
-      shortDescriptionEn,
-      description,
-      descriptionEn,
-      category,
-      price,
-      featured,
-      specs,
-      "galleryImages": galleryImages[]{ asset, "alt": asset._ref }
+      ${PRODUCT_FIELDS},
+      "galleryImages": galleryImages[]{ asset }
     }`,
     { slug }
   );
-  return result;
 }
 
 export async function getLatestProducts(limit = 3) {
-  const query = `*[_type == "product"] | order(_createdAt desc) [0...$limit] {
-    _id,
-    title,
-    titleEn,
-    "slug": slug.current,
-    mainImage,
-    "imageAlt": mainImage.alt,
-    shortDescription,
-    shortDescriptionEn,
-    category,
-    price,
-    featured
-  }`;
-  return await client.fetch(query, { limit });
+  return await client.fetch(
+    `*[_type == "product"] | order(_createdAt desc) [0...$limit] {
+      ${PRODUCT_FIELDS}
+    }`,
+    { limit }
+  );
 }
 
 export async function getFeaturedProducts() {
   return await client.fetch(
     `*[_type == "product" && featured == true] | order(_createdAt desc) {
-      _id,
-      title,
-      titleEn,
-      "slug": slug.current,
-      mainImage,
-      "imageAlt": mainImage.alt,
-      shortDescription,
-      shortDescriptionEn,
-      category,
-      price,
-      featured
+      ${PRODUCT_FIELDS}
     }`
   );
 }
 
 export async function getCategories() {
   return await client.fetch(
-    `array::unique(*[_type == "product"].category)`
+    `*[_type == "category"] | order(titleLv asc) {
+      "slug": slug.current,
+      titleLv,
+      titleEn
+    }`
   );
 }

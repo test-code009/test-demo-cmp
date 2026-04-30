@@ -42,6 +42,8 @@ function ProductCard({ product }) {
   const { lang } = useLanguage();
   const tr = t[lang];
 
+  const title = lang === 'en' && product.titleEn ? product.titleEn : (product.titleLv || product.title || '');
+
   const price = product.price
     ? (typeof product.price === 'number'
         ? `${product.price} €`
@@ -76,7 +78,7 @@ function ProductCard({ product }) {
     >
       <div className="overflow-hidden" style={{ background: '#111111' }}>
         {imageUrl ? (
-          <img loading="lazy" decoding="async" src={imageUrl} alt={product.title}
+          <img loading="lazy" decoding="async" src={imageUrl} alt={title}
             className="w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             style={{ display: 'block', maxHeight: '260px' }} />
         ) : (
@@ -92,7 +94,7 @@ function ProductCard({ product }) {
         style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
         <div className="flex-1 min-w-0">
           <h3 className="text-text-white font-display font-semibold text-base leading-snug truncate">
-            {lang === 'en' && product.titleEn ? product.titleEn : product.title}
+            {title}
           </h3>
           {price ? (
             <p className="text-soft-grey/60 text-sm mt-0.5">{price}</p>
@@ -109,7 +111,7 @@ function ProductCard({ product }) {
   );
 }
 
-function CategoryDropdown({ categories, activeCategory, onChange, tr }) {
+function CategoryDropdown({ categories, activeCategory, onChange, tr, lang }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -121,7 +123,14 @@ function CategoryDropdown({ categories, activeCategory, onChange, tr }) {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
-  const allOptions = [{ value: 'all', label: tr.products_all }, ...categories.map(c => ({ value: c, label: c }))];
+  // categories is array of {slug, titleLv, titleEn} objects
+  const allOptions = [
+    { value: 'all', label: tr.products_all },
+    ...categories.map(c => ({
+      value: c.slug || c,
+      label: lang === 'en' && c.titleEn ? c.titleEn : (c.titleLv || c),
+    })),
+  ];
   const current = allOptions.find(o => o.value === activeCategory) || allOptions[0];
 
   return (
@@ -185,32 +194,47 @@ export default function Products() {
   useEffect(() => {
     Promise.all([getProducts(), getCategories()])
       .then(([prods, cats]) => {
-        const loadedProds = prods && prods.length ? prods : fallbackProducts;
-        // Build categories directly from loaded products to guarantee they match
-        const cleanCats = loadedProds
-          .map(p => p.category)
-          .filter(Boolean)
-          .filter((v, i, a) => a.indexOf(v) === i);
         if (prods && prods.length) setProducts(prods);
-        setCategories(cleanCats);
-        // Reset category if it no longer exists in the new data
-        setActiveCategory(prev =>
-          prev === 'all' || cleanCats.includes(prev) ? prev : 'all'
-        );
+        // Use categories from Sanity if available; otherwise build from product data
+        if (cats && cats.length) {
+          setCategories(cats);
+          setActiveCategory(prev =>
+            prev === 'all' || cats.some(c => c.slug === prev) ? prev : 'all'
+          );
+        } else if (prods && prods.length) {
+          // Fallback: build unique category objects from product data
+          const seen = new Set();
+          const cleanCats = [];
+          prods.forEach(p => {
+            if (p.category && p.category.slug && !seen.has(p.category.slug)) {
+              seen.add(p.category.slug);
+              cleanCats.push(p.category);
+            }
+          });
+          setCategories(cleanCats);
+          setActiveCategory(prev =>
+            prev === 'all' || cleanCats.some(c => c.slug === prev) ? prev : 'all'
+          );
+        }
       })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
   const filtered = products.filter(p => {
-    if (activeCategory !== 'all' && p.category?.toLowerCase() !== activeCategory?.toLowerCase()) return false;
+    // category is now an object {slug, titleLv, titleEn} from Sanity
+    const catSlug = p.category?.slug || p.category;
+    if (activeCategory !== 'all' && catSlug !== activeCategory) return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       return (
-        p.title?.toLowerCase().includes(q) ||
+        p.titleLv?.toLowerCase().includes(q) ||
         p.titleEn?.toLowerCase().includes(q) ||
-        p.category?.toLowerCase().includes(q) ||
-        p.shortDescription?.toLowerCase().includes(q)
+        p.title?.toLowerCase().includes(q) ||
+        p.category?.titleLv?.toLowerCase().includes(q) ||
+        p.category?.titleEn?.toLowerCase().includes(q) ||
+        p.shortDescriptionLv?.toLowerCase().includes(q) ||
+        p.shortDescriptionEn?.toLowerCase().includes(q)
       );
     }
     return true;
@@ -246,6 +270,7 @@ export default function Products() {
             activeCategory={activeCategory}
             onChange={setActiveCategory}
             tr={tr}
+            lang={lang}
           />
           {searchQuery && (
             <div className="flex items-center gap-2 text-xs px-4 py-2 rounded-full"
