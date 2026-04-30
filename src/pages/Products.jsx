@@ -185,15 +185,25 @@ export default function Products() {
   useEffect(() => {
     Promise.all([getProducts(), getCategories()])
       .then(([prods, cats]) => {
+        const loadedProds = prods && prods.length ? prods : fallbackProducts;
+        // Build categories directly from loaded products to guarantee they match
+        const cleanCats = loadedProds
+          .map(p => p.category)
+          .filter(Boolean)
+          .filter((v, i, a) => a.indexOf(v) === i);
         if (prods && prods.length) setProducts(prods);
-        setCategories(cats ? cats.filter(Boolean) : []);
+        setCategories(cleanCats);
+        // Reset category if it no longer exists in the new data
+        setActiveCategory(prev =>
+          prev === 'all' || cleanCats.includes(prev) ? prev : 'all'
+        );
       })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
   const filtered = products.filter(p => {
-    if (activeCategory !== 'all' && p.category !== activeCategory) return false;
+    if (activeCategory !== 'all' && p.category?.toLowerCase() !== activeCategory?.toLowerCase()) return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       return (
