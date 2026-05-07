@@ -70,8 +70,11 @@ export default function About() {
               <p className="text-soft-grey/70 text-sm leading-relaxed mb-5 fade-up-element" style={{ transitionDelay: '0.15s' }}>
                 {tr.about_story_p2}
               </p>
-              <p className="text-soft-grey/70 text-sm leading-relaxed fade-up-element" style={{ transitionDelay: '0.2s' }}>
+              <p className="text-soft-grey/70 text-sm leading-relaxed mb-5 fade-up-element" style={{ transitionDelay: '0.2s' }}>
                 {tr.about_story_p3}
+              </p>
+              <p className="font-display font-bold text-base tracking-widest uppercase fade-up-element" style={{ color: '#D91F26', transitionDelay: '0.25s' }}>
+                {tr.about_story_tagline}
               </p>
             </div>
             <div className="rounded-2xl p-8 fade-up-element" style={{
