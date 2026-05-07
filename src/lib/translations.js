@@ -124,7 +124,7 @@ const t = {
     contact_response_desc: 'Mēs neizmantojam automatizētas atbildes. Katra atbilde ir pielāgota jūsu konkrētajam projektam un mērķiem.',
     contact_email_label: 'E-pasts',
     contact_phone_label: 'Tālrunis',
-    contact_ig_label: 'Instagram',
+    contact_ig_label: 'TikTok',
   },
 
   en: {
@@ -252,7 +252,7 @@ const t = {
     contact_response_desc: 'We don\'t use automated responses. Every reply is tailored to your specific build and goals.',
     contact_email_label: 'Email',
     contact_phone_label: 'Phone',
-    contact_ig_label: 'Instagram',
+    contact_ig_label: 'TikTok',
   },
 };
 
