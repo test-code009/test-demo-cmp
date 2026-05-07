@@ -170,8 +170,8 @@ export default function Home() {
             backdropFilter: 'blur(14px)',
             borderTop: '1px solid rgba(217,31,38,0.18)',
           }}>
-          <div className="flex items-center py-3" style={{ animation: 'marquee 22s linear infinite' }}>
-            {[...Array(3)].map((_, rep) => (
+          <div className="flex items-center py-3" style={{ animation: 'marquee 40s linear infinite' }}>
+            {[...Array(5)].map((_, rep) => (
               <div key={rep} className="flex items-center flex-shrink-0">
                 {tr.home_ticker.map((kw, i) => (
                   <span key={i} className="flex items-center gap-5 px-6">
