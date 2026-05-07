@@ -53,7 +53,7 @@ function OrderForm({ productTitle, variantTitle, tr }) {
       <div className="flex flex-col gap-1.5">
         <label className="text-soft-grey/50 text-xs uppercase tracking-widest">{tr.detail_phone}</label>
         <input type="tel" name="phone" value={form.phone} onChange={handleChange}
-          placeholder="+371 2X XXX XXX" required
+          placeholder="+371 29147322" required
           className="w-full px-4 py-3 rounded-xl text-text-white text-sm outline-none transition-all duration-200"
           style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }}
           onFocus={e => { e.target.style.borderColor = 'rgba(217,31,38,0.5)'; e.target.style.background = 'rgba(255,255,255,0.07)'; }}

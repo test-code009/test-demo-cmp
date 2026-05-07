@@ -76,11 +76,11 @@ export default function Footer() {
                 info@classicmotionperformance.com
               </a>
               <a
-                href="tel:+371XXXXXXXX"
+                href="tel:+37129147322"
                 className="flex items-center gap-3 text-soft-grey text-sm hover:text-text-white transition-colors duration-200"
               >
                 <Phone size={14} className="text-primary-red flex-shrink-0" />
-                +371 XXXXXXXX
+                +371 29147322
               </a>
               <a
                 href="https://instagram.com/classicmotionperformance"

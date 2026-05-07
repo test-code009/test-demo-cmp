@@ -132,10 +132,10 @@ export default function Navbar() {
             <Mail size={11} className="text-primary-red" />
             info@classicmotionperformance.com
           </a>
-          <a href="tel:+371XXXXXXXX"
+          <a href="tel:+37129147322"
             className="flex items-center gap-1.5 text-soft-grey/70 hover:text-text-white transition-colors text-xs">
             <Phone size={11} className="text-primary-red" />
-            +371 XXXXXXXX
+            +371 29147322
           </a>
         </div>
         <div className="flex items-center gap-4">

@@ -33,7 +33,7 @@ export default function Contact() {
 
   const contactItems = [
     { icon: <Mail size={16} className="text-primary-red" />, label: tr.contact_email_label, value: 'info@classicmotionperformance.com', href: 'mailto:info@classicmotionperformance.com' },
-    { icon: <Phone size={16} className="text-primary-red" />, label: tr.contact_phone_label, value: '+371 XXXXXXXX', href: 'tel:+371XXXXXXXX' },
+    { icon: <Phone size={16} className="text-primary-red" />, label: tr.contact_phone_label, value: '+371 29147322', href: 'tel:+37129147322' },
     { icon: <span className="text-primary-red"><InstagramIcon /></span>, label: tr.contact_ig_label, value: '@classicmotionperformance', href: 'https://instagram.com/classicmotionperformance' },
   ];
 
