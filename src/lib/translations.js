@@ -35,7 +35,7 @@ const t = {
     home_get_in_touch: 'Sazināties',
     home_hero_mobile_title: 'Bremžu &\nbalstiekārtas uzlabojumi',
     home_hero_mobile_sub: 'VW Golf Mk2 · Latvija',
-    home_ticker: ['Saglabā klasiku', 'Klasiskas VW veiktspējas detaļas', 'Radīts MK2 modeļiem', 'Klasiska kustība', 'Mūsdienīga veiktspēja', 'Veiktspējas detaļas īstiem projektiem', 'Radīts 1983–1992 ikoniskiem auto', 'Dzimis no 6,3 miljoniem leģendu'],
+    home_ticker: ['Saglabā klasiku', 'Klasiskas VW Performance detaļas', 'Radīts MK2 modeļiem', 'Klasiska kustība', 'Mūsdienīga Performance', 'Performance detaļas īstiem projektiem', 'Radīts 1983–1992 ikoniskiem auto', 'Dzimis no 6,3 miljoniem leģendu'],
 
     // Products page
     products_eyebrow: 'Mūsu Klāsts',
@@ -77,7 +77,7 @@ const t = {
     about_title: 'Classic Motion',
     about_subtitle: 'SAVE THE CLASSIC',
     about_story_title: 'CMP Stāsts',
-    about_story_p1: 'CMP Classic Motion Performance radās no aizrautības pret klasiskajiem Volkswagen automobiļiem un īstu autosporta kultūru. Mūsu mērķis ir saglabāt un pilnveidot leģendārās 1983–1992 Volkswagen platformas, apvienojot OEM kvalitāti ar modernu veiktspēju.',
+    about_story_p1: 'CMP Classic Motion Performance radās no aizrautības pret klasiskajiem Volkswagen automobiļiem un īstu autosporta kultūru. Mūsu mērķis ir saglabāt un pilnveidot leģendārās 1983–1992 Volkswagen platformas, apvienojot OEM kvalitāti ar modernu Performance.',
     about_story_p2: 'Mēs specializējamies bremžu sistēmu uzlabojumos, piekares risinājumos un custom performance detaļās, kas paredzētas gan ielas auto, gan entuziastu projektiem. Katrs projekts tiek veidots ar uzmanību pret detaļām, funkcionalitāti un klasisko Volkswagen raksturu.',
     about_story_p3: 'CMP nav tikai detaļas vai serviss — tā ir kustība cilvēkiem, kuri novērtē īstu auto kultūru, mehānisku sajūtu un klasisko modeļu identitāti.',
     about_story_tagline: 'SAVE THE CLASSICS.',
@@ -85,8 +85,8 @@ const t = {
     about_spec: 'Specializācija',
     about_philosophy: 'Filozofija',
     about_approach: 'Pieeja',
-    about_spec_val: 'OEM+ & Veiktspējas MK2 Projekti',
-    about_phil_val: 'Mūsdienīga Veiktspēja',
+    about_spec_val: 'OEM+ & Performance MK2 Projekti',
+    about_phil_val: 'Mūsdienīga Performance',
     about_approach_val: 'Radīts entuziastiem',
     about_values_eyebrow: 'Kas Mūs Virza',
     about_values_title: 'Mūsu Vērtības',
