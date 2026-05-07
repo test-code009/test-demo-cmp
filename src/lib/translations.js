@@ -35,7 +35,7 @@ const t = {
     home_get_in_touch: 'Sazināties',
     home_hero_mobile_title: 'Bremžu &\nbalstiekārtas uzlabojumi',
     home_hero_mobile_sub: 'VW Golf Mk2 · Latvija',
-    home_ticker: ['Bremzē Precīzāk', 'Brauc Asāk', 'Radīts Mk2', 'Inženiertehniskā Veiktspēja', 'Tīrs un Mērķtiecīgs', 'Uzlabo Visu'],
+    home_ticker: ['Saglabā klasiku', 'Klasiskas VW veiktspējas detaļas', 'Radīts MK2 modeļiem', 'Klasiska kustība', 'Mūsdienīga veiktspēja', 'Veiktspējas detaļas īstiem projektiem', 'Radīts 1983–1992 ikoniskiem auto', 'Dzimis no 6,3 miljoniem leģendu'],
 
     // Products page
     products_eyebrow: 'Mūsu Klāsts',
@@ -163,7 +163,7 @@ const t = {
     home_get_in_touch: 'Get in Touch',
     home_hero_mobile_title: 'Brake &\nSuspension Upgrades',
     home_hero_mobile_sub: 'VW Golf Mk2 · Latvia',
-    home_ticker: ['Stop Harder', 'Drive Sharper', 'Built for Mk2', 'Engineered Performance', 'Clean & Purposeful', 'Upgrade Everything'],
+    home_ticker: ['Save the Classic', 'Classic VW Performance Parts', 'Built for MK2', 'Classic Motion', 'Modern Performance', 'Performance Parts Made for Real Builds', 'Made for the Icons of 1983-1992', 'Born from 6.3 Million Legends'],
 
     // Products page
     products_eyebrow: 'Our Range',
