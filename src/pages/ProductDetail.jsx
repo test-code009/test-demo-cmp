@@ -6,7 +6,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useLanguage } from '../context/LanguageContext';
 import t from '../lib/translations';
 
-function OrderForm({ productTitle, tr }) {
+function OrderForm({ productTitle, variantTitle, tr }) {
   const [form, setForm] = useState({ name: '', phone: '' });
   const [status, setStatus] = useState(null);
 
@@ -17,8 +17,9 @@ function OrderForm({ productTitle, tr }) {
     if (!form.name.trim() || !form.phone.trim()) return;
     setStatus('sending');
     try {
-      const subject = encodeURIComponent(`Pasūtījums: ${productTitle}`);
-      const body = encodeURIComponent(`Vārds: ${form.name}\nTālrunis: ${form.phone}\nProdukts: ${productTitle}`);
+      const fullTitle = variantTitle ? `${productTitle} — ${variantTitle}` : productTitle;
+      const subject = encodeURIComponent(`Pasūtījums: ${fullTitle}`);
+      const body = encodeURIComponent(`Vārds: ${form.name}\nTālrunis: ${form.phone}\nProdukts: ${fullTitle}`);
       window.location.href = `mailto:info@classicmotionperformance.com?subject=${subject}&body=${body}`;
       setStatus('sent');
     } catch {
@@ -76,6 +77,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
+  const [activeVariant, setActiveVariant] = useState(null);
   const { lang } = useLanguage();
   const tr = t[lang];
 
@@ -87,6 +89,12 @@ export default function ProductDetail() {
       .then(data => { setProduct(data || null); setLoading(false); })
       .catch(() => setLoading(false));
   }, [slug]);
+
+  // Reset variant + image when product changes
+  useEffect(() => {
+    setActiveVariant(null);
+    setActiveImg(0);
+  }, [product]);
 
   if (loading) return (
     <main className="min-h-screen bg-base-black flex items-center justify-center">
@@ -103,39 +111,52 @@ export default function ProductDetail() {
     </main>
   );
 
+  const hasVariants = product.variants && product.variants.length > 0;
+  const variant = hasVariants && activeVariant !== null ? product.variants[activeVariant] : null;
+
   // Build full image list: mainImage first, then galleryImages
-  const allImages = [];
+  const productImages = [];
   try {
-    if (product.mainImage?.asset) allImages.push(product.mainImage);
+    if (product.mainImage?.asset) productImages.push(product.mainImage);
   } catch (e) { /* silent */ }
   if (product.galleryImages?.length) {
-    product.galleryImages.forEach(img => {
-      if (img?.asset) allImages.push(img);
-    });
+    product.galleryImages.forEach(img => { if (img?.asset) productImages.push(img); });
   }
 
-  const activeImageUrl = allImages[activeImg]
-    ? urlFor(allImages[activeImg]).width(1200).height(900).fit('crop').quality(90).url()
+  // When a variant is selected and has its own image, show it as the main image
+  const displayImages = variant?.image?.asset ? [variant.image, ...productImages] : productImages;
+  const clampedImg = Math.min(activeImg, displayImages.length - 1);
+
+  const activeImageUrl = displayImages[clampedImg]
+    ? urlFor(displayImages[clampedImg]).width(1200).height(900).fit('crop').quality(90).url()
     : null;
 
-  const productTitle = lang === 'en' && product.titleEn ? product.titleEn : (product.titleLv || product.title || '');
-  const productDescription = lang === 'en' && product.shortDescriptionEn ? product.shortDescriptionEn : (product.shortDescriptionLv || product.shortDescription || null);
+  const productTitle = lang === 'en' && product.titleEn ? product.titleEn : (product.titleLv || '');
+  const variantTitle = variant ? (lang === 'en' && variant.titleEn ? variant.titleEn : variant.titleLv) : null;
+
+  const productDescription = lang === 'en' && product.shortDescriptionEn
+    ? product.shortDescriptionEn
+    : (product.shortDescriptionLv || null);
+  const variantDescription = variant
+    ? (lang === 'en' && variant.descriptionEn ? variant.descriptionEn : (variant.descriptionLv || null))
+    : null;
+  const displayDescription = variantDescription || productDescription;
+
   const categoryLabel = product.category
-    ? (lang === 'en' && product.category.titleEn ? product.category.titleEn : (product.category.titleLv || product.category))
+    ? (lang === 'en' && product.category.titleEn ? product.category.titleEn : (product.category.titleLv || ''))
     : null;
 
-  const price = product.price
-    ? (typeof product.price === 'number'
-        ? `${product.price} €`
-        : product.price.toString().includes('€') ? product.price : `${product.price} €`)
+  // Price: prefer active variant price, else product price
+  const rawPrice = variant?.price != null ? variant.price : product.price;
+  const price = rawPrice != null
+    ? (typeof rawPrice === 'number' ? `${rawPrice} €` : rawPrice.toString().includes('€') ? rawPrice : `${rawPrice} €`)
     : null;
 
   return (
     <main className="bg-base-black min-h-screen pt-[106px] md:pt-28 pb-24">
-
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* ── Top: image left + form right ───────────────────────── */}
+        {/* ── Top: image left + info right ───────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
 
           {/* LEFT — main image + thumbnails */}
@@ -151,8 +172,9 @@ export default function ProductDetail() {
               {activeImageUrl ? (
                 <img
                   src={activeImageUrl}
-                  alt={allImages[activeImg]?.alt || productTitle}
-                  loading="lazy" decoding="async" className="w-full h-full object-cover transition-opacity duration-300"
+                  alt={variantTitle || productTitle}
+                  loading="lazy" decoding="async"
+                  className="w-full h-full object-cover transition-opacity duration-300"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center"
@@ -168,26 +190,22 @@ export default function ProductDetail() {
             </div>
 
             {/* Thumbnails — only if >1 image */}
-            {allImages.length > 1 && (
+            {displayImages.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-1">
-                {allImages.map((img, i) => {
+                {displayImages.map((img, i) => {
                   const thumbUrl = urlFor(img).width(200).height(150).fit('crop').quality(80).url();
                   return (
                     <button key={i} onClick={() => setActiveImg(i)}
                       className="flex-shrink-0 rounded-xl overflow-hidden transition-all duration-200"
                       style={{
-                        width: '72px',
-                        height: '54px',
-                        border: i === activeImg
-                          ? '2px solid #D91F26'
-                          : '2px solid rgba(255,255,255,0.08)',
-                        opacity: i === activeImg ? 1 : 0.5,
+                        width: '72px', height: '54px',
+                        border: i === clampedImg ? '2px solid #D91F26' : '2px solid rgba(255,255,255,0.08)',
+                        opacity: i === clampedImg ? 1 : 0.5,
                       }}
-                      onMouseEnter={e => { if (i !== activeImg) e.currentTarget.style.opacity = '0.8'; }}
-                      onMouseLeave={e => { if (i !== activeImg) e.currentTarget.style.opacity = '0.5'; }}
+                      onMouseEnter={e => { if (i !== clampedImg) e.currentTarget.style.opacity = '0.8'; }}
+                      onMouseLeave={e => { if (i !== clampedImg) e.currentTarget.style.opacity = '0.5'; }}
                     >
-                      <img src={thumbUrl} alt={img.alt || `Image ${i + 1}`}
-                        className="w-full h-full object-cover" />
+                      <img src={thumbUrl} alt={`Image ${i + 1}`} className="w-full h-full object-cover" />
                     </button>
                   );
                 })}
@@ -195,7 +213,7 @@ export default function ProductDetail() {
             )}
           </div>
 
-          {/* RIGHT — info + form */}
+          {/* RIGHT — info + variants + form */}
           <div className="fade-up-element flex flex-col gap-5">
 
             {/* Category + title + price */}
@@ -206,19 +224,93 @@ export default function ProductDetail() {
               <h1 className="section-title text-3xl sm:text-4xl lg:text-5xl mb-3 leading-tight">
                 {productTitle}
               </h1>
-              {price && (
-                <p className="text-primary-red font-display font-bold text-2xl">{price}</p>
-              )}
+              <p className="text-primary-red font-display font-bold text-2xl">
+                {price || ''}
+              </p>
             </div>
 
+            {/* Variants selector */}
+            {hasVariants && (
+              <div className="rounded-2xl p-5"
+                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-4">{tr.detail_variants}</p>
+                <div className="flex flex-col gap-3">
+                  {product.variants.map((v, i) => {
+                    const vTitle = lang === 'en' && v.titleEn ? v.titleEn : v.titleLv;
+                    const vPrice = v.price != null ? `${v.price} €` : null;
+                    const vThumb = v.image?.asset ? urlFor(v.image).width(120).height(90).fit('crop').quality(75).url() : null;
+                    const isActive = activeVariant === i;
+
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          setActiveVariant(isActive ? null : i);
+                          setActiveImg(0);
+                        }}
+                        className="flex items-center gap-4 w-full text-left rounded-xl px-4 py-3 transition-all duration-200"
+                        style={{
+                          background: isActive ? 'rgba(217,31,38,0.08)' : 'rgba(255,255,255,0.03)',
+                          border: isActive ? '1.5px solid rgba(217,31,38,0.45)' : '1.5px solid rgba(255,255,255,0.07)',
+                        }}
+                        onMouseEnter={e => { if (!isActive) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)'; }}
+                        onMouseLeave={e => { if (!isActive) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; }}
+                      >
+                        {/* Thumbnail */}
+                        {vThumb ? (
+                          <img src={vThumb} alt={vTitle}
+                            className="flex-shrink-0 rounded-lg object-cover"
+                            style={{ width: '52px', height: '40px' }} />
+                        ) : (
+                          <div className="flex-shrink-0 rounded-lg flex items-center justify-center"
+                            style={{ width: '52px', height: '40px', background: 'rgba(255,255,255,0.05)' }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5">
+                              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                              <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                          </div>
+                        )}
+
+                        {/* Title + description */}
+                        <div className="flex-1 min-w-0">
+                          <p className={`font-display font-semibold text-sm leading-snug ${isActive ? 'text-white' : 'text-text-white/80'}`}>
+                            {vTitle}
+                          </p>
+                          {v[lang === 'en' ? 'descriptionEn' : 'descriptionLv'] && (
+                            <p className="text-soft-grey/50 text-xs mt-0.5 leading-snug line-clamp-1">
+                              {v[lang === 'en' ? 'descriptionEn' : 'descriptionLv']}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Price + check */}
+                        <div className="flex-shrink-0 flex flex-col items-end gap-1">
+                          {vPrice && (
+                            <span className={`font-display font-bold text-sm ${isActive ? 'text-primary-red' : 'text-soft-grey/60'}`}>
+                              {vPrice}
+                            </span>
+                          )}
+                          <div className="w-5 h-5 rounded-full flex items-center justify-center transition-all duration-200"
+                            style={{
+                              background: isActive ? '#D91F26' : 'transparent',
+                              border: isActive ? '1.5px solid #D91F26' : '1.5px solid rgba(255,255,255,0.2)',
+                            }}>
+                            {isActive && <Check size={11} className="text-white" />}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* Description card */}
-            {productDescription && (
+            {displayDescription && (
               <div className="rounded-2xl p-6"
                 style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 <p className="text-soft-grey/45 text-xs uppercase tracking-widest mb-3">{tr.detail_description}</p>
-                <p className="text-soft-grey text-sm leading-relaxed">
-                  {productDescription}
-                </p>
+                <p className="text-soft-grey text-sm leading-relaxed">{displayDescription}</p>
               </div>
             )}
 
@@ -243,7 +335,7 @@ export default function ProductDetail() {
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(6px)' }}>
               <p className="text-text-white font-display font-bold text-xl mb-1">{tr.detail_contact_title}</p>
               <p className="text-soft-grey/45 text-sm mb-5">{tr.detail_contact_sub}</p>
-              <OrderForm productTitle={productTitle} tr={tr} />
+              <OrderForm productTitle={productTitle} variantTitle={variantTitle} tr={tr} />
             </div>
 
           </div>

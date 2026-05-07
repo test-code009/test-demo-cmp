@@ -47,7 +47,15 @@ export async function getProductBySlug(slug) {
   return await client.fetch(
     `*[_type == "product" && slug.current == $slug][0]{
       ${PRODUCT_FIELDS},
-      "galleryImages": galleryImages[]{ asset }
+      "galleryImages": galleryImages[]{ asset },
+      "variants": variants[]{
+        titleLv,
+        titleEn,
+        price,
+        descriptionLv,
+        descriptionEn,
+        "image": image{ asset }
+      }
     }`,
     { slug }
   );

@@ -68,6 +68,7 @@ const t = {
     detail_error: 'Kļūda. Lūdzu mēģini vēlreiz.',
     detail_description: 'Apraksts',
     detail_specs: 'Specifikācijas',
+    detail_variants: 'Varianti',
     detail_not_found: 'Produkts nav atrasts',
     detail_back: 'Atpakaļ',
 
@@ -195,6 +196,7 @@ const t = {
     detail_error: 'Error. Please try again.',
     detail_description: 'Description',
     detail_specs: 'Specifications',
+    detail_variants: 'Variants',
     detail_not_found: 'Product not found',
     detail_back: 'Back',
 
