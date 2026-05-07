@@ -108,6 +108,12 @@ export default function Footer() {
             >
               {lang === 'en' ? 'Privacy Policy' : 'Privātuma Politika'}
             </Link>
+            <Link
+              to="/lietosanas-noteikumi"
+              className="text-soft-grey/40 hover:text-soft-grey text-xs transition-colors duration-200"
+            >
+              {lang === 'en' ? 'Terms of Service' : 'Lietošanas Noteikumi'}
+            </Link>
             <p className="text-soft-grey text-xs">{tr.footer_tagline}</p>
           </div>
         </div>

@@ -10,6 +10,7 @@ const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -40,6 +41,7 @@ function Layout() {
             <Route path="/par-mums" element={<About />} />
             <Route path="/kontakti" element={<Contact />} />
             <Route path="/privatuma-politika" element={<PrivacyPolicy />} />
+            <Route path="/lietosanas-noteikumi" element={<TermsOfService />} />
           </Routes>
         </Suspense>
       </div>
