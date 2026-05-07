@@ -9,6 +9,7 @@ const Products = lazy(() => import('./pages/Products'));
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -38,6 +39,7 @@ function Layout() {
             <Route path="/produkti/:slug" element={<ProductDetail />} />
             <Route path="/par-mums" element={<About />} />
             <Route path="/kontakti" element={<Contact />} />
+            <Route path="/privatuma-politika" element={<PrivacyPolicy />} />
           </Routes>
         </Suspense>
       </div>

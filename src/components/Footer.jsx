@@ -101,9 +101,15 @@ export default function Footer() {
           <p className="text-soft-grey text-xs">
             &copy; {new Date().getFullYear()} Classic Motion Performance. {tr.footer_rights}
           </p>
-          <p className="text-soft-grey text-xs">
-            {tr.footer_tagline}
-          </p>
+          <div className="flex items-center gap-5">
+            <Link
+              to="/privatuma-politika"
+              className="text-soft-grey/40 hover:text-soft-grey text-xs transition-colors duration-200"
+            >
+              {lang === 'en' ? 'Privacy Policy' : 'Privātuma Politika'}
+            </Link>
+            <p className="text-soft-grey text-xs">{tr.footer_tagline}</p>
+          </div>
         </div>
       </div>
     </footer>
