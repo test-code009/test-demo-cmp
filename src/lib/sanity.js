@@ -78,6 +78,17 @@ export async function getFeaturedProducts() {
   );
 }
 
+export async function getGalleries() {
+  return await client.fetch(
+    `*[_type == "gallery" && featured == true] | order(_createdAt desc) {
+      _id,
+      titleLv,
+      titleEn,
+      "images": images[]{ "asset": asset, altLv, altEn }
+    }`
+  );
+}
+
 export async function getCategories() {
   return await client.fetch(
     `*[_type == "category"] | order(titleLv asc) {

@@ -12,6 +12,7 @@ const Contact = lazy(() => import('./pages/Contact'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const CookiePolicy = lazy(() => import('./pages/CookiePolicy'));
+const Gallery = lazy(() => import('./pages/Gallery'));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -38,6 +39,7 @@ function Layout() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/produkti" element={<Products />} />
+            <Route path="/galerija" element={<Gallery />} />
             <Route path="/produkti/:slug" element={<ProductDetail />} />
             <Route path="/par-mums" element={<About />} />
             <Route path="/kontakti" element={<Contact />} />

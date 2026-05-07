@@ -23,6 +23,7 @@ export default function Navbar() {
   const navLinks = [
     { label: tr.nav_home, path: '/' },
     { label: tr.nav_products, path: '/produkti' },
+    { label: tr.nav_gallery, path: '/galerija' },
     { label: tr.nav_about, path: '/par-mums' },
     { label: tr.nav_contacts, path: '/kontakti' },
   ];
