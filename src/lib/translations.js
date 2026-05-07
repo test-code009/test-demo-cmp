@@ -43,6 +43,9 @@ const t = {
     gallery_title: 'Galerija',
     gallery_empty: 'Galerija tiek papildināta',
 
+    // Partners
+    partners_eyebrow: 'MŪSU DRAUGI',
+
     // Products page
     products_eyebrow: 'Mūsu Klāsts',
     products_title: 'Produkti',
@@ -178,6 +181,9 @@ const t = {
     gallery_eyebrow: 'OUR WORK',
     gallery_title: 'Gallery',
     gallery_empty: 'Gallery coming soon',
+
+    // Partners
+    partners_eyebrow: 'OUR FRIENDS',
 
     // Products page
     products_eyebrow: 'Our Range',
