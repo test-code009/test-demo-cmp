@@ -312,34 +312,6 @@ export default function Products() {
         </div>
       </section>
 
-      {/* ── How It Works ─────────────────────────────────────────────── */}
-      <section className="py-24 bg-charcoal">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <p className="section-eyebrow mb-4">{tr.how_eyebrow}</p>
-            <h2 className="section-title text-3xl fade-up-element" style={{ transitionDelay: '0.1s' }}>
-              {tr.how_title}
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {tr.how_steps.map((s, i) => (
-              <div key={s.step} className="glass-card p-8 text-center fade-up-element" style={{ transitionDelay: `${i * 0.12}s` }}>
-                <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-5"
-                  style={{ background: 'rgba(217,31,38,0.1)', border: '1px solid rgba(217,31,38,0.25)' }}>
-                  <span className="text-primary-red font-display font-bold text-sm">{s.step}</span>
-                </div>
-                <h3 className="text-text-white font-display font-semibold text-base mb-3">{s.title}</h3>
-                <p className="text-soft-grey text-sm leading-relaxed">{s.text}</p>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-12 fade-up-element">
-            <Link to="/kontakti" className="btn-primary">
-              {tr.how_cta} <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }
