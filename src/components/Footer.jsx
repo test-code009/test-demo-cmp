@@ -4,11 +4,9 @@ import logoSrc from '../assets/logomk2.png';
 import { useLanguage } from '../context/LanguageContext';
 import t from '../lib/translations';
 
-const InstagramIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-    <circle cx="12" cy="12" r="4"/>
-    <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+const TikTokIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.2 8.2 0 0 0 4.79 1.52V6.78a4.85 4.85 0 0 1-1.02-.09z"/>
   </svg>
 );
 
@@ -69,11 +67,11 @@ export default function Footer() {
             <p className="section-eyebrow mb-5">{tr.footer_contact}</p>
             <div className="flex flex-col gap-3">
               <a
-                href="mailto:info@classicmotionperformance.com"
+                href="mailto:info@cmp-performance.lv"
                 className="flex items-center gap-3 text-soft-grey text-sm hover:text-text-white transition-colors duration-200 group"
               >
                 <Mail size={14} className="text-primary-red flex-shrink-0" />
-                info@classicmotionperformance.com
+                info@cmp-performance.lv
               </a>
               <a
                 href="tel:+37129147322"
@@ -83,13 +81,13 @@ export default function Footer() {
                 +371 29147322
               </a>
               <a
-                href="https://instagram.com/classicmotionperformance"
+                href="https://www.tiktok.com/@cmp_performance?_r=1&_t=ZN-96AGxKCvBhr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-soft-grey text-sm hover:text-text-white transition-colors duration-200"
               >
-                <span className="text-primary-red flex-shrink-0"><InstagramIcon /></span>
-                @classicmotionperformance
+                <span className="text-primary-red flex-shrink-0"><TikTokIcon /></span>
+                @cmp_performance
               </a>
             </div>
           </div>

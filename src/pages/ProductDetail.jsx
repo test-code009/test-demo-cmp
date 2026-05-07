@@ -20,7 +20,7 @@ function OrderForm({ productTitle, variantTitle, tr }) {
       const fullTitle = variantTitle ? `${productTitle} — ${variantTitle}` : productTitle;
       const subject = encodeURIComponent(`Pasūtījums: ${fullTitle}`);
       const body = encodeURIComponent(`Vārds: ${form.name}\nTālrunis: ${form.phone}\nProdukts: ${fullTitle}`);
-      window.location.href = `mailto:info@classicmotionperformance.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:info@cmp-performance.lv?subject=${subject}&body=${body}`;
       setStatus('sent');
     } catch {
       setStatus('error');
