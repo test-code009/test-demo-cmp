@@ -321,17 +321,17 @@ export default function Products() {
               href="https://kosko.lv"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity duration-300"
+              className="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-300"
             >
-              <img src="/partner-kosko.png" alt="Kosko" className="h-16 w-auto object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+              <img src="/partner-kosko.png" alt="Kosko" className="h-20 w-auto object-contain" />
             </a>
             <a
               href="https://zobensracing.lv"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center opacity-50 hover:opacity-100 transition-opacity duration-300"
+              className="flex items-center justify-center opacity-80 hover:opacity-100 transition-opacity duration-300"
             >
-              <img src="/partner-zobens.jpeg" alt="Zobens Racing Sport" className="h-14 w-auto object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+              <img src="/partner-zobens.jpeg" alt="Zobens Racing Sport" className="h-12 w-auto object-contain rounded" style={{ filter: 'invert(1)' }} />
             </a>
           </div>
         </div>
