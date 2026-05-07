@@ -16,7 +16,7 @@ const t = {
     footer_nav: 'Navigācija',
     footer_contact: 'Kontakti',
     footer_rights: 'Visas tiesības aizsargātas.',
-    footer_tagline: 'Mk2 Veiktspējas Speciālisti',
+    footer_tagline: 'Radīts Leģendām',
 
     // Home
     home_eyebrow: 'PREMIUM VEIKTSPĒJAS UZLABOJUMI',
@@ -144,7 +144,7 @@ const t = {
     footer_nav: 'Navigation',
     footer_contact: 'Contact',
     footer_rights: 'All rights reserved.',
-    footer_tagline: 'Mk2 Performance Specialists',
+    footer_tagline: 'Built for Legends',
 
     // Home
     home_eyebrow: 'PREMIUM PERFORMANCE UPGRADES',
