@@ -174,7 +174,7 @@ export default function Home() {
             {[...Array(5)].map((_, rep) => (
               <div key={rep} className="flex items-center flex-shrink-0">
                 {tr.home_ticker.map((kw, i) => (
-                  <span key={i} className="flex items-center gap-5 px-6">
+                  <span key={i} className="flex items-center gap-3 px-3">
                     <span className="text-text-white/75 text-xs font-semibold uppercase tracking-[0.18em] whitespace-nowrap">{kw}</span>
                     <span className="w-1 h-1 rounded-full bg-primary-red flex-shrink-0" />
                   </span>
