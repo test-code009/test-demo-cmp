@@ -75,7 +75,7 @@ const t = {
     // About page
     about_eyebrow: 'Kas Mēs Esam',
     about_title: 'Classic Motion',
-    about_subtitle: 'Saglabā Klasiku',
+    about_subtitle: 'SAVE THE CLASSIC',
     about_story_title: 'CMP Stāsts',
     about_story_p1: 'CMP Classic Motion Performance radās no aizrautības pret klasiskajiem Volkswagen automobiļiem un īstu autosporta kultūru. Mūsu mērķis ir saglabāt un pilnveidot leģendārās 1983–1992 Volkswagen platformas, apvienojot OEM kvalitāti ar modernu veiktspēju.',
     about_story_p2: 'Mēs specializējamies bremžu sistēmu uzlabojumos, piekares risinājumos un custom performance detaļās, kas paredzētas gan ielas auto, gan entuziastu projektiem. Katrs projekts tiek veidots ar uzmanību pret detaļām, funkcionalitāti un klasisko Volkswagen raksturu.',
