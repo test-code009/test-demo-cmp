@@ -114,6 +114,12 @@ export default function Footer() {
             >
               {lang === 'en' ? 'Terms of Service' : 'Lietošanas Noteikumi'}
             </Link>
+            <Link
+              to="/sikdatnu-politika"
+              className="text-soft-grey/40 hover:text-soft-grey text-xs transition-colors duration-200"
+            >
+              {lang === 'en' ? 'Cookie Policy' : 'Sīkdatņu Politika'}
+            </Link>
             <p className="text-soft-grey text-xs">{tr.footer_tagline}</p>
           </div>
         </div>
