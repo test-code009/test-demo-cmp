@@ -74,8 +74,8 @@ const t = {
 
     // About page
     about_eyebrow: 'Kas Mēs Esam',
-    about_title: 'Par Classic Motion',
-    about_subtitle: 'Vadīti ar automobiļu kultūru. Fokusēti uz precīzu veiktspēju.',
+    about_title: 'Classic Motion',
+    about_subtitle: 'SAVE THE CLASSIC',
     about_story_title: 'CMP Stāsts',
     about_story_p1: 'Classic Motion Performance ir veidots ap vienu vienkāršu ideju: veiktspējas uzlabojumiem jājūtas tikpat labi, cik tie izskatās. Mēs fokusējamies uz risinājumiem, kas uzlabo braukšanas pārliecību, saglabā tīru vizuālo identitāti un respektē katra projekta raksturu.',
     about_story_p2: 'Mūsu pieeja apvieno inženiertehnisko domāšanu ar entuziasta kultūru, veidojot uzlabojumu risinājumus, kas jūtas mērķtiecīgi, saskanīgi un premium. Ne tikai detaļas — pārdomāts virziens jūsu projektam.',
@@ -202,8 +202,8 @@ const t = {
 
     // About page
     about_eyebrow: 'Who We Are',
-    about_title: 'About Classic Motion',
-    about_subtitle: 'Driven by automotive culture. Focused on refined performance.',
+    about_title: 'Classic Motion',
+    about_subtitle: 'SAVE THE CLASSIC',
     about_story_title: 'The CMP Story',
     about_story_p1: 'Classic Motion Performance is built around a simple idea: performance upgrades should feel as good as they look. We focus on solutions that improve driving confidence, maintain a clean visual identity, and respect the character of each build.',
     about_story_p2: 'Our approach combines engineering-minded thinking with enthusiast culture, creating upgrade solutions that feel purposeful, cohesive, and premium. Not just parts. A considered direction for your build.',
