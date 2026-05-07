@@ -36,8 +36,8 @@ export default function Footer() {
               className="mb-4"
               style={{ height: '120px', width: 'auto', opacity: 0.9 }}
             />
-            <p className="text-soft-grey text-sm leading-relaxed max-w-xs">
-              {tr.footer_desc}
+            <p className="font-display font-bold tracking-widest uppercase text-sm" style={{ color: '#D91F26' }}>
+              SAVE THE CLASSIC
             </p>
             <div className="red-line-accent mt-6" />
           </div>
