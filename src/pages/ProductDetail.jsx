@@ -190,7 +190,7 @@ export default function ProductDetail() {
               {activeImageUrl ? (
                 <img
                   src={activeImageUrl}
-                  alt={variantTitle || productTitle}
+                  alt={productTitle}
                   loading="lazy" decoding="async"
                   className="w-full h-full object-cover transition-opacity duration-300"
                 />
