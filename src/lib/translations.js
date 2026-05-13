@@ -36,7 +36,7 @@ const t = {
     home_get_in_touch: 'Sazināties',
     home_hero_mobile_title: 'Bremžu &\nbalstiekārtas uzlabojumi',
     home_hero_mobile_sub: 'VW Golf Mk2 · Latvija',
-    home_ticker: ['Saglabā klasiku', 'Klasiskas VW Performance detaļas', 'Radīts MK2 modeļiem', 'Klasiska kustība', 'Mūsdienīga Performance', 'Performance detaļas īstiem projektiem', 'Radīts 1983–1992 ikoniskiem auto', 'Dzimis no 6,3 miljoniem leģendu'],
+    home_ticker: ['Saglabā klasiku', 'Klasiskas VW Performance detaļas', 'Radīts MK2 modeļiem', 'Klasiska kustība', 'Mūsdienīga kvalitāte', 'Īstiem projektiem radītas detaļas', 'Radīts 1983–1992 ikoniskiem auto', 'Dzimis no 6,3 miljoniem leģendu'],
 
     // Gallery page
     gallery_eyebrow: 'MŪSU DARBI',
