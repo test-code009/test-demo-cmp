@@ -31,8 +31,9 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <picture>
-              <source srcSet="/logo.webp" type="image/webp" />
+              <source srcSet="/logo-210.webp 1x, /logo-560.webp 2x" type="image/webp" />
               <img src="/logo.png" alt="Classic Motion Performance"
+                width="120" height="120"
                 className="mb-4"
                 style={{ height: '120px', width: 'auto', opacity: 0.9 }}
                 loading="lazy" decoding="async"

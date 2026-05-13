@@ -6,10 +6,16 @@ export default defineConfig({
   build: {
     target: 'es2015',
     minify: 'terser',
+    assetsInlineLimit: 4096,
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
+        passes: 2,
+        pure_getters: true,
+      },
+      format: {
+        comments: false,
       },
     },
     rollupOptions: {
@@ -23,6 +29,9 @@ export default defineConfig({
           }
           if (id.includes('node_modules/lucide-react')) {
             return 'vendor-icons';
+          }
+          if (id.includes('node_modules/@fontsource')) {
+            return 'vendor-fonts';
           }
         },
       },

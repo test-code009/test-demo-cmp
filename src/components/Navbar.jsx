@@ -109,8 +109,9 @@ export default function Navbar() {
           {/* Center: logo */}
           <Link to="/" className="absolute left-1/2 -translate-x-1/2">
             <picture>
-              <source srcSet="/logo.webp" type="image/webp" />
+              <source srcSet="/logo-210.webp 1x, /logo.webp 2x" type="image/webp" />
               <img src="/logo.png" alt="CMP"
+                width="102" height="102"
                 fetchPriority="high" loading="eager" decoding="sync"
                 style={{ height: '102px', width: 'auto', filter: 'drop-shadow(0 0 10px rgba(217,31,38,0.4))' }} />
             </picture>
@@ -181,8 +182,9 @@ export default function Navbar() {
           {isHome && (
             <Link to="/" className="flex-shrink-0 flex items-center">
               <picture>
-                <source srcSet="/logo.webp" type="image/webp" />
+                <source srcSet="/logo-560.webp 1x, /logo.webp 2x" type="image/webp" />
                 <img src="/logo.png" alt="Classic Motion Performance"
+                  width="280" height="280"
                   fetchPriority="high" loading="eager" decoding="sync"
                   style={{ height: '280px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))', display: 'block' }} />
               </picture>

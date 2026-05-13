@@ -1,5 +1,3 @@
-/* Fonts loaded via index.html preload for better performance */
-
 @keyframes marquee {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -18,6 +16,8 @@
 
   html {
     scroll-behavior: smooth;
+    /* Prevent horizontal scroll without layout thrashing */
+    overflow-x: hidden;
   }
 
   body {
@@ -27,6 +27,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    /* Prevent text size adjustment on orientation change */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   #root {
@@ -97,11 +100,14 @@
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Use compositor thread only */
+    will-change: opacity, transform;
   }
 
   .fade-up-element.visible {
     opacity: 1;
     transform: translateY(0);
+    will-change: auto;
   }
 
   .red-line-accent {
@@ -118,5 +124,56 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+}
+
+/* ── Mobile performance optimizations ───────────────────────── */
+@media (max-width: 768px) {
+  /* Reduce expensive backdrop-filter blur on mobile GPUs */
+  header[style*="backdrop-filter"],
+  [style*="backdrop-filter: blur(16px)"],
+  [style*="backdropFilter"] {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
+  /* Disable hover transforms on touch devices (no hover intent) */
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    transform: none;
+  }
+
+  /* Reduce marquee animation work — use GPU layer */
+  .marquee-track {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Reduce slowZoom animation on mobile (heavy on mid-range) */
+  @media (prefers-reduced-motion: no-preference) {
+    img[style*="slowZoom"] {
+      animation-duration: 20s;
+    }
+  }
+
+  /* content-visibility for below-fold sections */
+  section:not(:first-child) {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 400px;
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .fade-up-element {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
