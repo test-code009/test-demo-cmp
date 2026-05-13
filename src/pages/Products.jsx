@@ -322,7 +322,7 @@ export default function Products() {
             </a>
             {/* Zobens Racing Sport — nav klikšķināms */}
             <div className="flex items-center justify-center opacity-70">
-              <img src="/partner-zobens.jpeg" alt="Zobens Racing Sport" className="h-12 w-auto object-contain rounded" style={{ filter: 'invert(1)' }} />
+              <img src="/partner-zobens2.png" alt="Zobens Racing Sport" className="h-12 w-auto object-contain" style={{ filter: 'invert(1)' }} />
             </div>
             {/* Dadziši Racing — nav klikšķināms */}
             <div className="flex items-center justify-center opacity-70">
