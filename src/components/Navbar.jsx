@@ -108,8 +108,12 @@ export default function Navbar() {
 
           {/* Center: logo */}
           <Link to="/" className="absolute left-1/2 -translate-x-1/2">
-            <img src="/logo.png" alt="CMP"
-              style={{ height: '102px', width: 'auto', filter: 'drop-shadow(0 0 10px rgba(217,31,38,0.4))' }} />
+            <picture>
+              <source srcSet="/logo.webp" type="image/webp" />
+              <img src="/logo.png" alt="CMP"
+                fetchPriority="high" loading="eager" decoding="sync"
+                style={{ height: '102px', width: 'auto', filter: 'drop-shadow(0 0 10px rgba(217,31,38,0.4))' }} />
+            </picture>
           </Link>
 
           {/* Right: hamburger (+ lang on sub-pages) */}
@@ -176,8 +180,12 @@ export default function Navbar() {
           {/* Logo — home only */}
           {isHome && (
             <Link to="/" className="flex-shrink-0 flex items-center">
-              <img src="/logo.png" alt="Classic Motion Performance"
-                style={{ height: '280px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))', display: 'block' }} />
+              <picture>
+                <source srcSet="/logo.webp" type="image/webp" />
+                <img src="/logo.png" alt="Classic Motion Performance"
+                  fetchPriority="high" loading="eager" decoding="sync"
+                  style={{ height: '280px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))', display: 'block' }} />
+              </picture>
             </Link>
           )}
 

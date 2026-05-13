@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { Mail, Phone, ArrowUpRight } from 'lucide-react';
-import logoSrc from '../assets/logomk2.png';
 import { useLanguage } from '../context/LanguageContext';
 import t from '../lib/translations';
 
@@ -31,12 +30,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-12">
           {/* Brand */}
           <div>
-            <img
-              src={logoSrc}
-              alt="Classic Motion Performance"
-              className="mb-4"
-              style={{ height: '120px', width: 'auto', opacity: 0.9 }}
-            />
+            <picture>
+              <source srcSet="/logo.webp" type="image/webp" />
+              <img src="/logo.png" alt="Classic Motion Performance"
+                className="mb-4"
+                style={{ height: '120px', width: 'auto', opacity: 0.9 }}
+                loading="lazy" decoding="async"
+              />
+            </picture>
             <p className="font-display font-bold tracking-widest uppercase text-sm" style={{ color: '#D91F26' }}>
               SAVE THE CLASSIC
             </p>

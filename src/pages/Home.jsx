@@ -29,12 +29,18 @@ const homeFallbackProducts = [
 
 const HeroBackground = () => (
   <div className="absolute inset-0 overflow-hidden">
-    <img
-      src="/hero.png"
-      alt="Classic Motion Performance — VW Golf Mk2"
-      className="absolute inset-0 w-full h-full object-cover object-center"
-      style={{ animation: 'slowZoom 14s ease-in-out infinite alternate' }}
-    />
+    <picture>
+      <source srcSet="/hero.webp" type="image/webp" />
+      <img
+        src="/hero.jpg"
+        alt="Classic Motion Performance — VW Golf Mk2"
+        className="absolute inset-0 w-full h-full object-cover object-center"
+        style={{ animation: 'slowZoom 14s ease-in-out infinite alternate' }}
+        fetchPriority="high"
+        loading="eager"
+        decoding="sync"
+      />
+    </picture>
     <div className="absolute inset-0" style={{ background: 'rgba(6,6,6,0.40)' }} />
     <div className="hidden md:block absolute inset-y-0 left-0 w-3/4" style={{ background: 'linear-gradient(to right, rgba(6,6,6,0.88) 0%, rgba(6,6,6,0.50) 45%, transparent 100%)' }} />
     <div className="md:hidden absolute inset-0" style={{ background: 'rgba(6,6,6,0.45)' }} />
