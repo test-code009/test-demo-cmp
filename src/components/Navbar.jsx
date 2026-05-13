@@ -113,7 +113,7 @@ export default function Navbar() {
             <picture>
               <source srcSet="/logo-210.webp 1x, /logo.webp 2x" type="image/webp" />
               <img src="/logo.png" alt="CMP"
-                width="102" height="102"
+                width="153" height="102"
                 fetchPriority="high" loading="eager" decoding="sync"
                 style={{ height: '102px', width: 'auto', filter: 'drop-shadow(0 0 10px rgba(217,31,38,0.4))' }} />
             </picture>
@@ -186,9 +186,9 @@ export default function Navbar() {
               <picture>
                 <source srcSet="/logo-560.webp 1x, /logo.webp 2x" type="image/webp" />
                 <img src="/logo.png" alt="Classic Motion Performance"
-                  width="280" height="280"
+                  width="420" height="280"
                   fetchPriority="high" loading="eager" decoding="sync"
-                  style={{ height: '280px', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))', display: 'block' }} />
+                  style={{ height: '280px', width: 'auto', filter: 'drop-shadow(0 0 16px rgba(217,31,38,0.4))', display: 'block' }} />
               </picture>
             </Link>
           )}
