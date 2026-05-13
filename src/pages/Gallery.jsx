@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { getGalleries, urlFor } from '../lib/sanity';
 import { useLanguage } from '../context/LanguageContext';
@@ -10,6 +10,8 @@ export default function Gallery() {
   const [galleries, setGalleries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lightbox, setLightbox] = useState(null); // { src, alt }
+  const closeBtnRef = useRef(null);
+  const triggerRef = useRef(null);
 
   useEffect(() => {
     getGalleries()
@@ -26,16 +28,28 @@ export default function Gallery() {
     }))
   );
 
-  function openLightbox(img) {
+  function openLightbox(img, btnEl) {
     try {
       const src = urlFor(img).format('webp').width(1600).quality(90).url();
+      triggerRef.current = btnEl;
       setLightbox({ src, alt: img.alt });
     } catch { /* silent */ }
   }
 
+  function closeLightbox() {
+    setLightbox(null);
+    // Return focus to the trigger element
+    setTimeout(() => triggerRef.current?.focus(), 50);
+  }
+
+  // Focus close button when lightbox opens
+  useEffect(() => {
+    if (lightbox) setTimeout(() => closeBtnRef.current?.focus(), 50);
+  }, [lightbox]);
+
   // Close lightbox on Escape
   useEffect(() => {
-    function onKey(e) { if (e.key === 'Escape') setLightbox(null); }
+    function onKey(e) { if (e.key === 'Escape') closeLightbox(); }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
@@ -60,32 +74,34 @@ export default function Gallery() {
       <section className="max-w-7xl mx-auto px-6">
         {loading ? (
           <div className="flex justify-center py-32">
-            <div className="w-8 h-8 rounded-full border-2 border-primary-red/30 border-t-primary-red animate-spin" />
+            <div role="status" aria-label="Ielādējas galerija" className="w-8 h-8 rounded-full border-2 border-primary-red/30 border-t-primary-red animate-spin" />
           </div>
         ) : allImages.length === 0 ? (
-          <div className="text-center py-32">
+          <div className="text-center py-32" role="status">
             <p className="text-soft-grey/40 text-sm uppercase tracking-widest">{tr.gallery_empty}</p>
           </div>
         ) : (
-          <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-3">
+          <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-3" role="list" aria-label={tr.gallery_title}>
             {allImages.map((img, i) => {
               let src = null;
               try { src = urlFor(img).format('webp').width(800).quality(85).url(); } catch { /* silent */ }
               if (!src) return null;
               return (
-                <div key={i}
-                  className="break-inside-avoid overflow-hidden cursor-pointer group"
-                  style={{ borderRadius: '4px' }}
-                  onClick={() => openLightbox(img)}
-                >
-                  <img
-                    src={src}
-                    alt={img.alt}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full block transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                    style={{ display: 'block' }}
-                  />
+                <div key={i} role="listitem" className="break-inside-avoid overflow-hidden group" style={{ borderRadius: '4px' }}>
+                  <button
+                    className="w-full text-left cursor-pointer"
+                    aria-label={img.alt || `Bilde ${i + 1}`}
+                    onClick={e => openLightbox(img, e.currentTarget)}
+                  >
+                    <img
+                      src={src}
+                      alt={img.alt || ''}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full block transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                      style={{ display: 'block' }}
+                    />
+                  </button>
                 </div>
               );
             })}
@@ -96,20 +112,25 @@ export default function Gallery() {
       {/* Lightbox */}
       {lightbox && (
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.alt || 'Bilde'}
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(8px)' }}
-          onClick={() => setLightbox(null)}
+          onClick={closeLightbox}
         >
           <button
+            ref={closeBtnRef}
             className="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full transition-colors"
             style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)' }}
-            onClick={() => setLightbox(null)}
+            aria-label="Aizvērt attēlu"
+            onClick={closeLightbox}
           >
-            <X size={18} className="text-white" />
+            <X size={18} className="text-white" aria-hidden="true" />
           </button>
           <img
             src={lightbox.src}
-            alt={lightbox.alt}
+            alt={lightbox.alt || 'Galerijas attēls'}
             className="max-w-full max-h-[90vh] object-contain"
             style={{ borderRadius: '4px', boxShadow: '0 32px 80px rgba(0,0,0,0.8)' }}
             onClick={e => e.stopPropagation()}

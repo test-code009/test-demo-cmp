@@ -54,6 +54,7 @@ const t = {
     products_price_on_request: 'Cena pēc piepras.',
     products_not_found: 'Produkti nav atrasti',
     products_not_found_sub: 'Mēģiniet citu meklēšanas vaicājumu.',
+    products_filter_category: 'Filtrēt pēc kategorijas',
 
     // How it works
     how_eyebrow: 'Kā Tas Darbojas',
@@ -193,6 +194,7 @@ const t = {
     products_price_on_request: 'Price on request',
     products_not_found: 'No products found',
     products_not_found_sub: 'Try a different search query.',
+    products_filter_category: 'Filter by category',
 
     // How it works
     how_eyebrow: 'How It Works',

@@ -53,58 +53,63 @@ function ProductCard({ product }) {
   const href = product.slug ? `/produkti/${product.slug}` : '/kontakti';
 
   return (
-    <div
-      onClick={() => navigate(href)}
-      className="group flex flex-col overflow-hidden cursor-pointer"
-      style={{
-        transition: 'transform 0.3s, box-shadow 0.3s, border-color 0.3s',
-        background: '#111111',
-        border: '1px solid rgba(255,255,255,0.1)',
-        borderRadius: '0',
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-4px)';
-        e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.6)';
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)';
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-      }}
-    >
-      <div className="overflow-hidden" style={{ background: '#111111' }}>
-        {imageUrl ? (
-          <img loading="lazy" decoding="async" src={imageUrl} alt={title}
-            className="w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-            style={{ display: 'block', maxHeight: '260px' }} />
-        ) : (
-          <div className="flex items-center justify-center" style={{ height: '220px' }}>
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1">
-              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
-          </div>
-        )}
-      </div>
-      <div className="flex items-center justify-between gap-4 px-4 py-4"
-        style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-        <div className="flex-1 min-w-0">
-          <h3 className="text-text-white font-display font-semibold text-base leading-snug truncate">
-            {title}
-          </h3>
-          {price ? (
-            <p className="text-soft-grey/60 text-sm mt-0.5">{price}</p>
+    <article>
+      <Link
+        to={href}
+        aria-label={price ? `${title} — ${price}` : title}
+        className="group flex flex-col overflow-hidden"
+        style={{
+          transition: 'transform 0.3s, box-shadow 0.3s, border-color 0.3s',
+          background: '#111111',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: '0',
+          display: 'flex',
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.6)';
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)';
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = 'none';
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+        }}
+      >
+        <div className="overflow-hidden" style={{ background: '#111111' }}>
+          {imageUrl ? (
+            <img loading="lazy" decoding="async" src={imageUrl} alt={title}
+              className="w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+              style={{ display: 'block', maxHeight: '260px' }} />
           ) : (
-            <p className="text-soft-grey/40 text-xs mt-0.5 uppercase tracking-widest">{tr.products_price_on_request}</p>
+            <div className="flex items-center justify-center" style={{ height: '220px' }} aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
           )}
         </div>
-        <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-200 group-hover:bg-primary-red group-hover:border-primary-red"
-          style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
-          <ArrowRight size={13} className="text-soft-grey/70 group-hover:text-white transition-colors" />
+        <div className="flex items-center justify-between gap-4 px-4 py-4"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-text-white font-display font-semibold text-base leading-snug truncate">
+              {title}
+            </h3>
+            {price ? (
+              <p className="text-soft-grey/60 text-sm mt-0.5">{price}</p>
+            ) : (
+              <p className="text-soft-grey/40 text-xs mt-0.5 uppercase tracking-widest">{tr.products_price_on_request}</p>
+            )}
+          </div>
+          <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center transition-all duration-200 group-hover:bg-primary-red group-hover:border-primary-red"
+            aria-hidden="true"
+            style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
+            <ArrowRight size={13} className="text-soft-grey/70 group-hover:text-white transition-colors" />
+          </div>
         </div>
-      </div>
-    </div>
+      </Link>
+    </article>
   );
 }
 
@@ -134,6 +139,9 @@ function CategoryDropdown({ categories, activeCategory, onChange, tr, lang }) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(o => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={`${tr.products_filter_category}: ${current.label}`}
         className="flex items-center gap-2 text-xs uppercase tracking-widest px-4 py-2.5 rounded-full transition-all duration-200"
         style={{
           background: activeCategory !== 'all' ? 'rgba(217,31,38,0.15)' : 'rgba(255,255,255,0.06)',
@@ -143,11 +151,12 @@ function CategoryDropdown({ categories, activeCategory, onChange, tr, lang }) {
         }}
       >
         <span className="flex-1 text-left">{current.label}</span>
-        <ChevronDown size={12} className="transition-transform duration-200" style={{ transform: open ? 'rotate(180deg)' : 'none' }} />
+        <ChevronDown size={12} className="transition-transform duration-200" aria-hidden="true" style={{ transform: open ? 'rotate(180deg)' : 'none' }} />
       </button>
 
       {open && (
-        <div className="absolute top-full left-0 mt-2 rounded-xl overflow-hidden z-50"
+        <div role="listbox" aria-label={tr.products_filter_category}
+          className="absolute top-full left-0 mt-2 rounded-xl overflow-hidden z-50"
           style={{
             background: '#111',
             border: '1px solid rgba(255,255,255,0.1)',
@@ -157,6 +166,8 @@ function CategoryDropdown({ categories, activeCategory, onChange, tr, lang }) {
           {allOptions.map(opt => (
             <button
               key={opt.value}
+              role="option"
+              aria-selected={activeCategory === opt.value}
               onClick={() => { onChange(opt.value); setOpen(false); }}
               className="w-full text-left text-xs uppercase tracking-widest px-4 py-3 transition-colors duration-150"
               style={{
@@ -270,14 +281,14 @@ export default function Products() {
           {searchQuery && (
             <div className="flex items-center gap-2 text-xs px-4 py-2 rounded-full"
               style={{ background: 'rgba(217,31,38,0.12)', border: '1px solid rgba(217,31,38,0.3)', color: '#FF3B30' }}>
-              <span>"{searchQuery}"</span>
-              <button onClick={() => setSearchParams({})} className="hover:text-white transition-colors">
-                <X size={11} />
+              <span aria-live="polite">"{searchQuery}"</span>
+              <button onClick={() => setSearchParams({})} aria-label="Notīrīt meklēšanu" className="hover:text-white transition-colors">
+                <X size={11} aria-hidden="true" />
               </button>
             </div>
           )}
           {loading && (
-            <div className="w-4 h-4 rounded-full border border-primary-red/30 border-t-primary-red animate-spin ml-2" />
+            <div role="status" aria-label="Ielādējas produkti" className="w-4 h-4 rounded-full border border-primary-red/30 border-t-primary-red animate-spin ml-2" />
           )}
         </div>
       </div>
@@ -287,19 +298,17 @@ export default function Products() {
         <div className="max-w-7xl mx-auto px-6">
           {loading ? (
             <div className="flex justify-center py-40">
-              <div className="w-10 h-10 rounded-full border-2 border-primary-red/30 border-t-primary-red animate-spin" />
+              <div role="status" aria-label="Ielādējas produkti" className="w-10 h-10 rounded-full border-2 border-primary-red/30 border-t-primary-red animate-spin" />
             </div>
           ) : filtered.length === 0 ? (
-            <div className="text-center py-40">
+            <div className="text-center py-40" role="status">
               <p className="text-soft-grey/40 text-sm uppercase tracking-widest mb-3">{tr.products_not_found}</p>
               <p className="text-soft-grey/25 text-xs">{tr.products_not_found_sub}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+            <div aria-label={`${filtered.length} produkti`} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
               {filtered.map((product) => (
-                <div key={product._id}>
-                  <ProductCard product={product} />
-                </div>
+                <ProductCard key={product._id} product={product} />
               ))}
             </div>
           )}

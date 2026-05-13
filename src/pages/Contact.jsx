@@ -11,7 +11,7 @@ const TikTokIcon = () => (
 );
 
 const ContactHeroBg = () => (
-  <div className="absolute inset-0 overflow-hidden">
+  <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
     <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #080808 0%, #100808 40%, #0a0a0a 100%)' }} />
     <div className="absolute bottom-0 right-0 w-[700px] h-[500px] opacity-15"
       style={{ background: 'radial-gradient(ellipse, rgba(217,31,38,0.45) 0%, transparent 70%)', transform: 'translate(20%, 20%)' }} />
@@ -65,9 +65,9 @@ export default function Contact() {
             {/* Left — Form */}
             <div className="fade-up-element">
               {submitted ? (
-                <div className="rounded-2xl p-12 text-center h-full flex flex-col items-center justify-center"
+                <div role="status" aria-live="polite" className="rounded-2xl p-12 text-center h-full flex flex-col items-center justify-center"
                   style={{ background: 'linear-gradient(135deg, rgba(17,17,17,0.9) 0%, rgba(23,23,23,0.95) 100%)', border: '1px solid rgba(255,255,255,0.07)', minHeight: '420px' }}>
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" aria-hidden="true"
                     style={{ background: 'rgba(217,31,38,0.1)', border: '1px solid rgba(217,31,38,0.3)' }}>
                     <Send size={22} className="text-primary-red" />
                   </div>
@@ -106,7 +106,7 @@ export default function Contact() {
                     />
                   </div>
                   <button type="submit" className="btn-primary justify-center mt-2">
-                    {tr.contact_send} <ArrowRight size={16} />
+                    {tr.contact_send} <ArrowRight size={16} aria-hidden="true" />
                   </button>
                 </form>
               )}

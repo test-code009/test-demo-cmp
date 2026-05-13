@@ -5,7 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import t from '../lib/translations';
 
 const AboutHeroBg = () => (
-  <div className="absolute inset-0 overflow-hidden">
+  <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
     <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #080808 0%, #0f0a0a 40%, #0a0a0a 100%)' }} />
     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] opacity-15"
       style={{ background: 'radial-gradient(ellipse, rgba(217,31,38,0.4) 0%, transparent 70%)' }} />
@@ -60,7 +60,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
-              <div className="red-line-accent fade-up-element" />
+              <div className="red-line-accent fade-up-element" aria-hidden="true" />
               <h2 className="section-title text-3xl sm:text-4xl mb-6 fade-up-element" style={{ transitionDelay: '0.05s' }}>
                 {tr.about_story_title}
               </h2>
@@ -122,10 +122,10 @@ export default function About() {
       {/* Quote */}
       <section className="relative py-36 overflow-hidden"
         style={{ background: 'linear-gradient(135deg, #0a0606 0%, #110808 50%, #0a0a0a 100%)' }}>
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(217,31,38,0.12) 0%, transparent 65%)' }} />
-        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(217,31,38,0.4), transparent)' }} />
-        <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(217,31,38,0.2), transparent)' }} />
-        <div className="absolute inset-0 opacity-[0.025]"
+        <div className="absolute inset-0" aria-hidden="true" style={{ background: 'radial-gradient(ellipse at center, rgba(217,31,38,0.12) 0%, transparent 65%)' }} />
+        <div className="absolute top-0 left-0 right-0 h-px" aria-hidden="true" style={{ background: 'linear-gradient(90deg, transparent, rgba(217,31,38,0.4), transparent)' }} />
+        <div className="absolute bottom-0 left-0 right-0 h-px" aria-hidden="true" style={{ background: 'linear-gradient(90deg, transparent, rgba(217,31,38,0.2), transparent)' }} />
+        <div className="absolute inset-0 opacity-[0.025]" aria-hidden="true"
           style={{ backgroundImage: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.15) 0px, rgba(255,255,255,0.15) 1px, transparent 1px, transparent 6px)' }} />
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <div className="fade-up-element">
@@ -137,7 +137,7 @@ export default function About() {
               <br />
               <span className="text-gradient-red">{tr.about_quote_2}</span>
             </blockquote>
-            <div className="w-12 h-px mx-auto mt-10" style={{ background: 'linear-gradient(90deg, transparent, rgba(217,31,38,0.6), transparent)' }} />
+            <div className="w-12 h-px mx-auto mt-10" aria-hidden="true" style={{ background: 'linear-gradient(90deg, transparent, rgba(217,31,38,0.6), transparent)' }} />
           </div>
         </div>
       </section>
@@ -153,7 +153,7 @@ export default function About() {
           </p>
           <div className="flex flex-wrap justify-center gap-4 fade-up-element" style={{ transitionDelay: '0.2s' }}>
             <Link to="/kontakti" className="btn-primary">
-              {tr.about_get_in_touch} <ArrowRight size={16} />
+              {tr.about_get_in_touch} <ArrowRight size={16} aria-hidden="true" />
             </Link>
             <Link to="/produkti" className="btn-secondary">
               {tr.about_view_products}

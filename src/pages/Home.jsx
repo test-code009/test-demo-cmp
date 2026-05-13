@@ -161,21 +161,22 @@ export default function Home() {
     <main style={{ background: '#0d0d0d' }}>
 
       {/* ─── Hero ─────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ height: '100svh', minHeight: '600px' }}>
+      <section className="relative overflow-hidden" aria-label={tr.home_hero_mobile_sub} style={{ height: '100svh', minHeight: '600px' }}>
         <HeroBackground />
         {/* Mobile: text bottom-right */}
         <div className="md:hidden absolute bottom-24 right-0 left-0 pointer-events-none px-6" style={{ zIndex: 5 }}>
           <div className="flex flex-col items-end text-right">
-            <p className="text-white font-display font-bold leading-tight mb-2 whitespace-pre-line"
+            <h1 className="text-white font-display font-bold leading-tight mb-2 whitespace-pre-line"
               style={{ fontSize: 'clamp(1.5rem, 7vw, 2rem)', textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}>
               {tr.home_hero_mobile_title}
-            </p>
-            <div className="w-8 h-px mb-2" style={{ background: '#D91F26' }} />
+            </h1>
+            <div className="w-8 h-px mb-2" style={{ background: '#D91F26' }} aria-hidden="true" />
             <p className="text-white/55 text-xs uppercase tracking-[0.2em]" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}>{tr.home_hero_mobile_sub}</p>
           </div>
         </div>
-        {/* Ticker */}
+        {/* Ticker — decorative, hidden from screen readers */}
         <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden"
+          aria-hidden="true"
           style={{
             background: 'rgba(6,6,6,0.75)',
             backdropFilter: 'blur(14px)',
@@ -203,7 +204,7 @@ export default function Home() {
         borderBottom: '1px solid rgba(255,255,255,0.07)',
         boxShadow: '0 0 60px rgba(0,0,0,0.5)',
       }}>
-        <div className="absolute inset-0 pointer-events-none" style={{
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true" style={{
           background: 'radial-gradient(ellipse at 50% 100%, rgba(217,31,38,0.06) 0%, transparent 65%)',
         }} />
         <div className="max-w-2xl mx-auto px-6 text-center">
@@ -225,6 +226,7 @@ export default function Home() {
               {tr.home_read_more}
               <div
                 className="w-6 h-6 rounded-full flex items-center justify-center group-hover:bg-primary-red transition-all duration-200"
+                aria-hidden="true"
                 style={{ border: '1px solid rgba(255,255,255,0.15)' }}
               >
                 <ArrowRight size={11} />

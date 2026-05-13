@@ -66,7 +66,9 @@ export default function Navbar() {
       className="flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 flex-shrink-0"
       style={{ border: '1px solid rgba(255,255,255,0.08)', background: menuOpen ? 'rgba(217,31,38,0.12)' : 'rgba(255,255,255,0.04)' }}
       onClick={() => setMenuOpen(!menuOpen)}
-      aria-label="Toggle menu"
+      aria-label={menuOpen ? 'Aizvērt izvēlni' : 'Atvērt izvēlni'}
+      aria-expanded={menuOpen}
+      aria-controls="main-nav-drawer"
     >
       <div className="flex flex-col gap-[5px] w-[18px]">
         <span className="block h-px w-full transition-all duration-300"
@@ -205,6 +207,7 @@ export default function Navbar() {
                   }
                 }}
                 placeholder={tr.nav_search}
+                aria-label={tr.nav_search}
                 className="text-text-white text-sm pl-8 pr-8 py-2 outline-none transition-all duration-300 rounded-full w-44"
                 style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', color: '#F5F5F5' }}
                 onFocus={(e) => { e.target.style.background = 'rgba(255,255,255,0.18)'; e.target.style.borderColor = 'rgba(217,31,38,0.5)'; e.target.style.width = '210px'; }}
@@ -231,10 +234,15 @@ export default function Navbar() {
       {/* ── Backdrop ─────────────────────────────────────────────── */}
       <div className={`fixed inset-0 z-40 transition-all duration-500 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)' }}
-        onClick={() => setMenuOpen(false)} />
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true" />
 
       {/* ── Side drawer ──────────────────────────────────────────── */}
-      <div className="fixed top-0 left-0 bottom-0 z-50 flex flex-col"
+      <div id="main-nav-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-label={tr.nav_menu}
+        className="fixed top-0 left-0 bottom-0 z-50 flex flex-col"
         style={{
           width: 'min(80vw, 340px)',
           background: '#0a0a0a',
@@ -249,15 +257,16 @@ export default function Navbar() {
           <p className="section-eyebrow">{tr.nav_menu}</p>
           <button className="w-8 h-8 flex items-center justify-center rounded-lg"
             style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(217,31,38,0.1)' }}
+            aria-label="Aizvērt izvēlni"
             onClick={() => setMenuOpen(false)}>
-            <X size={15} className="text-primary-red" />
+            <X size={15} className="text-primary-red" aria-hidden="true" />
           </button>
         </div>
 
         {/* Mobile search in drawer */}
         <div className="px-6 pt-4 pb-2">
           <div className="relative flex items-center">
-            <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" />
+            <Search size={13} className="absolute left-3 text-soft-grey/50 pointer-events-none z-10" aria-hidden="true" />
             <input type="text" value={mobileSearch}
               onChange={(e) => setMobileSearch(e.target.value)}
               onKeyDown={(e) => {
@@ -267,15 +276,17 @@ export default function Navbar() {
                 }
               }}
               placeholder={tr.nav_search}
+              aria-label={tr.nav_search}
               className="w-full text-text-white text-sm pl-9 pr-3 py-3 outline-none rounded-xl"
               style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }} />
           </div>
         </div>
 
         {/* Nav links */}
-        <nav className="flex flex-col flex-1 px-6 py-4 overflow-y-auto">
+        <nav aria-label="Galvenā navigācija" className="flex flex-col flex-1 px-6 py-4 overflow-y-auto">
           {navLinks.map((link, i) => (
             <Link key={link.path} to={link.path}
+              aria-current={location.pathname === link.path ? 'page' : undefined}
               className={`flex items-center justify-between py-4 transition-all duration-300 ${
                 location.pathname === link.path ? 'text-text-white' : 'text-soft-grey/60 hover:text-text-white'
               }`}
@@ -287,7 +298,7 @@ export default function Navbar() {
               }}>
               <span className="font-display font-bold text-2xl">{link.label}</span>
               {location.pathname === link.path && (
-                <span className="w-1.5 h-1.5 rounded-full bg-primary-red flex-shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary-red flex-shrink-0" aria-hidden="true" />
               )}
             </Link>
           ))}

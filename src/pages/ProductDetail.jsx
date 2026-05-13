@@ -30,8 +30,8 @@ function OrderForm({ productTitle, variantTitles, tr }) {
   };
 
   if (status === 'sent') return (
-    <div className="flex flex-col items-center gap-4 py-8 text-center">
-      <div className="w-12 h-12 rounded-full flex items-center justify-center"
+    <div role="status" aria-live="polite" className="flex flex-col items-center gap-4 py-8 text-center">
+      <div className="w-12 h-12 rounded-full flex items-center justify-center" aria-hidden="true"
         style={{ background: 'rgba(217,31,38,0.12)', border: '1px solid rgba(217,31,38,0.3)' }}>
         <Check size={22} className="text-primary-red" />
       </div>
@@ -41,11 +41,11 @@ function OrderForm({ productTitle, variantTitles, tr }) {
   );
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
       <div className="flex flex-col gap-1.5">
-        <label className="text-soft-grey/50 text-xs uppercase tracking-widest">{tr.detail_name}</label>
-        <input type="text" name="name" value={form.name} onChange={handleChange}
-          placeholder="Jānis Bērziņš" required
+        <label htmlFor="order-name" className="text-soft-grey/50 text-xs uppercase tracking-widest">{tr.detail_name}</label>
+        <input id="order-name" type="text" name="name" value={form.name} onChange={handleChange}
+          placeholder="Jānis Bērziņš" required autoComplete="name"
           className="w-full px-4 py-3 rounded-xl text-text-white text-sm outline-none transition-all duration-200"
           style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }}
           onFocus={e => { e.target.style.borderColor = 'rgba(217,31,38,0.5)'; e.target.style.background = 'rgba(255,255,255,0.07)'; }}
@@ -53,9 +53,9 @@ function OrderForm({ productTitle, variantTitles, tr }) {
         />
       </div>
       <div className="flex flex-col gap-1.5">
-        <label className="text-soft-grey/50 text-xs uppercase tracking-widest">{tr.detail_phone}</label>
-        <input type="tel" name="phone" value={form.phone} onChange={handleChange}
-          placeholder="+371 29147322" required
+        <label htmlFor="order-phone" className="text-soft-grey/50 text-xs uppercase tracking-widest">{tr.detail_phone}</label>
+        <input id="order-phone" type="tel" name="phone" value={form.phone} onChange={handleChange}
+          placeholder="+371 29147322" required autoComplete="tel"
           className="w-full px-4 py-3 rounded-xl text-text-white text-sm outline-none transition-all duration-200"
           style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#F5F5F5' }}
           onFocus={e => { e.target.style.borderColor = 'rgba(217,31,38,0.5)'; e.target.style.background = 'rgba(255,255,255,0.07)'; }}
@@ -63,12 +63,13 @@ function OrderForm({ productTitle, variantTitles, tr }) {
         />
       </div>
       <button type="submit" disabled={status === 'sending'} className="btn-primary justify-center mt-2"
+        aria-busy={status === 'sending'}
         style={{ opacity: status === 'sending' ? 0.7 : 1 }}>
-        <Send size={15} />
+        <Send size={15} aria-hidden="true" />
         {status === 'sending' ? tr.detail_sending : tr.detail_order}
       </button>
       {status === 'error' && (
-        <p className="text-primary-red text-xs text-center">{tr.detail_error}</p>
+        <p role="alert" className="text-primary-red text-xs text-center">{tr.detail_error}</p>
       )}
     </form>
   );
