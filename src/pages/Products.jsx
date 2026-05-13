@@ -177,7 +177,7 @@ function CategoryDropdown({ categories, activeCategory, onChange, tr, lang }) {
 }
 
 export default function Products() {
-  const [products, setProducts] = useState(fallbackProducts);
+  const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState('all');
   const [loading, setLoading] = useState(true);
@@ -285,7 +285,11 @@ export default function Products() {
       {/* ── Product Grid ─────────────────────────────────────────────── */}
       <section className="py-20 bg-base-black">
         <div className="max-w-7xl mx-auto px-6">
-          {filtered.length === 0 ? (
+          {loading ? (
+            <div className="flex justify-center py-40">
+              <div className="w-10 h-10 rounded-full border-2 border-primary-red/30 border-t-primary-red animate-spin" />
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="text-center py-40">
               <p className="text-soft-grey/40 text-sm uppercase tracking-widest mb-3">{tr.products_not_found}</p>
               <p className="text-soft-grey/25 text-xs">{tr.products_not_found_sub}</p>
