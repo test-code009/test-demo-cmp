@@ -5,14 +5,15 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
 class ErrorBoundary extends Component {
-  constructor(props) { super(props); this.state = { hasError: false }; }
-  static getDerivedStateFromError() { return { hasError: true }; }
+  constructor(props) { super(props); this.state = { hasError: false, error: null }; }
+  static getDerivedStateFromError(error) { return { hasError: true, error }; }
   render() {
     if (this.state.hasError) {
       return (
         <div className="min-h-screen bg-base-black flex items-center justify-center">
-          <div className="text-center px-6">
+          <div className="text-center px-6 max-w-lg">
             <p className="text-soft-grey/40 text-sm uppercase tracking-widest mb-4">Kļūda ielādējoties</p>
+            <p className="text-red-400 text-xs mb-4 font-mono break-all">{this.state.error?.message || 'Unknown error'}</p>
             <a href="/produkti" className="text-primary-red text-sm hover:underline">← Atpakaļ uz produktiem</a>
           </div>
         </div>
