@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { ArrowRight, X, ChevronDown } from 'lucide-react';
 import { getProducts, getCategories, urlFor } from '../lib/sanity';
 import { useLanguage } from '../context/LanguageContext';
@@ -40,6 +40,7 @@ function ProductCard({ product }) {
 
   const { lang } = useLanguage();
   const tr = t[lang];
+  const navigate = useNavigate();
 
   const title = lang === 'en' && product.titleEn ? product.titleEn : (product.titleLv || product.title || '');
 
@@ -51,26 +52,15 @@ function ProductCard({ product }) {
 
   const href = product.slug ? `/produkti/${product.slug}` : '/kontakti';
 
-  const handleClick = (e) => {
-    if (window.innerWidth < 768) {
-      e.preventDefault();
-      window.location.href = href;
-    }
-  };
-
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      onClick={handleClick}
-      className="group flex flex-col overflow-hidden"
+    <div
+      onClick={() => navigate(href)}
+      className="group flex flex-col overflow-hidden cursor-pointer"
       style={{
         transition: 'transform 0.3s, box-shadow 0.3s, border-color 0.3s',
         background: '#111111',
         border: '1px solid rgba(255,255,255,0.1)',
         borderRadius: '0',
-        textDecoration: 'none',
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translateY(-4px)';
@@ -114,7 +104,7 @@ function ProductCard({ product }) {
           <ArrowRight size={13} className="text-soft-grey/70 group-hover:text-white transition-colors" />
         </div>
       </div>
-    </a>
+    </div>
   );
 }
 
