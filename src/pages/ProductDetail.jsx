@@ -6,7 +6,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useLanguage } from '../context/LanguageContext';
 import t from '../lib/translations';
 
-function OrderForm({ productTitle, variantTitle, tr }) {
+function OrderForm({ productTitle, variantTitles, tr }) {
   const [form, setForm] = useState({ name: '', phone: '' });
   const [status, setStatus] = useState(null);
 
@@ -17,9 +17,12 @@ function OrderForm({ productTitle, variantTitle, tr }) {
     if (!form.name.trim() || !form.phone.trim()) return;
     setStatus('sending');
     try {
-      const fullTitle = variantTitle ? `${productTitle} — ${variantTitle}` : productTitle;
+      const variantsPart = variantTitles && variantTitles.length > 0
+        ? ` — ${variantTitles.join(', ')}`
+        : '';
+      const fullTitle = `${productTitle}${variantsPart}`;
       const subject = encodeURIComponent(`Pasūtījums: ${fullTitle}`);
-      const body = encodeURIComponent(`Vārds: ${form.name}\nTālrunis: ${form.phone}\nProdukts: ${fullTitle}`);
+      const body = encodeURIComponent(`Vārds: ${form.name}\nTālrunis: ${form.phone}\nProdukts: ${productTitle}${variantTitles && variantTitles.length > 0 ? `\nVarianti: ${variantTitles.join(', ')}` : ''}`);
       window.location.href = `mailto:info@cmp-performance.lv?subject=${subject}&body=${body}`;
       setStatus('sent');
     } catch {
@@ -77,7 +80,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
-  const [activeVariant, setActiveVariant] = useState(null);
+  const [selectedVariants, setSelectedVariants] = useState(new Set());
   const { lang } = useLanguage();
   const tr = t[lang];
 
@@ -90,9 +93,9 @@ export default function ProductDetail() {
       .catch(() => setLoading(false));
   }, [slug]);
 
-  // Reset variant + image when product changes
+  // Reset variants + image when product changes
   useEffect(() => {
-    setActiveVariant(null);
+    setSelectedVariants(new Set());
     setActiveImg(0);
   }, [product]);
 
@@ -112,7 +115,9 @@ export default function ProductDetail() {
   );
 
   const hasVariants = product.variants && product.variants.length > 0;
-  const variant = hasVariants && activeVariant !== null ? product.variants[activeVariant] : null;
+  // For display purposes use the last selected variant (or first selected)
+  const lastSelected = selectedVariants.size > 0 ? [...selectedVariants][selectedVariants.size - 1] : null;
+  const variant = hasVariants && lastSelected !== null ? product.variants[lastSelected] : null;
 
   // Build full image list: mainImage first, then galleryImages
   const productImages = [];
@@ -132,7 +137,12 @@ export default function ProductDetail() {
     : null;
 
   const productTitle = lang === 'en' && product.titleEn ? product.titleEn : (product.titleLv || '');
-  const variantTitle = variant ? (lang === 'en' && variant.titleEn ? variant.titleEn : variant.titleLv) : null;
+  const variantTitles = hasVariants
+    ? [...selectedVariants].map(i => {
+        const v = product.variants[i];
+        return lang === 'en' && v.titleEn ? v.titleEn : v.titleLv;
+      })
+    : [];
 
   const productDescription = lang === 'en' && product.shortDescriptionEn
     ? product.shortDescriptionEn
@@ -146,8 +156,13 @@ export default function ProductDetail() {
     ? (lang === 'en' && product.category.titleEn ? product.category.titleEn : (product.category.titleLv || ''))
     : null;
 
-  // Price: prefer active variant price, else product price
-  const rawPrice = variant?.price != null ? variant.price : product.price;
+  // Price: sum selected variant prices, or product price
+  const rawPrice = selectedVariants.size > 0
+    ? [...selectedVariants].reduce((sum, i) => {
+        const vp = product.variants[i]?.price;
+        return sum + (vp != null ? Number(vp) : 0);
+      }, 0) || product.price
+    : product.price;
   const price = rawPrice != null
     ? (typeof rawPrice === 'number' ? `${rawPrice} €` : rawPrice.toString().includes('€') ? rawPrice : `${rawPrice} €`)
     : null;
@@ -239,13 +254,17 @@ export default function ProductDetail() {
                     const vTitle = lang === 'en' && v.titleEn ? v.titleEn : v.titleLv;
                     const vPrice = v.price != null ? `${v.price} €` : null;
                     const vThumb = v.image?.asset ? urlFor(v.image).width(120).height(90).fit('crop').quality(75).url() : null;
-                    const isActive = activeVariant === i;
+                    const isActive = selectedVariants.has(i);
 
                     return (
                       <button
                         key={i}
                         onClick={() => {
-                          setActiveVariant(isActive ? null : i);
+                          setSelectedVariants(prev => {
+                            const next = new Set(prev);
+                            if (next.has(i)) next.delete(i); else next.add(i);
+                            return next;
+                          });
                           setActiveImg(0);
                         }}
                         className="flex items-center gap-4 w-full text-left rounded-xl px-4 py-3 transition-all duration-200"
@@ -335,7 +354,7 @@ export default function ProductDetail() {
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(6px)' }}>
               <p className="text-text-white font-display font-bold text-xl mb-1">{tr.detail_contact_title}</p>
               <p className="text-soft-grey/45 text-sm mb-5">{tr.detail_contact_sub}</p>
-              <OrderForm productTitle={productTitle} variantTitle={variantTitle} tr={tr} />
+              <OrderForm productTitle={productTitle} variantTitles={variantTitles} tr={tr} />
             </div>
 
           </div>
