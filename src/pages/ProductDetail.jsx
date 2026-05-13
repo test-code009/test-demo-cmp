@@ -130,9 +130,14 @@ export default function ProductDetail() {
   const displayImages = variant?.image?.asset ? [variant.image, ...productImages] : productImages;
   const clampedImg = Math.min(activeImg, displayImages.length - 1);
 
-  const activeImageUrl = displayImages[clampedImg]
-    ? urlFor(displayImages[clampedImg]).width(1200).height(900).fit('crop').quality(90).url()
-    : null;
+  const activeImageUrl = (() => {
+    try {
+      const src = displayImages[clampedImg];
+      if (!src) return null;
+      const b = urlFor(src);
+      return b ? b.width(1200).height(900).fit('crop').quality(90).url() : null;
+    } catch { return null; }
+  })();
 
   const productTitle = lang === 'en' && product.titleEn ? product.titleEn : (product.titleLv || '');
   const variantTitles = hasVariants
@@ -206,7 +211,9 @@ export default function ProductDetail() {
             {displayImages.length > 1 && (
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {displayImages.map((img, i) => {
-                  const thumbUrl = urlFor(img).width(200).height(150).fit('crop').quality(80).url();
+                  const thumbBuilder = urlFor(img);
+                  if (!thumbBuilder) return null;
+                  const thumbUrl = thumbBuilder.width(200).height(150).fit('crop').quality(80).url();
                   return (
                     <button key={i} onClick={() => setActiveImg(i)}
                       className="flex-shrink-0 rounded-xl overflow-hidden transition-all duration-200"
