@@ -79,7 +79,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
-  const [selectedVariants, setSelectedVariants] = useState(new Set());
+  const [selectedVariants, setSelectedVariants] = useState([]);
   const { lang } = useLanguage();
   const tr = t[lang];
 
@@ -93,7 +93,7 @@ export default function ProductDetail() {
 
   // Reset variants + image when product changes
   useEffect(() => {
-    setSelectedVariants(new Set());
+    setSelectedVariants([]);
     setActiveImg(0);
   }, [product]);
 
@@ -113,8 +113,8 @@ export default function ProductDetail() {
   );
 
   const hasVariants = product.variants && product.variants.length > 0;
-  // For display purposes use the last selected variant (or first selected)
-  const lastSelected = selectedVariants.size > 0 ? [...selectedVariants][selectedVariants.size - 1] : null;
+  // For display purposes use the last selected variant
+  const lastSelected = selectedVariants.length > 0 ? selectedVariants[selectedVariants.length - 1] : null;
   const variant = hasVariants && lastSelected !== null ? product.variants[lastSelected] : null;
 
   // Build full image list: mainImage first, then galleryImages
@@ -136,7 +136,7 @@ export default function ProductDetail() {
 
   const productTitle = lang === 'en' && product.titleEn ? product.titleEn : (product.titleLv || '');
   const variantTitles = hasVariants
-    ? [...selectedVariants].map(i => {
+    ? selectedVariants.map(i => {
         const v = product.variants[i];
         return lang === 'en' && v.titleEn ? v.titleEn : v.titleLv;
       })
@@ -155,9 +155,9 @@ export default function ProductDetail() {
     : null;
 
   // Price: sum selected variant prices, or product price
-  const rawPrice = selectedVariants.size > 0
-    ? [...selectedVariants].reduce((sum, i) => {
-        const vp = product.variants[i]?.price;
+  const rawPrice = selectedVariants.length > 0
+    ? selectedVariants.reduce((sum, i) => {
+        const vp = product.variants?.[i]?.price;
         return sum + (vp != null ? Number(vp) : 0);
       }, 0) || product.price
     : product.price;
@@ -252,17 +252,15 @@ export default function ProductDetail() {
                     const vTitle = lang === 'en' && v.titleEn ? v.titleEn : v.titleLv;
                     const vPrice = v.price != null ? `${v.price} €` : null;
                     const vThumb = v.image?.asset ? urlFor(v.image).width(120).height(90).fit('crop').quality(75).url() : null;
-                    const isActive = selectedVariants.has(i);
+                    const isActive = selectedVariants.includes(i);
 
                     return (
                       <button
                         key={i}
                         onClick={() => {
-                          setSelectedVariants(prev => {
-                            const next = new Set(prev);
-                            if (next.has(i)) next.delete(i); else next.add(i);
-                            return next;
-                          });
+                          setSelectedVariants(prev =>
+                            prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i]
+                          );
                           setActiveImg(0);
                         }}
                         className="flex items-center gap-4 w-full text-left rounded-xl px-4 py-3 transition-all duration-200"
