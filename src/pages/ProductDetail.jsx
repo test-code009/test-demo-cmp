@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Check, Send } from 'lucide-react';
 import { getProductBySlug, urlFor } from '../lib/sanity';
-import { useScrollReveal } from '../hooks/useScrollReveal';
 import { useLanguage } from '../context/LanguageContext';
 import t from '../lib/translations';
 
@@ -84,7 +83,6 @@ export default function ProductDetail() {
   const { lang } = useLanguage();
   const tr = t[lang];
 
-  useScrollReveal([product]);
 
   useEffect(() => {
     setLoading(true);
@@ -175,7 +173,7 @@ export default function ProductDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
 
           {/* LEFT — main image + thumbnails */}
-          <div className="fade-up-element flex flex-col gap-3">
+          <div className="flex flex-col gap-3">
             {/* Main image */}
             <div className="rounded-2xl overflow-hidden relative"
               style={{
@@ -229,7 +227,7 @@ export default function ProductDetail() {
           </div>
 
           {/* RIGHT — info + variants + form */}
-          <div className="fade-up-element flex flex-col gap-5">
+          <div className="flex flex-col gap-5">
 
             {/* Category + title + price */}
             <div>
@@ -363,7 +361,7 @@ export default function ProductDetail() {
         {/* ── Back link ─────────────────────────────────────────── */}
         <div className="mt-12">
           <Link to="/produkti"
-            className="fade-up-element inline-flex items-center gap-2 text-soft-grey/35 hover:text-soft-grey text-sm transition-colors">
+            className="inline-flex items-center gap-2 text-soft-grey/35 hover:text-soft-grey text-sm transition-colors">
             <ArrowLeft size={14} /> {tr.nav_products}
           </Link>
         </div>
