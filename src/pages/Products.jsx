@@ -311,6 +311,7 @@ export default function Products() {
         <div className="max-w-7xl mx-auto px-6">
           <p className="section-eyebrow mb-10 text-center">{tr.partners_eyebrow}</p>
           <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
+            {/* Kosko — klikšķināms */}
             <a
               href="https://kosko.lv"
               target="_blank"
@@ -319,14 +320,14 @@ export default function Products() {
             >
               <img src="/partner-kosko.png" alt="Kosko" className="h-20 w-auto object-contain" />
             </a>
-            <a
-              href="https://zobensracing.lv"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center opacity-80 hover:opacity-100 transition-opacity duration-300"
-            >
+            {/* Zobens Racing Sport — nav klikšķināms */}
+            <div className="flex items-center justify-center opacity-70">
               <img src="/partner-zobens.jpeg" alt="Zobens Racing Sport" className="h-12 w-auto object-contain rounded" style={{ filter: 'invert(1)' }} />
-            </a>
+            </div>
+            {/* Dadziši Racing — nav klikšķināms */}
+            <div className="flex items-center justify-center opacity-70">
+              <img src="/partner-dadzisi.png" alt="Dadziši Racing" className="h-12 w-auto object-contain" style={{ filter: 'invert(1)' }} />
+            </div>
           </div>
         </div>
       </section>
